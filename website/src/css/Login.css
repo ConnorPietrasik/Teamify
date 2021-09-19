@@ -1,0 +1,7 @@
+.Login {
+  display: flex;
+  flex-direction: column;
+
+  margin-top: 35vh; /* space from top of webpage to top of div element is 35% of viewport height*/
+  align-items: center;
+}
