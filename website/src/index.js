@@ -5,10 +5,12 @@ import App from './pages/App';
 import Login from './pages/Login';
 import reportWebVitals from './reportWebVitals';
 
+import {BrowserRouter as Router} from "react-router-dom";
+
 ReactDOM.render(
-  <React.StrictMode>
-    <Login />
-  </React.StrictMode>,
+  <Router>
+    <App />
+  </Router>,
   document.getElementById('root')
 );
 
