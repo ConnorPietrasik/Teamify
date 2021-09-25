@@ -1,0 +1,163 @@
+CREATE DATABASE IF NOT EXISTS teamify;
+
+USE teamify;
+
+CREATE TABLE IF NOT EXISTS user(
+	user_id		INT NOT NULL AUTO_INCREMENT,
+	username	VARCHAR(30) NOT NULL,
+	name		VARCHAR(60),
+	bio			TEXT,
+	PRIMARY KEY (user_id)
+);
+
+CREATE TABLE IF NOT EXISTS password(
+	user_id 	INT NOT NULL,
+	password	CHAR(60) NOT NULL,
+	PRIMARY KEY(user_id, password),
+	CONSTRAINT fk_password_user_id
+		FOREIGN KEY(user_id) REFERENCES user(user_id) 
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS environment(
+	env_id		INT NOT NULL AUTO_INCREMENT,
+	owner_id	INT NOT NULL,
+	name		VARCHAR(45),
+	PRIMARY KEY(env_id),
+	CONSTRAINT fk_environment_owner_id
+		FOREIGN KEY(owner_id) REFERENCES user(user_id)
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS user_environment(
+	user_id		INT NOT NULL,
+	env_id		INT NOT NULL,
+	PRIMARY KEY(user_id, env_id),
+	CONSTRAINT fk_user_environment_user_id
+		FOREIGN KEY(user_id) REFERENCES user(user_id) 
+		ON DELETE CASCADE,
+	CONSTRAINT fk_user_environment_env_id
+		FOREIGN KEY(env_id) REFERENCES environment(env_id) 
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS skill(
+	user_id		INT NOT NULL,
+	env_id		INT NOT NULL,
+	skill		VARCHAR(100),
+	PRIMARY KEY(user_id, env_id, skill),
+	CONSTRAINT fk_skill_user_id
+		FOREIGN KEY(user_id) REFERENCES user(user_id) 
+		ON DELETE CASCADE,
+	CONSTRAINT fk_skill_env_id
+		FOREIGN KEY(env_id) REFERENCES environment(env_id) 
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS availability(
+	user_id		INT NOT NULL,
+	day			TINYINT NOT NULL, 
+	time		VARCHAR(17),
+	PRIMARY KEY(user_id, day, time),
+	CONSTRAINT fk_availability_user_id
+		FOREIGN KEY(user_id) REFERENCES user(user_id) 
+		ON DELETE CASCADE,
+	CONSTRAINT day_of_week
+		CHECK (day >= 0 AND day <= 6)
+);
+
+CREATE TABLE IF NOT EXISTS interest(
+	user_id		INT NOT NULL,
+	env_id		INT NOT NULL,
+	interest		VARCHAR(100),
+	PRIMARY KEY(user_id, env_id, interest),
+	CONSTRAINT fk_interest_user_id
+		FOREIGN KEY(user_id) REFERENCES user(user_id) 
+		ON DELETE CASCADE,
+	CONSTRAINT fk_interest_env_id
+		FOREIGN KEY(env_id) REFERENCES environment(env_id) 
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS env_open(
+	user_id		INT NOT NULL,
+	env_id		INT NOT NULL,
+	PRIMARY KEY(user_id, env_id),
+	CONSTRAINT fk_env_open_user_id
+		FOREIGN KEY(user_id) REFERENCES user(user_id) 
+		ON DELETE CASCADE,
+	CONSTRAINT fk_env_open_env_id
+		FOREIGN KEY(env_id) REFERENCES environment(env_id) 
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS team(
+	team_id		INT NOT NULL AUTO_INCREMENT,
+	env_id		INT NOT NULL,
+	leader_id	INT NOT NULL,
+	name		VARCHAR(45),
+	description	TEXT,
+	PRIMARY KEY(team_id),
+	CONSTRAINT fk_team_env_id
+		FOREIGN KEY(env_id) REFERENCES environment(env_id) 
+		ON DELETE CASCADE,
+	CONSTRAINT fk_team_leader_id
+		FOREIGN KEY(leader_id) REFERENCES user(user_id) 
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS team_tag(
+	team_id		INT NOT NULL,
+	tag			VARCHAR(100),
+	PRIMARY KEY(team_id, tag),
+	CONSTRAINT fk_team_tag_team_id
+		FOREIGN KEY(team_id) REFERENCES team(team_id)
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS team_lf(
+	team_id		INT NOT NULL,
+	skill		VARCHAR(100),
+	PRIMARY KEY(team_id, skill),
+	CONSTRAINT fk_team_lf_team_id
+		FOREIGN KEY(team_id) REFERENCES team(team_id)
+		ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS team_member(
+	team_id		INT NOT NULL,
+	user_id		INT NOT NULL,
+	PRIMARY KEY(team_id, user_id),
+	CONSTRAINT fk_team_member_team_id
+		FOREIGN KEY(team_id) REFERENCES team(team_id)
+		ON DELETE CASCADE,
+	CONSTRAINT fk_team_member_user_id
+		FOREIGN KEY(user_id) REFERENCES user(user_id) 
+		ON DELETE CASCADE
+);
+
+INSERT INTO user 
+VALUES (0, 'admin', 'Admin Account', 'This is the admin account to own the global environment stuff');
+
+UPDATE user
+SET user_id = 0
+WHERE user_id = 1;
+
+INSERT INTO environment
+VALUES (0, 0, 'Global Environment');
+
+UPDATE environment
+SET env_id = 0
+WHERE env_id = 1;
+
+INSERT INTO environment
+VALUES (1, 0, 'Default Environment');
+
+\! echo\ &echo "Tables created:"
+SHOW TABLES;
+
+\! echo\ &echo "User created:"
+SELECT * FROM user;
+
+\! echo\ &echo "Environments created:"
+SELECT * FROM environment;

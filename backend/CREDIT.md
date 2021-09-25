@@ -1,3 +1,5 @@
+API Skeleton credit:
+
 # The MIT License (MIT)
 
 Copyright (c) Mauro Bonfietti.
