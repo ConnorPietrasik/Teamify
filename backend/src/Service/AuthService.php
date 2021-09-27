@@ -31,8 +31,8 @@ final class AuthService {
         }
         else {
             $id = $this->authRepository->createUser($input);
-            $google_id = $this->getOauthID($input["id_token"]);
-            $this->addOauth($id, $google_id);
+            $google_id = $this->getGoogleID($input["id_token"]);
+            $this->addGoogle($id, $google_id);
             return $id;
         }
     }
@@ -44,7 +44,7 @@ final class AuthService {
     }
 
     //Verifies that the token is legit and returns the ID
-    public function getOauthID(string $id_token) : string {
+    public function getGoogleID(string $id_token) : string {
         $client = new Google_Client(['client_id' => '82664365493-qm3h7p8dsqkri7f4mbuc0jmjk02ednv7.apps.googleusercontent.com']);
         $payload = $client->verifyIdToken($id_token);
         if (!$payload) throw new AuthException('Invalid ID Token', 400);
@@ -55,7 +55,7 @@ final class AuthService {
     //Returns the user ID if a the user/pass combo is valid, -1 otherwise
     public function login(array $input): int {
         if (isset($input['id_token'])){
-            $google_id = $this->getOauthID($input['id_token']);
+            $google_id = $this->getGoogleID($input['id_token']);
             return $this->authRepository->getUserIDByGoogle($google_id);
         } else{
             if (!isset($input['username'])) throw new AuthException('Missing username', 400);
@@ -66,8 +66,8 @@ final class AuthService {
         }
     }
 
-    public function addOauth(int $id, string $google_id): bool {
-        return $this->authRepository->addOauth($id, $google_id);
+    public function addGoogle(int $id, string $google_id): bool {
+        return $this->authRepository->addGoogle($id, $google_id);
     }
 
     //Adds the given password to the given user id
