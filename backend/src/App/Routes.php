@@ -10,6 +10,7 @@ $app->get('/status', 'App\Controller\Home:getStatus');
 
 $app->post('/register', App\Controller\Auth\Register::class);
 $app->post('/login', App\Controller\Auth\Login::class);
+$app->post('/logout', App\Controller\Auth\Logout::class);
 $app->get('/user/{id}', App\Controller\User\GetOne::class);
 
 //Routes that require authentication
