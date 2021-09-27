@@ -5,3 +5,12 @@
   margin-top: 35vh; /* space from top of webpage to top of div element is 35% of viewport height*/
   align-items: center;
 }
+
+.signup-login-form {
+  display: block; /* puts each div on separate line */
+  margin: 20px;
+}
+
+.signup-login-form > div, button {
+  margin-bottom: 20px;
+}
