@@ -27,7 +27,7 @@ render() {
     <div className="App">
         { /*  redirects to either Home or Login page depending on whether user is signed in*/
           this.state.username !== "" ?
-          <Home username={this.state.username}/>
+          <Home username={this.state.username} updateUserLoginInfo={this.updateUserInfo}/>
           : <Login updateUserLoginInfo={this.updateUserInfo}/>}
     </div>
     );

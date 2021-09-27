@@ -1,11 +1,24 @@
-// user's dashboard
-function Home(props) {
+import React, { useState } from 'react';
 
-  return (
-    <div>
-      <h1>Hello {props.username}</h1>
-    </div>
-  );
+// user's dashboard
+class Home extends React.Component{
+  constructor(props) {
+    super(props);
+    this.logout = this.logout.bind(this);
+  }
+
+  logout() {
+    this.props.updateUserLoginInfo(""); // clearing username will make parent App render Login instead of Home
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>Hello {this.props.username}</h1>
+        <button onClick={this.logout}>Log Out </button>
+      </div>
+    );
+  }
 }
 
 function Profile(props) {
