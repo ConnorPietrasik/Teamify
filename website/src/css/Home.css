@@ -1,0 +1,14 @@
+.Home{
+  display: block;
+  width: 100%;
+}
+.IndividualsList{
+}
+
+.IndividualCard {
+  padding: 10px;
+  margin: 10px;
+  width: 25vw;
+
+  box-shadow: 0 3px 10px grey;
+}
