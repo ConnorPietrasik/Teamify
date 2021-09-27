@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-//Sessions are used to keep the user logged in
-session_start();
+//Sessions are used to keep the user logged in, the if !isset is for phpunit
+if(!isset($_SESSION)) session_start(); 
 
 require __DIR__ . '/../../vendor/autoload.php';
 require __DIR__ . '/DotEnv.php';

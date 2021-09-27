@@ -52,7 +52,7 @@ final class AuthRepository {
         $statement->execute();
         $pass = $statement->fetchColumn();
         if (!$pass) {
-            throw new AuthException('User not found.', 404);
+            throw new AuthException('User password not found.', 404);
         }
         return $pass;
     }
