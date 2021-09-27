@@ -70,9 +70,9 @@ final class UserRepository
         return $this->checkAndGet((int) $user->id);
     }
 
-    public function delete(int $userId): void
-    {
-        $query = 'DELETE FROM `user` WHERE `id` = :id';
+    //Deletes the given user
+    public function delete(int $userId): void {
+        $query = 'DELETE FROM `user` WHERE `user_id` = :id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('id', $userId);
         $statement->execute();

@@ -19,7 +19,7 @@ final class AuthService {
         if (!isset($input['username'])){
             throw new AuthException('Missing username', 400);
         }
-        if ($this->authRepository->getUserID($input['username']) == -1){
+        if ($this->authRepository->getUserID($input['username']) != -1){
             throw new AuthException('Username already in use', 409);
         }
         return $this->authRepository->createUser($input);
@@ -29,6 +29,15 @@ final class AuthService {
     public function validatePassword(int $id, string $password): bool {
         $hash = $this->authRepository->getHash($id);
         return password_verify($password, $hash);
+    }
+
+    //Returns the user ID if a the user/pass combo is valid, -1 otherwise
+    public function login(array $input): int {
+        if (!isset($input['username'])) throw new AuthException('Missing username', 400);
+        if (!isset($input['password'])) throw new AuthException('Missing password', 400);
+
+        $id = $this->authRepository->getUserID($input['username']);
+        return $this->validatePassword($id, $input['password']) ? $id : -1;
     }
 
     //Adds the given password to the given user id

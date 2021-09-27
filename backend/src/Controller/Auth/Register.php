@@ -15,8 +15,11 @@ final class Register extends Base {
         $user_id = $this->getAuthService()->createUser($input);
         if (isset($input['password'])) $this->getAuthService()->addPassword($user_id, $input['password']);
 
-        $user = array('user_id' => $user_id);
+        //Logs the user in as well
+        $_SESSION['user_id'] = $user_id;
+        $_SESSION['last_login'] = time();
 
+        $user = array('user_id' => $user_id);
         return JsonResponse::withJson($response, (string) json_encode($user), 201);
     }
 }
