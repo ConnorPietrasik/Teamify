@@ -21,6 +21,15 @@ CREATE TABLE IF NOT EXISTS password(
 		ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS oauth(
+	user_id		INT NOT NULL,
+	google_id	VARCHAR(255) NOT NULL,
+	PRIMARY KEY(user_id, google_id),
+	CONSTRAINT fk_oauth_user_id
+		FOREIGN KEY(user_id) REFERENCES user(user_id)
+		ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS environment(
 	env_id		INT NOT NULL AUTO_INCREMENT,
 	owner_id	INT NOT NULL,

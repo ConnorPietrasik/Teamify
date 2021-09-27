@@ -18,7 +18,7 @@ final class AuthRepository {
     }
 
     //Returns the user's ID from the username, or -1 if it doesn't exist
-    public function getUserID(string $username){
+    public function getUserIDByUsername(string $username){
         $query = 'SELECT user_id FROM user WHERE username = :username';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('username', $username);
@@ -26,9 +26,21 @@ final class AuthRepository {
         $id = $statement->fetchColumn();
         if (!$id){
             //Admin has a user_id of 0
-            if ($username == "admin") return 0;
+            if ($username == 'admin') return 0;
             return -1;
         }
+        return $id;
+    }
+
+    //Returns the user's ID from the oauth google id
+    public function getUserIDByGoogle(string $google_id){
+        $query = 'SELECT user_id FROM oauth WHERE google_id = :google_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('google_id', $google_id);
+        $statement->execute();
+        $id = $statement->fetchColumn();
+        
+        if (!$id) throw new AuthException('User does not yet have an account, please register', 404);
         return $id;
     }
 
@@ -55,6 +67,16 @@ final class AuthRepository {
             throw new AuthException('User password not found.', 404);
         }
         return $pass;
+    }
+
+    //Adds the given google ID to the user
+    public function addGoogle(int $id, string $google_id): bool{
+        $query = 'INSERT INTO oauth (user_id, google_id) VALUES (:user_id, :google_id)';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('user_id', $id);
+        $statement->bindParam('google_id', $google_id);
+
+        return $statement->execute();
     }
 
     //Adds the given id/pass combo to the database after hashing the password
