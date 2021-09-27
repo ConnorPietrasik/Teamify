@@ -22,6 +22,7 @@ final class AuthRepository {
         $query = 'SELECT user_id FROM user WHERE username = :username';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('username', $username);
+        $statement->execute();
         $id = $statement->fetchColumn();
         if (!$id){
             //Admin has a user_id of 0

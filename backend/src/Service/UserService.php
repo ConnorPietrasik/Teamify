@@ -39,9 +39,8 @@ final class UserService
         return $this->userRepository->update($user, $data);
     }
 
-    public function delete(int $userId): void
-    {
-        $this->checkAndGet($userId);
+    //Deletes the given user
+    public function delete(int $userId): void {
         $this->userRepository->delete($userId);
     }
 }

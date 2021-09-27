@@ -8,18 +8,14 @@ use App\Helper\JsonResponse;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-final class Delete extends Base
-{
-    /**
-     * @param array<string> $args
-     */
-    public function __invoke(
-        Request $request,
-        Response $response,
-        array $args
-    ): Response {
-        $this->getUserService()->delete((int) $args['id']);
+final class Delete extends Base {
 
-        return JsonResponse::withJson($response, '', 204);
+    public function __invoke(Request $request, Response $response): Response {
+
+        //Deletes the user from the database and then destroys the session (to log them out)
+        $this->getUserService()->delete($_SESSION['user_id']);
+        session_destroy();
+
+        return JsonResponse::withJson($response, '', 200);
     }
 }
