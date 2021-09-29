@@ -1,6 +1,7 @@
 import '../css/Login.css';
 import Home from './Home';
 import React, { useState } from 'react';
+import jwt_decode from "jwt-decode";
 
 // To let user log in / sign up with username & password
 class Login extends React.Component {
@@ -11,6 +12,7 @@ class Login extends React.Component {
       password: "",
     };
     this.authenticate = this.authenticate.bind(this);
+    this.handleCredentialResponse = this.handleCredentialResponse.bind(this);
   }
 
   // after user clicks sign in / sign up button
@@ -24,9 +26,13 @@ class Login extends React.Component {
 
   // Google Sign In callback: gets info from user after log in
   handleCredentialResponse(response) {
-    console.log(response);
     // using user info, get account data associated w/ user
+    var token = response.credential;
+    var tokenDecoded = jwt_decode(token);
+
     // redirect to home page
+    this.setState({ username: tokenDecoded.email }); // set username
+    this.props.updateUserLoginInfo(this.state.username); 
   }
 
   render() {
