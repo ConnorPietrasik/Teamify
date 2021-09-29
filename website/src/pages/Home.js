@@ -28,6 +28,9 @@ class Home extends React.Component{
             individuals.map((individual) =>
             <ProfileCard key={individual} name={individual} />)}
           </div>
+
+          {/* cite resource */}
+          <div>Icons made by <a href="https://www.flaticon.com/authors/becris" title="Becris">Becris</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
       </div>
     );
   }
@@ -37,7 +40,10 @@ class Home extends React.Component{
 function ProfileCard(props) {
   return (
     <div className="IndividualCard">
-      <p>{props.name}</p>
+      <div className="nameAndPic">
+        <img className="profilePic" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" />
+        <p>{props.name}</p>
+      </div>
     </div>
   );
 }

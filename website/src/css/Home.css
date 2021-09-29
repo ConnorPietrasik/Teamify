@@ -22,3 +22,17 @@
   transform: scale(1.1);
   transition: .1s ease-in-out;
 }
+.nameAndPic { /* contain both name & pic */
+  display: inline-block;
+}
+.nameAndPic > p { /* name only */
+  float: right;
+}
+.profilePic { /* pic only */
+  float: left;
+
+  width: 40px;
+  border-radius: 50%; /* circle */
+
+  margin-right: 10px;
+}
