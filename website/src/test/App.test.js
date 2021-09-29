@@ -11,6 +11,6 @@ test('renders login page', () => {
 
 test('renders home page', () => {
   render(<Home />);
-  const linkElement = screen.getByText(/Home/i);
+  const linkElement = screen.getByText(/Hello/i);
   expect(linkElement).toBeInTheDocument();
 });

@@ -3,12 +3,22 @@
   width: 100%;
 }
 .IndividualsList{
+  display: flex;  /* flexbox layout */
+  flex-wrap: wrap;
+
+  justify-content: center;
 }
 
 .IndividualCard {
   padding: 10px;
-  margin: 10px;
-  width: 25vw;
+  margin: 20px;
+
+  min-width: 200px;
+  width: 25%;
 
   box-shadow: 0 3px 10px grey;
+} .IndividualCard:hover { /* when hovered over */
+  /* grow larger with animation */
+  transform: scale(1.1);
+  transition: .1s ease-in-out;
 }

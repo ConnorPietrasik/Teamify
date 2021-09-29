@@ -13,7 +13,7 @@ class Home extends React.Component{
   }
 
   render() {
-    const individuals = ["alice", "bob", "trudy"];  // list of people available to team up
+    const individuals = ["alice", "bob", "trudy", "belle", "harry"];  // list of people available to team up
 
     return (
       <div className="Home">
@@ -22,11 +22,11 @@ class Home extends React.Component{
           <button onClick={this.logout}>Log Out </button>
         </div>
 
-        <div className="IndividualsList" style={{display : 'inline-block'}}>
-          <h2>Find Team Members</h2>
+        <h2>Find Team Members</h2>
+        <div className="IndividualsList" >
           { /* list of people */
             individuals.map((individual) =>
-            <ProfileCard name={individual} />)}
+            <ProfileCard key={individual} name={individual} />)}
           </div>
       </div>
     );
