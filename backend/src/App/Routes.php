@@ -11,7 +11,7 @@ $app->get('/status', 'App\Controller\Home:getStatus');
 $app->post('/register', App\Controller\Auth\Register::class);
 $app->post('/login', App\Controller\Auth\Login::class);
 $app->post('/logout', App\Controller\Auth\Logout::class);
-$app->get('/user/{id}', App\Controller\User\GetOne::class);
+$app->get('/user/{id}', App\Controller\User\GetWhole::class);
 
 //Routes that require authentication
 $app->group('', function (RouteCollectorProxy $group){

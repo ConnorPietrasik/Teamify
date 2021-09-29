@@ -16,31 +16,44 @@ final class UserService
         $this->userRepository = $userRepository;
     }
 
-    public function checkAndGet(int $userId): object
-    {
-        return $this->userRepository->checkAndGet($userId);
-    }
-
     public function getAll(): array
     {
         return $this->userRepository->getAll();
     }
 
-    public function getOne(int $userId): object
-    {
-        return $this->checkAndGet($userId);
+    //Returns the whole user
+    public function getWholeUser(int $id): array {
+        $user = $this->userRepository->getUser($id);
+        $user['skills'] = $this->userRepository->getAllSkills($id);
+        $user['availability'] = $this->userRepository->getAvailability($id);
+        $user['interests'] = $this->userRepository->getAllInterests($id);
+        $user['teams'] = $this->userRepository->getUserTeams($id);
+        return $user;
     }
 
-    public function update(array $input, int $userId): object
-    {
-        $user = $this->checkAndGet($userId);
-        $data = json_decode((string) json_encode($input), false);
+    //Updates the given user
+    public function update(array $input, int $id): void {
+        $user = $this->getWholeUser($id);
 
-        return $this->userRepository->update($user, $data);
+        if (isset($input['username']) || isset($input['name']) || isset($input['bio'])) {
+            $this->userRepository->updateUser($user, $input);
+        }
+        if (isset($input['skills'])) {
+            $this->userRepository->deleteAllSkills($id);
+            $this->userRepository->addSkills($id, $input['skills']);
+        }
+        if (isset($input['availability'])){
+            $this->userRepository->deleteAvailabilities($id);
+            $this->userRepository->addAvailabilities($id, $input['availability']);
+        }
+        if (isset($input['interests'])) {
+            $this->userRepository->deleteAllInterests($id);
+            $this->userRepository->addInterests($id, $input['interests']);
+        }
     }
 
     //Deletes the given user
-    public function delete(int $userId): void {
-        $this->userRepository->delete($userId);
+    public function deleteUser(int $id): void {
+        $this->userRepository->deleteUser($id);
     }
 }

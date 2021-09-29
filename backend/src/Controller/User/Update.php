@@ -8,19 +8,12 @@ use App\Helper\JsonResponse;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-final class Update extends Base
-{
-    /**
-     * @param array<string> $args
-     */
-    public function __invoke(
-        Request $request,
-        Response $response,
-        array $args
-    ): Response {
+final class Update extends Base{
+    
+    public function __invoke(Request $request, Response $response): Response {
         $input = (array) $request->getParsedBody();
-        $user = $this->getUserService()->update($input, (int) $args['id']);
+        $this->getUserService()->update($input, $_SESSION['user_id']);
 
-        return JsonResponse::withJson($response, (string) json_encode($user));
+        return JsonResponse::withJson($response, '', 200);
     }
 }
