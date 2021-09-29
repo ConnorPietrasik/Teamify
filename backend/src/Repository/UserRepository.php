@@ -31,7 +31,7 @@ final class UserRepository {
         return $user;
     }
 
-    //Updates the given user table entry with the given data - WIP
+    //Updates the given user table entry with the given data
     public function updateUser(array $user, array $data): void {
         if (isset($data['username'])) {
             $user['username'] = $data['username'];
