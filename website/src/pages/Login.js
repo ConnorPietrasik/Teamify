@@ -11,8 +11,20 @@ class Login extends React.Component {
       username: "",
       password: "",
     };
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.authenticate = this.authenticate.bind(this);
     this.handleCredentialResponse = this.handleCredentialResponse.bind(this);
+  }
+
+  //  input values change as user types one character at a time
+  handleInputChange(e, isUsername) {
+    if (e.target.value.includes(" ")) { // reject space characters
+      e.target.value = e.target.value.replace(/\s/g, "");
+    }
+    else if (isUsername) // update username
+      this.setState({ username: e.target.value });
+    else  // update password
+      this.setState({ password: e.target.value });
   }
 
   // after user clicks sign in / sign up button
@@ -36,7 +48,6 @@ class Login extends React.Component {
   }
 
   render() {
-    console.log(this.state.username);
     window.handleCredentialResponse = this.handleCredentialResponse; // set google sign in callback function
 
     return (
@@ -67,13 +78,13 @@ class Login extends React.Component {
             <div>
               <input type="text" placeholder="Username"
               value={this.state.username}
-              onChange = {e => this.setState({ username: e.target.value })}
+              onChange = {e => {this.handleInputChange(e, true)}}
                   />
             </div>
             <div>
             <input type="text" placeholder="Password"
               value={this.state.password}
-              onChange = {e => this.setState({ password: e.target.value })}
+              onChange = {e => {this.handleInputChange(e, false)}}
                   />
             </div>
 
