@@ -28,12 +28,54 @@ class Login extends React.Component {
   }
 
   // after user clicks sign in / sign up button
-  authenticate(event) {
-     event.preventDefault();  // prevent page refresh
-      console.log(this.state.username);
-      console.log(this.state.password);
+  authenticate(username, password) {
+      console.log(username);
+      console.log(password);
 
-      this.props.updateUserLoginInfo(this.state.username);  // send log in info to parent component
+      // write to api
+      fetch(`https://api.teamify.pietrasik.top/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        })
+      }).then(res => res.json())
+        .then(data => {
+          if (data)
+            console.log(data);
+
+          // log in if sucessful
+          if (data.status !== 'error') {
+            console.log("login ok");
+            this.props.updateUserLoginInfo(username);  // send log in info to parent component, go to home screen
+          }
+        }).catch(console.error);
+  }
+
+  // ran after user clicks sign up button
+  signUp(username, password) {
+    console.log("making new acct");
+    // write to api
+    fetch(`https://api.teamify.pietrasik.top/register`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password,
+      })
+    }).then(res => res.json())
+      .then(data => {
+        if (data)
+          console.log(data);
+      }).catch(console.error);
+    console.log("after api call");
+
+    // log in
   }
 
   // Google Sign In callback: gets info from user after log in
@@ -44,7 +86,7 @@ class Login extends React.Component {
 
     // redirect to home page
     this.setState({ username: tokenDecoded.email }); // set username
-    this.props.updateUserLoginInfo(this.state.username); 
+    this.props.updateUserLoginInfo(this.state.username);
   }
 
   render() {
@@ -73,7 +115,7 @@ class Login extends React.Component {
 
         {/* Multipurpose Login & SignUp Form */}
 
-        <form onSubmit={this.authenticate} className="signup-login-form">
+        <form className="signup-login-form">
             {/* Username & password input fields */}
             <div>
               <input type="text" placeholder="Username"
@@ -89,8 +131,14 @@ class Login extends React.Component {
             </div>
 
             {/* Login & Signup buttons */}
-            <button type="submit">Sign Up </button>
-            <button type="submit">Log In </button>
+            <button onClick ={(e) => {
+                e.preventDefault(); // prevent page refresh
+                this.signUp(this.state.username, this.state.password); 
+              }} >Sign Up </button>
+            <button onClick = {(e) => {
+              e.preventDefault();
+              this.authenticate(this.state.username, this.state.password);  // logs user in
+            }}>Log In </button>
         </form>
 
       </div>
