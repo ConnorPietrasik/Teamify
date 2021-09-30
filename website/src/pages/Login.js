@@ -47,8 +47,13 @@ class Login extends React.Component {
           if (data)
             console.log(data);
 
+          // if unsuccessful, show user error message
+          if (data.code !== 200) {
+            alert(data.message);
+          }
+
           // log in if sucessful
-          if (data.status !== 'error') {
+          else if (data.status !== 'error') {
             console.log("login ok");
             this.props.updateUserLoginInfo(username);  // send log in info to parent component, go to home screen
           }
@@ -72,6 +77,12 @@ class Login extends React.Component {
       .then(data => {
         if (data)
           console.log(data);
+
+        // if unsuccessful, show user error message
+        if (data.code !== 200) {
+          alert(data.message);
+        }
+
       }).catch(console.error);
     console.log("after api call");
 
@@ -133,11 +144,17 @@ class Login extends React.Component {
             {/* Login & Signup buttons */}
             <button onClick ={(e) => {
                 e.preventDefault(); // prevent page refresh
-                this.signUp(this.state.username, this.state.password); 
+                if (this.state.username === "" || this.state.password === "") { // make sure there're no empty inputs
+                  alert("Please enter a valid username or password.");
+                } else
+                  this.signUp(this.state.username, this.state.password);
               }} >Sign Up </button>
             <button onClick = {(e) => {
               e.preventDefault();
-              this.authenticate(this.state.username, this.state.password);  // logs user in
+              if (this.state.username === "" || this.state.password === "") {
+                alert("Please enter a valid username and/or password.");
+              } else
+                this.authenticate(this.state.username, this.state.password);  // logs user in
             }}>Log In </button>
         </form>
 
