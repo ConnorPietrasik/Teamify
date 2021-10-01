@@ -9,6 +9,13 @@ class Home extends React.Component{
   }
 
   logout() {
+    // log out from server
+    fetch(`https://api.teamify.pietrasik.top/logout`)
+      .then(res => res.json())
+      .then(data => {
+      }).catch(console.error);
+
+    // change page display
     this.props.updateUserLoginInfo(""); // clearing username will make parent App render Login instead of Home
   }
 
