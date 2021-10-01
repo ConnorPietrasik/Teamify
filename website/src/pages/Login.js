@@ -127,13 +127,13 @@ class Login extends React.Component {
         <form className="signup-login-form">
             {/* Username & password input fields */}
             <div>
-              <input type="text" placeholder="Username"
+              <input type="text" placeholder="Username" id="usernameInputField"
               value={this.state.username}
               onChange = {e => {this.handleInputChange(e, true)}}
                   />
             </div>
             <div>
-            <input type="text" placeholder="Password"
+            <input type="text" placeholder="Password" id="passwordInputField"
               value={this.state.password}
               onChange = {e => {this.handleInputChange(e, false)}}
                   />
@@ -147,7 +147,7 @@ class Login extends React.Component {
                 else
                   this.signUp(this.state.username, this.state.password);
               }} >Sign Up </button>
-            <button onClick = {(e) => {
+            <button id="loginBtn" onClick = {(e) => {
               e.preventDefault();
               if (this.state.username === "" || this.state.password === "") {
                 this.setState({ errorMessage: "Please enter a valid username and/or password." });
