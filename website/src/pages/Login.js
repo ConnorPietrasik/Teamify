@@ -10,6 +10,7 @@ class Login extends React.Component {
     this.state = {
       username: "",
       password: "",
+      errorMessage: "", // log in error message
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.authenticate = this.authenticate.bind(this);
@@ -48,12 +49,11 @@ class Login extends React.Component {
             console.log(data);
 
           // if unsuccessful, show user error message
-          if (data.code !== 200) {
-            alert(data.message);
-          }
+          if (data.code !== 200)
+            this.setState({ errorMessage: data.message });
 
           // log in if sucessful
-          else if (data.status !== 'error') {
+          if (data.status !== 'error') {
             console.log("login ok");
             this.props.updateUserLoginInfo(username);  // send log in info to parent component, go to home screen
           }
@@ -79,9 +79,8 @@ class Login extends React.Component {
           console.log(data);
 
         // if unsuccessful, show user error message
-        if (data.code !== 200) {
-          alert(data.message);
-        }
+        if (data.code !== 200)
+          this.setState({ errorMessage: data.message });
 
       }).catch(console.error);
     console.log("after api call");
@@ -125,7 +124,6 @@ class Login extends React.Component {
         </div>
 
         {/* Multipurpose Login & SignUp Form */}
-
         <form className="signup-login-form">
             {/* Username & password input fields */}
             <div>
@@ -144,20 +142,21 @@ class Login extends React.Component {
             {/* Login & Signup buttons */}
             <button onClick ={(e) => {
                 e.preventDefault(); // prevent page refresh
-                if (this.state.username === "" || this.state.password === "") { // make sure there're no empty inputs
-                  alert("Please enter a valid username or password.");
-                } else
+                if (this.state.username === "" || this.state.password === "") // make sure there're no empty inputs
+                  this.setState({ errorMessage: "Please enter a valid username and/or password." });
+                else
                   this.signUp(this.state.username, this.state.password);
               }} >Sign Up </button>
             <button onClick = {(e) => {
               e.preventDefault();
               if (this.state.username === "" || this.state.password === "") {
-                alert("Please enter a valid username and/or password.");
+                this.setState({ errorMessage: "Please enter a valid username and/or password." });
               } else
                 this.authenticate(this.state.username, this.state.password);  // logs user in
             }}>Log In </button>
         </form>
-
+        { /* display error message if login or signup was unsuccessful */
+          this.state.errorMessage === "" ? <></> : <p style={{color: "red"}}> {this.state.errorMessage} </p>}
       </div>
     );
   }
