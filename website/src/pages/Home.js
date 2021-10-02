@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../css/Home.css';
+import ProfileSettings from '../components/ProfileSettings.js';
 
 // user's dashboard
 class Home extends React.Component{
@@ -10,6 +11,7 @@ class Home extends React.Component{
       user: {},
     };
     this.logout = this.logout.bind(this);
+    this.updateProfile = this.updateProfile.bind(this);
   }
 
   logout() {
@@ -41,6 +43,14 @@ class Home extends React.Component{
       ).catch(console.error);
   }
 
+  // receives updated user data to display on screen
+  updateProfile(newUserData) {
+    console.log(newUserData);
+    this.setState({
+      user: newUserData,
+    });
+  }
+
   render() {
     const individuals = ["alice", "bob", "trudy", "belle", "harry"];  // list of people available to team up
 
@@ -48,6 +58,15 @@ class Home extends React.Component{
       <div className="Home">
         <div>
           <h1>Hello {this.state.user.username}</h1>
+          <p>{this.state.user.bio != null ? `About Me: ${this.state.user.bio}` : ''}</p>
+          <ProfileSettings
+            user={this.state.user} /* for user to see their current data and decide to change it */
+
+            /* method passed from this component to Settings component,
+                to allow this component to update user data for display
+                after user info gets updated in backend by Settings component  */
+            updateProfile={this.updateProfile}
+            />
           <button onClick={this.logout}>Log Out </button>
         </div>
 
