@@ -55,7 +55,7 @@ class Login extends React.Component {
           // log in if sucessful
           if (data.status !== 'error') {
             console.log("login ok");
-            this.props.updateUserLoginInfo(username);  // send log in info to parent component, go to home screen
+            this.props.updateUserLoginInfo(username, data.user_id);  // send log in info to parent component, go to home screen
           }
         }).catch(console.error);
   }

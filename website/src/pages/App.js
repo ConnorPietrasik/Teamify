@@ -9,15 +9,18 @@ class App extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
+      // no user logged in yet
       username: "",
-      password: "",
+      userId: -1,
     };
   }
 
-  updateUserInfo = username => {
+  // updates user info and logged in status after user logs in / out
+  updateUserInfo = (username, id) => {
       console.log(this.username);
       this.setState({
         username: username,
+        userId: id,
       });
   };
 
@@ -27,7 +30,7 @@ render() {
     <div className="App">
         { /*  redirects to either Home or Login page depending on whether user is signed in*/
           this.state.username !== "" ?
-          <Home username={this.state.username} updateUserLoginInfo={this.updateUserInfo}/>
+          <Home username={this.state.username} updateUserLoginInfo={this.updateUserInfo} userId={this.state.userId}/>
           : <Login updateUserLoginInfo={this.updateUserInfo}/>}
     </div>
     );
