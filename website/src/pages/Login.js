@@ -82,10 +82,14 @@ class Login extends React.Component {
         if (data.code !== 200)
           this.setState({ errorMessage: data.message });
 
+        // log in
+        if (data.status !== 'error') {
+            this.authenticate(username, password);
+        }
+
       }).catch(console.error);
     console.log("after api call");
 
-    // log in
   }
 
   // Google Sign In callback: gets info from user after log in
