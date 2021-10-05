@@ -17,12 +17,27 @@ export default function ProfileSettings(props) {
     e.preventDefault(); // prevent page refresh
 
     // update to API
+    fetch(`https://api.teamify.pietrasik.top/user`, {
+      method: 'PUT',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        bio: bio,
+      })
+    }).then(res => res.json())
+      .then(data => {
+          if (data)
+            console.log(data);
 
-    // update on frontend
-    props.updateProfile({
-      username: username,
-      bio: bio,
-    })
+          // update on frontend
+          props.updateProfile({
+            username: username,
+            bio: bio,
+          })
+      }).catch(console.error);
   }
 
   return (
