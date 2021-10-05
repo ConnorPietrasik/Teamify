@@ -21,10 +21,12 @@ final class EnvService {
         return $users;
     }
 
+    //Adds the user to the environment's open list
     public function addOpen(int $env_id, int $user_id): void {
         $this->envRepository->addOpen($env_id, $user_id);
     }
 
+    //Removes the user from the environment's open list
     public function removeOpen(int $env_id, int $user_id): void {
         $this->envRepository->removeOpen($env_id, $user_id);
     }

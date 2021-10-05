@@ -28,6 +28,7 @@ final class EnvRepository {
         return $users;
     }
 
+    //Adds the user to the environment's open list
     public function addOpen(int $env_id, int $user_id): void {
         $query = 'INSERT INTO env_open (env_id, user_id) VALUES (:env, :user)';
         $statement = $this->getDb()->prepare($query);
@@ -37,6 +38,7 @@ final class EnvRepository {
         $statement->execute();
     }
 
+    //Removes the user from the environment's open list
     public function removeOpen(int $env_id, int $user_id): void {
         $query = 'DELETE FROM env_open WHERE env_id = :env AND user_id = :user';
         $statement = $this->getDb()->prepare($query);
@@ -44,5 +46,17 @@ final class EnvRepository {
         $statement->bindParam('user', $user_id);
         
         $statement->execute();
+    }
+
+    //Returns all the skills for the given user matching the environment
+    public function getEnvSkills(int $env_id, int $user_id): array {
+        $query = 'SELECT env_id, skill FROM skill WHERE user_id = :user AND env_id = :env';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('env', $env_id);
+        $statement->bindParam('user', $user_id);
+        $statement->execute();
+        $skills = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $skills;
     }
 }
