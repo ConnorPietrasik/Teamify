@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../css/Home.css';
 import ProfileSettings from '../components/ProfileSettings.js';
+import IndividualsList from '../components/IndividualsList.js';
 
 // user's dashboard
 class Home extends React.Component{
@@ -70,12 +71,7 @@ class Home extends React.Component{
           <button onClick={this.logout}>Log Out </button>
         </div>
 
-        <h2>Find Team Members</h2>
-        <div className="IndividualsList" >
-          { /* list of people */
-            individuals.map((individual) =>
-            <ProfileCard key={individual} name={individual} />)}
-          </div>
+        <IndividualsList openIndividuals={individuals} />
 
           {/* cite resource */}
           <div>Icons made by <a href="https://www.flaticon.com/authors/becris" title="Becris">Becris</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
@@ -84,16 +80,6 @@ class Home extends React.Component{
   }
 }
 
-// shows info for one individual
-function ProfileCard(props) {
-  return (
-    <div className="IndividualCard">
-      <div className="nameAndPic">
-        <img className="profilePic" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" />
-        <p>{props.name}</p>
-      </div>
-    </div>
-  );
-}
+
 
 export default Home;
