@@ -10,10 +10,13 @@ export default function IndividualCard(props) {
         <p>{props.name}</p>
       </div>
       <div>
-      <button className="inviteBtn colorFadeEffect" onClick = {() => {
-          // tells Individuals List to remove this card
-          props.updateList(props.name);
-      }}>Invite</button>
+
+      { props.type === "open" ?
+          <button className="inviteBtn colorFadeEffect" onClick = {() => {
+              // tells Individuals List to remove this card
+              props.updateList(props.name);
+          }}>Invite</button>
+          : <></>}
       </div>
     </div>
   );
