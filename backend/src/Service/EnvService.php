@@ -15,10 +15,20 @@ final class EnvService {
         $this->envRepository = $envRepository;
     }
 
-    //Returns a list of all open users for that environment
-    public function getOpen(int $env_id): array {
-        $users = $this->envRepository->getOpenIDs($env_id);
+    //Returns all the env_users that are open in that environment
+    public function getOpenUsers(int $env_id): array {
+        $user_ids = $this->getOpenIDs($env_id);
+        $users = [];
+        foreach ($user_ids as $user_id){
+            $users[] = getEnvUser($env_id, $user_id);
+        }
         return $users;
+    }
+
+    //Returns a list of all open users for that environment
+    public function getOpenIDs(int $env_id): array {
+        $user_ids = $this->envRepository->getOpenIDs($env_id);
+        return $user_ids;
     }
 
     //Adds the user to the environment's open list
@@ -29,5 +39,16 @@ final class EnvService {
     //Removes the user from the environment's open list
     public function removeOpen(int $env_id, int $user_id): void {
         $this->envRepository->removeOpen($env_id, $user_id);
+    }
+
+    //Returns the user's info for the environment (includes env_id == 0, which is global)
+    public function getEnvUser(int $env_id, int $user_id): array {
+        $user = $this->envRepository->getUser($user_id);
+        $user['skills'] = $this->envRepository->getEnvSkills($env_id, $user_id);
+        $user['availability'] = $this->envRepository->getAvailability($user_id);
+        $user['interests'] = $this->envRepository->getEnvInterests($env_id, $user_id);
+        $user['team'] = $this->envRepository->getEnvUserTeam($env_id, $user_id);
+
+        return $user;
     }
 }

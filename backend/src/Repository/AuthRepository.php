@@ -18,7 +18,7 @@ final class AuthRepository {
     }
 
     //Returns the user's ID from the username, or -1 if it doesn't exist
-    public function getUserIDByUsername(string $username){
+    public function getUserIDByUsername(string $username): int{
         $query = 'SELECT user_id FROM user WHERE username = :username';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('username', $username);
@@ -29,11 +29,11 @@ final class AuthRepository {
             if ($username == 'admin') return 0;
             return -1;
         }
-        return $id;
+        return (int) $id;
     }
 
     //Returns the user's ID from the oauth google id
-    public function getUserIDByGoogle(string $google_id){
+    public function getUserIDByGoogle(string $google_id): int{
         $query = 'SELECT user_id FROM oauth WHERE google_id = :google_id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('google_id', $google_id);
@@ -41,7 +41,7 @@ final class AuthRepository {
         $id = $statement->fetchColumn();
         
         if (!$id) throw new AuthException('User does not yet have an account, please register', 404);
-        return $id;
+        return (int) $id;
     }
 
     //Creates the given user and returns their ID

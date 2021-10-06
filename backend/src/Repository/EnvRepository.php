@@ -48,15 +48,64 @@ final class EnvRepository {
         $statement->execute();
     }
 
-    //Returns all the skills for the given user matching the environment
+    //Returns all the skills for the user matching the environment
     public function getEnvSkills(int $env_id, int $user_id): array {
-        $query = 'SELECT env_id, skill FROM skill WHERE user_id = :user AND env_id = :env';
+        $query = 'SELECT skill FROM skill WHERE user_id = :user AND (env_id = :env OR env_id = 0)';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('env', $env_id);
         $statement->bindParam('user', $user_id);
         $statement->execute();
-        $skills = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        $skills = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
 
         return $skills;
+    }
+
+    //Returns the user's availability
+    public function getAvailability(int $user_id): array {
+        $query = 'SELECT day, time FROM availability WHERE user_id = :id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('id', $user_id);
+        $statement->execute();
+        $availability = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $availability;
+    }
+
+    //Returns all the interests for the user matching the environment
+    public function getEnvInterests(int $env_id, int $user_id): array {
+        $query = 'SELECT interest FROM interest WHERE user_id = :user AND (env_id = :env OR env_id = 0)';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('env', $env_id);
+        $statement->bindParam('user', $user_id);
+        $statement->execute();
+        $skills = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
+
+        return $skills;
+    }
+
+    //Returns the team_id that matches the current user and environment, or -1 if it doesn't exist
+    public function getEnvUserTeam(int $env_id, int $user_id): int {
+        $query = 'SELECT team_id FROM team WHERE env_id = :env AND team_id IN (SELECT team_id FROM team_member WHERE user_id = :user)';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('env', $env_id);
+        $statement->bindParam('user', $user_id);
+        $statement->execute();
+        $team = $statement->fetchColumn();
+
+        return (!$team) ? -1 : $team;
+    }
+
+    //Returns the data from the user table with the given ID
+    public function getUser(int $user_id): array {
+        $query = 'SELECT * FROM user WHERE user_id = :id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('id', $user_id);
+        $statement->execute();
+        $user = $statement->fetch(\PDO::FETCH_ASSOC);
+        if (! $user) {
+            throw new UserException('User not found.', 404);
+        }
+
+        return $user;
     }
 }
