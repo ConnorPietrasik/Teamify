@@ -36,6 +36,7 @@ class Login extends React.Component {
       // write to api
       fetch(`https://api.teamify.pietrasik.top/login`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -66,6 +67,7 @@ class Login extends React.Component {
     // write to api
     fetch(`https://api.teamify.pietrasik.top/register`, {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
