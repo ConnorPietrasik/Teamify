@@ -7,6 +7,8 @@ export default function ProfileSettings(props) {
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
 
+  const [editMode, setEditMode] = useState(false); // whether or not user can edit profile
+
   useEffect(() => { // initialize user data text input value based on parameter values
     setUsername(props.user.username + '');
     setBio(`${props.user.bio != null ? props.user.bio : ''}`);
@@ -36,19 +38,35 @@ export default function ProfileSettings(props) {
           props.updateProfile({
             username: username,
             bio: bio,
-          })
+          });
+          setEditMode(false);
       }).catch(console.error);
+  }
+
+  // when user wants to start or stop editing
+  function toggleEditMode() {
+      if (editMode) { // quit editing
+          setEditMode(false);
+
+          // restore original values
+          setUsername(props.user.username);
+          setBio(props.user.bio);
+      }
+      else // allow editing
+        setEditMode(true);
   }
 
   return (
     <div className="Card">
-     <form>
-        <h3>Edit Profile</h3>
-        <div><label>Username:<input type="text" value={username} onChange = {e => setUsername(e.target.value) }/></label></div>
-        <div><label>About Me:<input type="text" value={bio} onChange = {e => setBio(e.target.value) }/></label></div>
-     </form>
+    <div><button onClick = {toggleEditMode}>{editMode ? "Discard Edits" : "Edit"}</button></div>
+         <div className="nameAndPic">
+           <img className="profilePic" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" />
+           <p>{ editMode ? <input type="text" value={username} onChange = {e => setUsername(e.target.value) }/> : username}</p>
+         </div>
 
-     <button onClick ={updateUserInfo}> Update </button>
+        <div>About Me: { editMode ? <input type="text" value={bio} onChange = {e => setBio(e.target.value) }/> : bio}</div>
+
+     {editMode ? <button onClick = {updateUserInfo}> Update </button> : <></>}
 
     </div>
   );
