@@ -39,7 +39,7 @@ export default function IndividualsList(props) {
 
             {openIndividuals.length > 0 ?
                 <>
-                <h3>People Available to Team Up </h3> {console.log("hi")}
+                <h3>People Available to Team Up </h3>
                 <div className="IndividualsList" >
                   { /* list of people */
                     openIndividuals.map((individual) =>
