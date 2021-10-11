@@ -3,6 +3,8 @@ import App from '../pages/App';
 import Login from '../pages/Login';
 import Home from '../pages/Home';
 import ProfileSettings from '../components/ProfileSettings';
+import IndividualsList from '../components/IndividualsList';
+import IndividualCard from '../components/IndividualCard';
 
 test('renders login page', () => {
   render(<Login />);
@@ -46,4 +48,26 @@ test('renders profile settings with correct user username and bio', () => {
 
   const elementWithBio = screen.getByText(testUser.bio, {exact: false}); // any element containing test bio string
   expect(elementWithBio).toBeInTheDocument();
+});
+
+test('renders individual list component', () => {
+  const testArrayIndividuals = ['sally', 'joe'];
+  const result = render(<IndividualsList openIndividuals={testArrayIndividuals}/>);
+  const renderedList = result.container.querySelector('.IndividualsList');
+  expect(renderedList).toBeInTheDocument();
+});
+
+test('renders individual card component with open individual', () => {
+  const testName = 'lucie'
+  const result = render(<IndividualCard key={testName} name={testName} type='open'/>);
+  const renderedCard = result.container.querySelector('.IndividualCard');
+  expect(renderedCard).toBeInTheDocument();
+
+  // makes sure username is displayed
+  const elementWithUsername = screen.getByText(testName);
+  expect(elementWithUsername).toBeInTheDocument();
+
+  // makes sure invite button is displayed
+  const inviteButton = result.container.querySelector('.inviteBtn');
+  expect(inviteButton).toBeInTheDocument();
 });
