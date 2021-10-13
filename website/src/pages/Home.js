@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import '../css/Home.css';
 import ProfileSettings from '../components/ProfileSettings.js';
 import IndividualsList from '../components/IndividualsList.js';
+import TeamsList from '../components/TeamsList';
 
 // user's dashboard
 class Home extends React.Component{
@@ -10,9 +11,11 @@ class Home extends React.Component{
     this.state = {
       // gets user info from parent App component
       user: {},
+      teamId: null,
     };
     this.logout = this.logout.bind(this);
     this.updateProfile = this.updateProfile.bind(this);
+    this.updateTeam = this.updateTeam.bind(this);
   }
 
   logout() {
@@ -52,6 +55,13 @@ class Home extends React.Component{
     });
   }
 
+  // receives updated team id of team user belongs to
+  updateTeam(newTeamId) {
+    this.setState({
+        teamId: newTeamId,
+    });
+  }
+
   render() {
     const individuals = ["alice", "bob", "trudy", "belle", "harry"];  // list of people available to team up
 
@@ -71,7 +81,10 @@ class Home extends React.Component{
           <button onClick={this.logout}>Log Out </button>
         </div>
 
-        <IndividualsList openIndividuals={individuals} />
+        <TeamsList updateTeam={this.updateTeam} />
+        <IndividualsList openIndividuals={individuals}
+            myTeamId={this.state.teamId} /* user (as team member) may look for individuals on behalf of team */
+            />
 
           {/* cite resource */}
           <div>Icons made by <a href="https://www.flaticon.com/authors/becris" title="Becris">Becris</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
