@@ -42,13 +42,15 @@ class TeamTest extends TestCase{
 
         $this->assertEquals(201, $response->getStatusCode());
         $this->assertStringContainsString('team_id', $result);
-        $this->team_id = json_decode($result)->team_id;
+        return json_decode($result)->team_id;
     }
 
     //Verifies that the team info is all correct
-    public function testGetTeam(): void {
-        $this->assertEquals('/team/9', '/team/'.$this->team_id);
-        $request = $this->createRequest('GET', '/team/'.$this->team_id);
+    /**
+     * @depends testCreateTeam
+     */
+    public function testGetTeam($team_id): void {
+        $request = $this->createRequest('GET', '/team/'.$team_id);
         $response = $this->getAppInstance()->handle($request);
 
         $result = (string) $response->getBody();
