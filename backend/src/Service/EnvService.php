@@ -20,7 +20,7 @@ final class EnvService {
         $user_ids = $this->getOpenIDs($env_id);
         $users = [];
         foreach ($user_ids as $user_id){
-            $users[] = getEnvUser($env_id, $user_id);
+            $users[] = $this->getEnvUser($env_id, $user_id);
         }
         return $users;
     }
@@ -36,7 +36,7 @@ final class EnvService {
         $user_ids = $this->envRepository->getAllEnvUserIDs($env_id);
         $users = [];
         foreach ($user_ids as $user_id){
-            $users[] = getEnvUser($env_id, $user_id);
+            $users[] = $this->getEnvUser($env_id, $user_id);
         }
         return $users;
     }
