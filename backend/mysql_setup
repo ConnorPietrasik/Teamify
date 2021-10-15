@@ -105,16 +105,12 @@ CREATE TABLE IF NOT EXISTS env_open(
 CREATE TABLE IF NOT EXISTS team(
 	team_id		INT NOT NULL AUTO_INCREMENT,
 	env_id		INT NOT NULL,
-	leader_id	INT NOT NULL,
 	name		VARCHAR(45),
 	description	TEXT,
 	PRIMARY KEY(team_id),
 	CONSTRAINT fk_team_env_id
 		FOREIGN KEY(env_id) REFERENCES environment(env_id) 
 		ON DELETE CASCADE,
-	CONSTRAINT fk_team_leader_id
-		FOREIGN KEY(leader_id) REFERENCES user(user_id) 
-		ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS team_tag(
@@ -138,6 +134,7 @@ CREATE TABLE IF NOT EXISTS team_lf(
 CREATE TABLE IF NOT EXISTS team_member(
 	team_id		INT NOT NULL,
 	user_id		INT NOT NULL,
+	status		TINYINT NOT NULL,
 	PRIMARY KEY(team_id, user_id),
 	CONSTRAINT fk_team_member_team_id
 		FOREIGN KEY(team_id) REFERENCES team(team_id)
@@ -145,6 +142,8 @@ CREATE TABLE IF NOT EXISTS team_member(
 	CONSTRAINT fk_team_member_user_id
 		FOREIGN KEY(user_id) REFERENCES user(user_id) 
 		ON DELETE CASCADE
+	CONSTRAINT team_member_valid_status
+		CHECK (status >= 0 AND status <= 1)
 );
 
 INSERT INTO user 
