@@ -5,6 +5,7 @@ import TeamCard from './TeamCard';
 
 // show list of teams if user has no team, user's team if they have one
 export default function TeamsList(props) {
+    const [teamRequestsSent, setTeamRequestsSent] = useState([]);
     const [openTeams, setOpenTeams] = useState([]);
 
     const [myTeam, setMyTeam] = useState(null);
@@ -25,6 +26,17 @@ export default function TeamsList(props) {
         props.updateTeam(1);
     }
 
+    function afterApplyingToTeam(teamAppliedTo) {
+        // api
+
+        // remove from Open Teams List
+        const remainingOpenTeams = openTeams.filter(otherTeam => otherTeam !== teamAppliedTo);
+        setOpenTeams(remainingOpenTeams);
+
+        // add team to Requests Sent List
+        teamRequestsSent.push(teamAppliedTo);
+    }
+
     return (
         <div>
             {myTeam ?
@@ -37,15 +49,38 @@ export default function TeamsList(props) {
                 :
                 <div>
                     <h2>Find Teams</h2>
-                    <div className="IndividualsList" >                        
-                        {/* list of teams open */
-                          openTeams.map((team) =>
-                            <TeamCard team={team} status='open'/>
-                              )}
 
-                        {/* show button to start a team if user doesn't have one */}
-                        <CreateTeamCard submitNewTeam={createTeam} />
-                    </div>
+                    { teamRequestsSent.length > 0 ?
+                        <>
+                            <h3>Teams Applied To</h3>
+                            <div className="IndividualsList" >
+                                {/* list of teams that user requested to join */
+                                  teamRequestsSent.map((team) =>
+                                    <TeamCard team={team} status='applied'/>
+                                    )}
+                            </div>
+                        </>
+                        : <></>}
+
+                    { openTeams.length ?
+                        <>
+                            <h3>Teams Open</h3>
+                            <div className="IndividualsList" >
+                                {/* list of teams open */
+                                  openTeams.map((team) =>
+                                    <TeamCard team={team} status='open'
+
+                                      /* when user wants to apply to team */
+                                      updateSentRequestsList={afterApplyingToTeam}
+                                      />)}
+                            </div>
+                        </>
+                        : <></> }
+
+                        <div className="IndividualsList" >
+                            {/* show button to start a team if user doesn't have one */}
+                            <CreateTeamCard submitNewTeam={createTeam} />
+                        </div>
                 </div>}
           </div>
     );
