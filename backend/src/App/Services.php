@@ -13,3 +13,7 @@ $container['auth_service'] = static function (Pimple\Container $container): App\
 $container['env_service'] = static function (Pimple\Container $container): App\Service\EnvService {
     return new App\Service\EnvService($container['env_repository']);
 };
+
+$container['team_service'] = static function (Pimple\Container $container): App\Service\TeamService {
+    return new App\Service\TeamService($container['team_repository']);
+};
