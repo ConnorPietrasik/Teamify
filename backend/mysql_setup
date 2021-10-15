@@ -141,9 +141,41 @@ CREATE TABLE IF NOT EXISTS team_member(
 		ON DELETE CASCADE,
 	CONSTRAINT fk_team_member_user_id
 		FOREIGN KEY(user_id) REFERENCES user(user_id) 
-		ON DELETE CASCADE
+		ON DELETE CASCADE,
 	CONSTRAINT team_member_valid_status
 		CHECK (status >= 0 AND status <= 1)
+);
+
+CREATE TABLE IF NOT EXISTS team_invite(
+	team_id		INT NOT NULL,
+	user_id		INT NOT NULL,
+	status		TINYINT NOT NULL,
+	message		TEXT,
+	PRIMARY KEY(team_id, user_id),
+	CONSTRAINT fk_team_invite_team_id
+		FOREIGN KEY(team_id) REFERENCES team(team_id)
+		ON DELETE CASCADE,
+	CONSTRAINT fk_team_invite_user_id
+		FOREIGN KEY(user_id) REFERENCES user(user_id) 
+		ON DELETE CASCADE,
+	CONSTRAINT team_invite_valid_status
+		CHECK (status >= 0 AND status <= 2)
+);
+
+CREATE TABLE IF NOT EXISTS team_request(
+	team_id		INT NOT NULL,
+	user_id		INT NOT NULL,
+	status		TINYINT NOT NULL,
+	message		TEXT,
+	PRIMARY KEY(team_id, user_id),
+	CONSTRAINT fk_team_request_team_id
+		FOREIGN KEY(team_id) REFERENCES team(team_id)
+		ON DELETE CASCADE,
+	CONSTRAINT fk_team_request_user_id
+		FOREIGN KEY(user_id) REFERENCES user(user_id) 
+		ON DELETE CASCADE,
+	CONSTRAINT team_request_valid_status
+		CHECK (status >= 0 AND status <= 2)
 );
 
 INSERT INTO user 
