@@ -27,7 +27,7 @@ class TeamTest extends TestCase{
     }
 
     //Successfully creates a team
-    public function testCreateTeam(): void {
+    public function testCreateTeam(): int {
         $params = [
             'name' => 'testTeam',
             'description' => 'this is a test',
