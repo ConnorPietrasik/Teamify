@@ -13,3 +13,7 @@ $container['auth_repository'] = static function (Pimple\Container $container): A
 $container['env_repository'] = static function (Pimple\Container $container): App\Repository\EnvRepository {
     return new App\Repository\EnvRepository($container['db']);
 };
+
+$container['team_repository'] = static function (Pimple\Container $container): App\Repository\TeamRepository {
+    return new App\Repository\TeamRepository($container['db']);
+};

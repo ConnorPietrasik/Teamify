@@ -23,4 +23,5 @@ $app->group('', function (RouteCollectorProxy $group){
     $group->delete('/user', App\Controller\User\Delete::class);
     $group->post('/env/{env_id}/open', App\Controller\Environment\PostOpen::class);
     $group->delete('/env/{env_id}/open', App\Controller\Environment\RemoveOpen::class);
+    $group->post('/env/{env_id}/createteam', App\Controller\Team\CreateTeam::class);
 })->add(new AuthMiddleware);
