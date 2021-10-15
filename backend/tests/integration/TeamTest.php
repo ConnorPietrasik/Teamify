@@ -43,7 +43,7 @@ class TeamTest extends TestCase{
         $this->assertEquals(201, $response->getStatusCode());
         $this->assertStringContainsString('team_id', $result);
         $this->team_id = json_decode($result)->team_id;
-        $this->assertEquals($this->team_id, "2");
+        $this->assertEquals($this->team_id, 8);
     }
 
     //Verifies that the team info is all correct
