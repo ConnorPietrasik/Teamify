@@ -13,8 +13,8 @@ final class CreateTeam extends Base {
     public function __invoke(Request $request, Response $response, array $args): Response {
         $input = (array) $request->getParsedBody();
 
-        $input['env_id'] = $args['env_id'];
-        $input['user_id'] = $_SESSION['user_id'];
+        $input['env_id'] = (int) $args['env_id'];
+        $input['user_id'] = (int) $_SESSION['user_id'];
 
         $team_id = $this->getTeamService()->createTeam($input);
 
