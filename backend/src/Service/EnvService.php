@@ -31,6 +31,16 @@ final class EnvService {
         return $user_ids;
     }
 
+    //Returns all users in the environment
+    public function getAllEnvUsers(int $env_id): array {
+        $user_ids = $this->envRepository->getAllEnvUserIDs($env_id);
+        $users = [];
+        foreach ($user_ids as $user_id){
+            $users[] = getEnvUser($env_id, $user_id);
+        }
+        return $users;
+    }
+
     //Adds the user to the environment's open list
     public function addOpen(int $env_id, int $user_id): void {
         $this->envRepository->addOpen($env_id, $user_id);

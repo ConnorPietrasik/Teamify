@@ -17,6 +17,17 @@ final class EnvRepository {
         return $this->database;
     }
 
+    //Returns all the users in the environment
+    public function getAllEnvUserIDs(int $env_id): array {
+        $query = 'SELECT user_id FROM user_environment WHERE env_id = :id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('id', $env_id);
+        $statement->execute();
+        $users = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
+
+        return $users;
+    }
+
     //Returns all the open users in a given environment
     public function getOpenIDs(int $env_id): array {
         $query = 'SELECT user_id FROM env_open WHERE env_id = :id';
