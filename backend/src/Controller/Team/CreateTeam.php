@@ -16,7 +16,9 @@ final class CreateTeam extends Base {
         $input['env_id'] = $args['env_id'];
         $input['user_id'] = $_SESSION['user_id'];
 
-        $team = $this->getTeamService()->createTeam($input);
-        return JsonResponse::withJson($response, (string) json_encode($team), 201);
+        $team_id = $this->getTeamService()->createTeam($input);
+
+        $ret = array('team_id' => $team_id);
+        return JsonResponse::withJson($response, (string) json_encode($ret), 201);
     }
 }

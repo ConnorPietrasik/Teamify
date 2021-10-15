@@ -17,6 +17,20 @@ final class TeamRepository {
         return $this->database;
     }
 
+    //Returns the info from the team table
+    public function getTeam(int $team_id){
+        $query = 'SELECT * FROM team WHERE team_id = :id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('id', $team_id);
+        $statement->execute();
+        $team = $statement->fetch(\PDO::FETCH_ASSOC);
+        if (! $team) {
+            throw new TeamException('Team not found.', 404);
+        }
+
+        return $team;
+    }
+    
     //Creates the team and returns its ID
     public function createTeam(array $team): int {
         $query = 'INSERT INTO team (env_id, name, description) VALUES (:env_id, :name, :description)';
@@ -27,6 +41,28 @@ final class TeamRepository {
 
         $statement->execute();
         return (int) $this->getDb()->lastInsertId();
+    }
+
+    //Returns the team's environment ID
+    public function getTeamEnvironmentID(int $team_id): int{
+        $query = 'SELECT env_id FROM team WHERE team_id = :team_id)';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+        $statement->execute();
+        $env_id = $statement->fetchColumn();
+
+        return $env_id;
+    }
+
+    //Returns the user_ids and statuses of team members
+    public function getMemberIDsAndStatuses(int $team_id): array{
+        $query = 'SELECT user_id, status FROM team_member WHERE team_id = :team_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+
+        $statement->execute();
+        $tags = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return $tags;
     }
 
     //Adds the member to the team with the given status (0 means member, 1 means leader)
@@ -110,5 +146,17 @@ final class TeamRepository {
         $statement->bindParam('team_id', $team_id);
 
         $statement->execute();
+    }
+
+    //Returns the team_id that matches the current user and environment, or -1 if it doesn't exist
+    public function getEnvUserTeam(int $env_id, int $user_id): int {
+        $query = 'SELECT team_id FROM team WHERE env_id = :env AND team_id IN (SELECT team_id FROM team_member WHERE user_id = :user)';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('env', $env_id);
+        $statement->bindParam('user', $user_id);
+        $statement->execute();
+        $team = $statement->fetchColumn();
+
+        return (!$team) ? -1 : $team;
     }
 }
