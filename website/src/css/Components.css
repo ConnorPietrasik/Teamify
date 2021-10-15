@@ -21,3 +21,15 @@
     height:100%;
     visibility: visible;
 }
+
+.leftAndCenter {
+    margin-right: -20%;
+}
+.editBtn {
+    width: 20%;
+    float: right;
+    visibility: hidden;
+}
+.Card:hover .editBtn {
+    visibility: visible; /* edit btn not visible until user hovers over card */
+}

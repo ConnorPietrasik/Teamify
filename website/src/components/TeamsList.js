@@ -5,8 +5,13 @@ import TeamCard from './TeamCard';
 
 // show list of teams if user has no team, user's team if they have one
 export default function TeamsList(props) {
-    const [teams, setTeams] = useState([]);
+    const [openTeams, setOpenTeams] = useState([]);
+
     const [myTeam, setMyTeam] = useState(null);
+
+    useEffect(() => { // initialize based on parameter values
+      setOpenTeams([{name: 'openTeam1'}, {name: 'openTeam2'}, {name: 'openTeam3'}, {name: 'openTeam4'}]);
+    }, [props]); // runs when parameter is received
 
     // makes new team with user as first team member, saves to API
     function createTeam(teamName) {
@@ -21,18 +26,26 @@ export default function TeamsList(props) {
     }
 
     return (
-        <div className="IndividualsList" >
+        <div>
             {myTeam ?
                 <div>
                     <h2>My Team</h2>
-                    <TeamCard team={myTeam}/>
+                    <div className="IndividualsList" >
+                        <TeamCard team={myTeam}/>
+                    </div>
                 </div>
                 :
                 <div>
                     <h2>Find Teams</h2>
+                    <div className="IndividualsList" >                        
+                        {/* list of teams open */
+                          openTeams.map((team) =>
+                            <TeamCard team={team} status='open'/>
+                              )}
 
-                    {/* show button to start a team if user doesn't have one */}
-                    <CreateTeamCard submitNewTeam={createTeam} />
+                        {/* show button to start a team if user doesn't have one */}
+                        <CreateTeamCard submitNewTeam={createTeam} />
+                    </div>
                 </div>}
           </div>
     );
