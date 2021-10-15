@@ -52,6 +52,7 @@ class TeamTest extends TestCase{
 
         $result = (string) $response->getBody();
 
+        printf("%s", $this->team_id);
         $this->assertEquals(200, $response->getStatusCode());
         $this->assertStringContainsString('testTeam', $result);
         $this->assertStringContainsString('this is a test', $result);
