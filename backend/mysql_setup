@@ -4,12 +4,10 @@ USE teamify;
 
 CREATE TABLE IF NOT EXISTS user(
 	user_id		INT NOT NULL AUTO_INCREMENT,
-	username	VARCHAR(30) NOT NULL,
+	username	VARCHAR(30) NOT NULL UNIQUE,
 	name		VARCHAR(60),
 	bio			TEXT,
-	PRIMARY KEY (user_id),
-	CONSTRAINT uc_user_username 
-		UNIQUE (username)
+	PRIMARY KEY (user_id)
 );
 
 CREATE TABLE IF NOT EXISTS password(
@@ -110,7 +108,7 @@ CREATE TABLE IF NOT EXISTS team(
 	PRIMARY KEY(team_id),
 	CONSTRAINT fk_team_env_id
 		FOREIGN KEY(env_id) REFERENCES environment(env_id) 
-		ON DELETE CASCADE,
+		ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS team_tag(
