@@ -15,6 +15,7 @@ $app->get('/user/{id}', App\Controller\User\GetWhole::class);
 $app->get('/env/{env_id}/open', App\Controller\Environment\GetOpen::class);
 $app->get('/env/{env_id}/user', App\Controller\Environment\getAllEnvUsers::class);
 $app->get('/env/{env_id}/user/{user_id}', App\Controller\Environment\GetEnvUser::class);
+$app->get('/team/{team_id}', App\Controller\Team\GetTeam::class);
 
 //Routes that require authentication
 $app->group('', function (RouteCollectorProxy $group){

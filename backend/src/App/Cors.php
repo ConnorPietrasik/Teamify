@@ -14,7 +14,7 @@ return static function (App $app): void {
     $app->add(function (Request $request, $handler): Response {
         $response = $handler->handle($request);
 
-        $allowed_origins = ['https://teamify.pietrasik.top', 'http://teamify.pietrasik.top', 'localhost'];
+        $allowed_origins = ['https://teamify.pietrasik.top', 'http://teamify.pietrasik.top'];
 
         $origin = $request->getHeader('Origin');
         if (!empty($origin) && in_array($origin[0], $allowed_origins))
