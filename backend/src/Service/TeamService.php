@@ -15,7 +15,7 @@ final class TeamService {
     }
 
     //Creates the given team and returns its ID. $input req: env_id, user_id; optional: name, desc, tags, looking_for
-    public function create(array $input): int {
+    public function createTeam(array $input): int {
 
         $team_id = $this->teamRepository->createTeam($input);
         $this->teamRepository->addMember($team_id, $input['user_id'], 1);
