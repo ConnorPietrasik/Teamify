@@ -72,8 +72,28 @@ class EnvTest extends TestCase{
         $result = (string) $response->getBody();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertStringContainsString('Test Name', $result);
-        $this->assertStringContainsString('Testing tester', $result);
+        $this->assertStringContainsString('this is a skill', $result);
+        $this->assertStringContainsString('this is a second skill', $result);
+        $this->assertStringContainsString('1:00AM-3:00AM', $result);
+        $this->assertStringContainsString('water', $result);
+    }
+
+    //Successfully adds the user to the open list for env 1
+    public function testPostOpen(): void {
+        $request = $this->createRequest('POST', '/env/1/open');
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    //Gets the updated user and confirms it worked
+    public function testGetOpen(): void {
+        $request = $this->createRequest('GET', '/env/1/open');
+        $response = $this->getAppInstance()->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals(200, $response->getStatusCode());
         $this->assertStringContainsString('this is a skill', $result);
         $this->assertStringContainsString('this is a second skill', $result);
         $this->assertStringContainsString('1:00AM-3:00AM', $result);
