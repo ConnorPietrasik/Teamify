@@ -6,7 +6,14 @@ import '../css/Components.css';
 export default function TeamCard(props) {
   return (
     <div className="IndividualCard">
-        {props.team.name}
+        <p>{props.team.name}</p>
+
+        { /* Request to Join button appears if team is open and user hasn't requested to join yet */
+          props.status === 'open' ?
+            <button className="inviteBtn colorFadeEffect" onClick = {() => {
+            }}>Request to Join</button>
+            : <></>}
+
     </div>
   );
 }
