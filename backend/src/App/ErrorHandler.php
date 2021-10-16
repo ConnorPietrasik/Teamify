@@ -22,6 +22,7 @@ return function (
     $className = new ReflectionClass(get_class($exception));
     $data = [
         'line' => $exception->getLine(),
+        'file' => $exception->getFile(),
         'message' => $exception->getMessage(),
         'class' => $className->getShortName(),
         'status' => 'error',
