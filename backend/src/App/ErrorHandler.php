@@ -30,7 +30,7 @@ return function (
     $response = $app->getResponseFactory()->createResponse();
     $response->getBody()->write($body);
 
-    error_log($exception->getTraceAsString());
+    error_log("Error on line ".$exception->getLine().":\t".$exception->getMessage());
 
     return $response
         ->withStatus($statusCode)
