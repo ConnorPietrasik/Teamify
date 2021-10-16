@@ -45,6 +45,22 @@ class TeamTest extends TestCase{
         return json_decode($result)->team_id;
     }
 
+    //Successfully updates the team
+    /**
+     * @depends testCreateTeam
+     */
+    public function testUpdateTeam($team_id): void {
+        $params = [
+            'name' => 'testTeamUPDATED',
+            'tags' => ['testTag'],
+        ];
+        $req = $this->createRequest('POST', '/team/'.$team_id);
+        $request = $req->withParsedBody($params);
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
     //Verifies that the team info is all correct
     /**
      * @depends testCreateTeam
@@ -56,9 +72,9 @@ class TeamTest extends TestCase{
         $result = (string) $response->getBody();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertStringContainsString('testTeam', $result);
+        $this->assertStringContainsString('testTeamUPDATED', $result);
         $this->assertStringContainsString('this is a test', $result);
-        $this->assertStringContainsString('testytest', $result);
+        $this->assertStringContainsString('testTag', $result);
         $this->assertStringContainsString('being very good at testing', $result);
     }
 

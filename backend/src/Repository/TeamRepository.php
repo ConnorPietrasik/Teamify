@@ -42,6 +42,17 @@ final class TeamRepository {
         $statement->execute();
         return (int) $this->getDb()->lastInsertId();
     }
+    
+    //Updates the team table with given info
+    public function updateTeam(array $team): void {
+        $query = 'UPDATE team SET name = :name, description = :description WHERE team_id = :team_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team['team_id']);
+        $statement->bindValue('name', $team['name'] ?? null);
+        $statement->bindValue('description', $team['description'] ?? null);
+
+        $statement->execute();
+    }
 
     //Returns the team's environment ID
     public function getTeamEnvironmentID(int $team_id): int{
