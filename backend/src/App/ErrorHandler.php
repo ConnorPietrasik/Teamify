@@ -30,6 +30,8 @@ return function (
     $response = $app->getResponseFactory()->createResponse();
     $response->getBody()->write($body);
 
+    error_log($exception->getTraceAsString());
+
     return $response
         ->withStatus($statusCode)
         ->withHeader('Content-type', 'application/problem+json');
