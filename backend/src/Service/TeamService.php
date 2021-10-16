@@ -17,7 +17,7 @@ final class TeamService {
     //Creates the given team and returns its ID. $input req: env_id, user_id; optional: name, desc, tags, looking_for
     public function createTeam(array $input): int {
 
-        if ($this->teamRepository->getEnvUserTeam($input['env_id'], $input['user_id']) != -1) 
+        if ($this->teamRepository->getEnvUserTeam($input['env_id'], $input['user_id']) != -1)
             throw new TeamException("User already in a team for this environment", 409);
 
         $team_id = $this->teamRepository->createTeam($input);
@@ -49,7 +49,7 @@ final class TeamService {
             $this->teamRepository->updateTeam($team_id, $input);
         }
         
-        if (isset([$input['tags']]){
+        if (isset($input['tags']){
             $this->teamRepository->deleteAllTags($team_id);
             $this->teamRepository->addTags($team_id, $input['tags']);
         }
