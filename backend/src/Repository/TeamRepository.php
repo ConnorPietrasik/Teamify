@@ -44,10 +44,10 @@ final class TeamRepository {
     }
     
     //Updates the team table with given info
-    public function updateTeam(array $team): void {
+    public function updateTeam(int $team_id, array $team): void {
         $query = 'UPDATE team SET name = :name, description = :description WHERE team_id = :team_id';
         $statement = $this->getDb()->prepare($query);
-        $statement->bindParam('team_id', $team['team_id']);
+        $statement->bindParam('team_id', $team_id);
         $statement->bindValue('name', $team['name'] ?? null);
         $statement->bindValue('description', $team['description'] ?? null);
 

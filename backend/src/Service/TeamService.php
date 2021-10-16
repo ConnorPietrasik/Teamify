@@ -49,7 +49,7 @@ final class TeamService {
             $this->teamRepository->updateTeam($team_id, $input);
         }
         
-        if (isset($input['tags']){
+        if (isset($input['tags'])){
             $this->teamRepository->deleteAllTags($team_id);
             $this->teamRepository->addTags($team_id, $input['tags']);
         }

@@ -21,6 +21,7 @@ return function (
     }
     $className = new ReflectionClass(get_class($exception));
     $data = [
+        'line' => $exception->getLine(),
         'message' => $exception->getMessage(),
         'class' => $className->getShortName(),
         'status' => 'error',
@@ -29,8 +30,6 @@ return function (
     $body = json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     $response = $app->getResponseFactory()->createResponse();
     $response->getBody()->write($body);
-
-    error_log("Error on line ".$exception->getLine().":\t".$exception->getMessage());
 
     return $response
         ->withStatus($statusCode)
