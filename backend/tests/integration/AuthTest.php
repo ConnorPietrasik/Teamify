@@ -53,7 +53,7 @@ class AuthTest extends TestCase{
         $request = $this->createRequest('GET', '/checkauth');
         $response = $this->getAppInstance()->handle($request);
 
-        $this->assertEquals(409, $response->getStatusCode());
+        $this->assertEquals(401, $response->getStatusCode());
     }
 
     //Fails to create another account with the same username (using password)

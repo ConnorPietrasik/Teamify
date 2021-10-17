@@ -31,4 +31,4 @@ $app->group('', function (RouteCollectorProxy $group){
 //Routes that require team admin rights
 $app->group('', function (RouteCollectorProxy $group){
     $group->put('/team/{team_id}', App\Controller\Team\UpdateTeam::class);
-})->add(new TeamAuthMiddleware($app->getContainer()));
+});
