@@ -18,6 +18,7 @@ final class Register extends Base {
         //Logs the user in as well
         $_SESSION['user_id'] = $user_id;
         $_SESSION['last_login'] = time();
+        $_SESSION['teams'] = $this->getUserService()->getUserTeams($user_id);
 
         $user = array('user_id' => $user_id);
         return JsonResponse::withJson($response, (string) json_encode($user), 201);
