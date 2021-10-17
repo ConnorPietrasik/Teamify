@@ -19,7 +19,7 @@ class TeamAuthMiddleware {
         
         $team_id = (int) RouteContext::fromRequest($request)->getRoute()->getArgument('team_id');
 
-        throw new TeamException(var_export($_SESSION['teams']));
+        throw new TeamException(var_export($_SESSION['teams']), 400);
         $status = $_SESSION['teams'][$team_id] ?? -1;
         if ($status != 1) throw new TeamException("User does not have admin permissions for team", 401);
 
