@@ -31,6 +31,7 @@ final class UserService
         return $user;
     }
 
+    //Returns the user's teams
     public function getUserTeams(int $user_id): array {
         return $this->getUserTeamStatuses($user_id);
     }
