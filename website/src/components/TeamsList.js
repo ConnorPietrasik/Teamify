@@ -14,14 +14,16 @@ export default function TeamsList(props) {
       setOpenTeams([{name: 'openTeam1'}, {name: 'openTeam2'}, {name: 'openTeam3'}, {name: 'openTeam4'}]);
 
       // get team data using team id parameter
-      fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}`)
-        .then(res => res.json())
-        .then(teamData => {
-            if (teamData)
-              console.log(teamData);
+      if (props.myTeamId != null) {
+          fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}`)
+            .then(res => res.json())
+            .then(teamData => {
+                if (teamData)
+                  console.log(teamData);
 
-            setMyTeam(teamData);
-        }).catch(console.error);
+                setMyTeam(teamData);
+            }).catch(console.error);
+        }
     }, [props.myTeamId]); // runs when parameter is received
 
     // makes new team with user as first team member, saves to API
