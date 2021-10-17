@@ -13,7 +13,7 @@ final class UpdateTeam extends Base {
     public function __invoke(Request $request, Response $response, array $args): Response {
         $input = (array) $request->getParsedBody();
 
-        $team_id = $this->getTeamService()->updateTeam($args['team_id'], $input);
+        $team_id = $this->getTeamService()->updateTeam((int) $args['team_id'], $input);
 
         $ret = array('team_id' => $team_id);
         return JsonResponse::withJson($response, (string) json_encode($ret), 201);
