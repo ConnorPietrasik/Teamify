@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Slim\Routing\RouteCollectorProxy;
 use App\Controller\Auth\AuthMiddleware;
+use App\Controller\Team\TeamAuthMiddleware;
 
 $app->get('/', 'App\Controller\Home:getHelp');
 $app->get('/status', 'App\Controller\Home:getStatus');
@@ -17,7 +18,7 @@ $app->get('/env/{env_id}/user', App\Controller\Environment\getAllEnvUsers::class
 $app->get('/env/{env_id}/user/{user_id}', App\Controller\Environment\GetEnvUser::class);
 $app->get('/team/{team_id}', App\Controller\Team\GetTeam::class);
 
-//Routes that require authentication
+//Routes that require just user authentication
 $app->group('', function (RouteCollectorProxy $group){
     $group->get('/checkauth', App\Controller\Auth\CheckAuth::class);
     $group->put('/user', App\Controller\User\Update::class);
@@ -26,3 +27,8 @@ $app->group('', function (RouteCollectorProxy $group){
     $group->delete('/env/{env_id}/open', App\Controller\Environment\RemoveOpen::class);
     $group->post('/env/{env_id}/createteam', App\Controller\Team\CreateTeam::class);
 })->add(new AuthMiddleware);
+
+//Routes that require team admin rights
+$app->group('', function (RouteCollectorProxy $group){
+    $group->put('/team/{team_id}', App\Controller\Team\UpdateTeam::class);
+})->add(new TeamAuthMiddleware($app->getContainer()));

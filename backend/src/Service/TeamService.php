@@ -59,4 +59,9 @@ final class TeamService {
             $this->teamRepository->addLookingFor($team, $input['looking_for']);
         }
     }
+
+    //Returns the status of the team member, 1 = leader, 0 = member, -1 = not in team
+    public function getTeamMemberLevel(int $team_id, int $user_id): int {
+        return $this->teamRepository->getMemberStatus($team_id, $user_id);
+    }
 }

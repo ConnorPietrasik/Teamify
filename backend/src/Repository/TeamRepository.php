@@ -55,7 +55,7 @@ final class TeamRepository {
     }
 
     //Returns the team's environment ID
-    public function getTeamEnvironmentID(int $team_id): int{
+    public function getTeamEnvironmentID(int $team_id): int {
         $query = 'SELECT env_id FROM team WHERE team_id = :team_id)';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('team_id', $team_id);
@@ -66,7 +66,7 @@ final class TeamRepository {
     }
 
     //Returns the user_ids and statuses of team members
-    public function getMemberIDsAndStatuses(int $team_id): array{
+    public function getMemberIDsAndStatuses(int $team_id): array {
         $query = 'SELECT user_id, status FROM team_member WHERE team_id = :team_id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('team_id', $team_id);
@@ -74,6 +74,18 @@ final class TeamRepository {
         $statement->execute();
         $tags = $statement->fetchAll(\PDO::FETCH_ASSOC);
         return $tags;
+    }
+
+    //Returns the member's status, or -1 if they aren't in the given team
+    public function getMemberStatus(int $team_id, int $user_id): int {
+        $query = 'SELECT status FROM team_member WHERE team_id = :team_id AND user_id = :user_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+        $statement->bindParam('user_id', $user_id);
+
+        $statement->execute();
+        $status = $statement->fetchColumn();
+        return (!$status) ? -1 : $status;
     }
 
     //Adds the member to the team with the given status (0 means member, 1 means leader)

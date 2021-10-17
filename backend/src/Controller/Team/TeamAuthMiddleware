@@ -1,0 +1,28 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Controller\Team;
+
+use App\Exception\TeamException;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
+use Slim\Psr7\Response;
+use Slim\Routing\RouteContext;
+
+class TeamAuthMiddleware extends Base {
+
+    public function __invoke(Request $request, RequestHandler $handler): Response {
+
+        //Makes sure the user is logged in
+        if (!isset($_SESSION['user_id'])) throw new AuthException('User not logged in', 401);
+        
+        $team_id = RouteContext::fromRequest($request)->getRoute()->getArgument('team_id');
+
+        $status = $this->getTeamService()->getTeamMemberLevel((int) $team_id, (int) $_SESSION['user_id']);
+        if ($status != 1) throw new TeamException("User does not have admin permissions for team", 401);
+
+        $response = $handler->handle($request);
+        return $response;
+    }
+}
