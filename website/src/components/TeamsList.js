@@ -17,13 +17,29 @@ export default function TeamsList(props) {
     // makes new team with user as first team member, saves to API
     function createTeam(teamName) {
         // record new team in database
-
-        // update on TeamsList component
-        setMyTeam({
+        fetch(`https://api.teamify.pietrasik.top/env/1/createteam`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
             name: teamName,
-        });
-        // update parent Home component
-        props.updateTeam(1);
+          })
+        }).then(res => res.json())
+          .then(data => {
+            if (data)
+              console.log(data);
+
+            if (data.team_id) { // successfully created and returned id
+                // update on TeamsList component
+                setMyTeam({
+                    name: teamName,
+                });
+                // update parent Home component
+                props.updateTeam(data.team_id);
+            }
+          }).catch(console.error);
     }
 
     function afterApplyingToTeam(teamAppliedTo) {
