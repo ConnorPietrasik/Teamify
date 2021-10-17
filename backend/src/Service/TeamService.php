@@ -56,7 +56,7 @@ final class TeamService {
 
         if (isset($input['looking_for'])){
             $this->teamRepository->deleteAllLookingFor($team_id);
-            $this->teamRepository->addLookingFor($team, $input['looking_for']);
+            $this->teamRepository->addLookingFor($team_id, $input['looking_for']);
         }
     }
 
