@@ -189,7 +189,7 @@ final class UserRepository {
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('user_id', $user_id);
         $statement->execute();
-        $teams = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        $teams = $statement->fetchAll(\PDO::FETCH_KEY_PAIR);
 
         return $teams;
     }
