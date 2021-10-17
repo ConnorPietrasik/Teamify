@@ -14,7 +14,7 @@ class AuthMiddleware {
     public function __invoke(Request $request, RequestHandler $handler): Response {
 
         //Throws an exception when a user tries to access something that requires being logged in while not being logged in
-        if (!isset($_SESSION['user_id'])) throw new AuthException('User not logged in', 409);
+        if (!isset($_SESSION['user_id'])) throw new AuthException('User not logged in', 401);
 
         $response = $handler->handle($request);
         return $response;
