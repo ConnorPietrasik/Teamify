@@ -22,7 +22,7 @@ export default function TeamsList(props) {
 
             setMyTeam(teamData);
         }).catch(console.error);
-    }, [props]); // runs when parameter is received
+    }, [props.myTeamId]); // runs when parameter is received
 
     // makes new team with user as first team member, saves to API
     function createTeam(teamName) {

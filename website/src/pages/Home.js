@@ -39,6 +39,9 @@ class Home extends React.Component{
         if (userData)
           console.log(userData);
 
+        console.log(userData.teams);
+        console.log(userData.teams[0]);
+
           // update state with user data to be displayed
           this.setState({
             user: userData,
