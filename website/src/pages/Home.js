@@ -42,6 +42,7 @@ class Home extends React.Component{
           // update state with user data to be displayed
           this.setState({
             user: userData,
+            teamId: userData.teams[0], /* get team id of user */
           });
         }
       ).catch(console.error);
@@ -81,7 +82,7 @@ class Home extends React.Component{
           <button onClick={this.logout}>Log Out </button>
         </div>
 
-        <TeamsList updateTeam={this.updateTeam} />
+        <TeamsList updateTeam={this.updateTeam} myTeamId={this.state.teamId}/>
         <IndividualsList openIndividuals={individuals}
             myTeamId={this.state.teamId} /* user (as team member) may look for individuals on behalf of team */
             />
