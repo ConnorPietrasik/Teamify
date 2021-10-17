@@ -33,3 +33,6 @@
 .Card:hover .editBtn {
     visibility: visible; /* edit btn not visible until user hovers over card */
 }
+.shiftRight {
+    margin-left: 20%;
+}

@@ -58,13 +58,15 @@ export default function ProfileSettings(props) {
 
   return (
     <div className="Card">
-    <div><button className="editBtn" onClick = {toggleEditMode}>{editMode ? "Discard Edits" : "Edit"}</button></div>
-         <div className="nameAndPic leftAndCenter">
-           <img className="profilePic" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" />
-           <p>{ editMode ? <input type="text" value={username} onChange = {e => setUsername(e.target.value) }/> : username}</p>
+        <div>
+             <button className="editBtn" onClick = {toggleEditMode}>{editMode ? "Discard Edits" : "Edit"}</button>
+             <div className="nameAndPic leftAndCenter">
+               <img className="profilePic" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" />
+               <p>{ editMode ? <input type="text" value={username} onChange = {e => setUsername(e.target.value) }/> : username}</p>
+             </div>
          </div>
 
-        <div>About Me: { editMode ? <input type="text" value={bio} onChange = {e => setBio(e.target.value) }/> : bio}</div>
+        <div className="shiftRight">About Me: { editMode ? <input type="text" value={bio} onChange = {e => setBio(e.target.value) }/> : bio}</div>
 
      {editMode ? <button onClick = {updateUserInfo}> Update </button> : <></>}
 
