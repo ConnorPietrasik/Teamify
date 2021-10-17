@@ -66,7 +66,7 @@ class TeamTest extends TestCase{
 
     //Verifies that the team info is all correct
     /**
-     * @depends testCreateTeam
+     * @depends testUpdateTeam
      */
     public function testGetTeam($team_id): void {
         $request = $this->createRequest('GET', '/team/'.$team_id);
@@ -83,9 +83,9 @@ class TeamTest extends TestCase{
 
     //Successfully deletes the user
     /**
-     * @depends testGetTeam
+     * @depends testRegisterPass
      */
-    public function testDelete(): void {
+    public function testDeleteUser(): void {
         $request = $this->createRequest('DELETE', '/user');
         $response = $this->getAppInstance()->handle($request);
 
