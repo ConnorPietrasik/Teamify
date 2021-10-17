@@ -27,6 +27,9 @@ class TeamTest extends TestCase{
     }
 
     //Successfully creates a team
+    /**
+     * @depends testRegisterPass
+     */
     public function testCreateTeam(): int {
         $params = [
             'name' => 'testTeam',
@@ -79,6 +82,9 @@ class TeamTest extends TestCase{
     }
 
     //Successfully deletes the user
+    /**
+     * @depends testGetTeam
+     */
     public function testDelete(): void {
         $request = $this->createRequest('DELETE', '/user');
         $response = $this->getAppInstance()->handle($request);
