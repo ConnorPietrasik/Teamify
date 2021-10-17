@@ -5,6 +5,7 @@ import Home from '../pages/Home';
 import ProfileSettings from '../components/ProfileSettings';
 import IndividualsList from '../components/IndividualsList';
 import IndividualCard from '../components/IndividualCard';
+import TeamCard from '../components/TeamCard';
 
 test('renders login page', () => {
   render(<Login />);
@@ -70,4 +71,32 @@ test('renders individual card component with open individual', () => {
   // makes sure invite button is displayed
   const inviteButton = result.container.querySelector('.inviteBtn');
   expect(inviteButton).toBeInTheDocument();
+});
+
+test('renders team card component for user\'s team', () => {
+  const testCreatedTeam = {name: "Test Created Team"}
+  const result = render(<TeamCard team={testCreatedTeam}/>);
+
+  const renderedCard = result.container.querySelector('.IndividualCard');
+  expect(renderedCard).toBeInTheDocument();
+
+  // makes sure team name is displayed
+  const elementWithTeamName = screen.getByText(testCreatedTeam.name);
+  expect(elementWithTeamName).toBeInTheDocument();
+});
+
+test('renders team card component for open team to join', () => {
+  const testAvailableTeam = {name: "Test Open Team"}
+  const result = render(<TeamCard team={testAvailableTeam} status='open'/>);
+
+  const renderedCard = result.container.querySelector('.IndividualCard');
+  expect(renderedCard).toBeInTheDocument();
+
+  // makes sure team name is displayed
+  const elementWithTeamName = screen.getByText(testAvailableTeam.name);
+  expect(elementWithTeamName).toBeInTheDocument();
+
+  // makes sure "Request to Join" button is displayed
+  const requestButton = result.container.querySelector('.inviteBtn');
+  expect(requestButton).toBeInTheDocument();
 });
