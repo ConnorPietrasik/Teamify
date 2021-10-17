@@ -9,7 +9,7 @@ use App\Helper\JsonResponse;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-final class CreateTeam extends Base {
+final class UpdateTeam extends Base {
     public function __invoke(Request $request, Response $response, array $args): Response {
         $input = (array) $request->getParsedBody();
 
