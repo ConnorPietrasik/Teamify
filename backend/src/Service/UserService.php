@@ -22,38 +22,42 @@ final class UserService
     }
 
     //Returns the whole user
-    public function getWholeUser(int $id): array {
-        $user = $this->userRepository->getUser($id);
-        $user['skills'] = $this->userRepository->getAllSkills($id);
-        $user['availability'] = $this->userRepository->getAvailability($id);
-        $user['interests'] = $this->userRepository->getAllInterests($id);
-        $user['teams'] = $this->userRepository->getUserTeams($id);
+    public function getWholeUser(int $user_id): array {
+        $user = $this->userRepository->getUser($user_id);
+        $user['skills'] = $this->userRepository->getAllSkills($user_id);
+        $user['availability'] = $this->userRepository->getAvailability($user_id);
+        $user['interests'] = $this->userRepository->getAllInterests($user_id);
+        $user['teams'] = $this->userRepository->getUserTeamIDs($user_id);
         return $user;
     }
 
+    public function getUserTeams(int $user_id): array {
+        return $this->getUserTeamStatuses($user_id);
+    }
+
     //Updates the given user
-    public function update(array $input, int $id): void {
-        $user = $this->getWholeUser($id);
+    public function update(array $input, int $user_id): void {
+        $user = $this->getWholeUser($user_id);
 
         if (isset($input['username']) || isset($input['name']) || isset($input['bio'])) {
             $this->userRepository->updateUser($user, $input);
         }
         if (isset($input['skills'])) {
-            $this->userRepository->deleteAllSkills($id);
-            $this->userRepository->addSkills($id, $input['skills']);
+            $this->userRepository->deleteAllSkills($user_id);
+            $this->userRepository->addSkills($user_id, $input['skills']);
         }
         if (isset($input['availability'])){
-            $this->userRepository->deleteAvailabilities($id);
-            $this->userRepository->addAvailabilities($id, $input['availability']);
+            $this->userRepository->deleteAvailabilities($user_id);
+            $this->userRepository->addAvailabilities($user_id, $input['availability']);
         }
         if (isset($input['interests'])) {
-            $this->userRepository->deleteAllInterests($id);
-            $this->userRepository->addInterests($id, $input['interests']);
+            $this->userRepository->deleteAllInterests($user_id);
+            $this->userRepository->addInterests($user_id, $input['interests']);
         }
     }
 
     //Deletes the given user
-    public function deleteUser(int $id): void {
-        $this->userRepository->deleteUser($id);
+    public function deleteUser(int $user_id): void {
+        $this->userRepository->deleteUser($user_id);
     }
 }

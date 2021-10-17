@@ -18,10 +18,10 @@ final class UserRepository {
     }
 
     //Returns the data from the user table with the given ID
-    public function getUser(int $id): array {
-        $query = 'SELECT * FROM user WHERE user_id = :id';
+    public function getUser(int $user_id): array {
+        $query = 'SELECT * FROM user WHERE user_id = :user_id';
         $statement = $this->getDb()->prepare($query);
-        $statement->bindParam('id', $id);
+        $statement->bindParam('user_id', $user_id);
         $statement->execute();
         $user = $statement->fetch(\PDO::FETCH_ASSOC);
         if (! $user) {
@@ -43,9 +43,9 @@ final class UserRepository {
             $user['bio'] = $data['bio'];
         }
 
-        $query = 'UPDATE user SET username = :username, name = :name, bio = :bio WHERE user_id = :id';
+        $query = 'UPDATE user SET username = :username, name = :name, bio = :bio WHERE user_id = :user_id';
         $statement = $this->getDb()->prepare($query);
-        $statement->bindParam('id', $user['user_id']);
+        $statement->bindParam('user_id', $user['user_id']);
         $statement->bindParam('username', $user['username']);
         $statement->bindParam('name', $user['name']);
         $statement->bindParam('bio', $user['bio']);
@@ -55,17 +55,17 @@ final class UserRepository {
 
     //Deletes the given user
     public function deleteUser(int $userId): void {
-        $query = 'DELETE FROM user WHERE user_id = :id';
+        $query = 'DELETE FROM user WHERE user_id = :user_id';
         $statement = $this->getDb()->prepare($query);
-        $statement->bindParam('id', $userId);
+        $statement->bindParam('user_id', $userId);
         $statement->execute();
     }
 
     //Returns all the skills for the given user
-    public function getAllSkills(int $id): array {
-        $query = 'SELECT env_id, skill FROM skill WHERE user_id = :id';
+    public function getAllSkills(int $user_id): array {
+        $query = 'SELECT env_id, skill FROM skill WHERE user_id = :user_id';
         $statement = $this->getDb()->prepare($query);
-        $statement->bindParam('id', $id);
+        $statement->bindParam('user_id', $user_id);
         $statement->execute();
         $skills = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -73,7 +73,7 @@ final class UserRepository {
     }
 
     //Adds the given skills to the given user
-    public function addSkills(int $id, array $skills): void {
+    public function addSkills(int $user_id, array $skills): void {
         $query = 'INSERT IGNORE INTO skill (user_id, env_id, skill) VALUES (?, ?, ?)';
         $query .= str_repeat(', (?, ?, ?)', count($skills) - 1);
         $statement = $this->getDb()->prepare($query);
@@ -81,7 +81,7 @@ final class UserRepository {
         //Creates a 1D array containing all the skills
         $insert = [];
         foreach ($skills as $skill){
-            $insert[] = $id;
+            $insert[] = $user_id;
             $insert[] = $skill['env_id'];
             $insert[] = $skill['skill'];
         }
@@ -90,19 +90,19 @@ final class UserRepository {
     }
 
     //Deletes all the user's skills
-    public function deleteAllSkills(int $id): void {
-        $query = 'DELETE FROM skill WHERE user_id = :id';
+    public function deleteAllSkills(int $user_id): void {
+        $query = 'DELETE FROM skill WHERE user_id = :user_id';
         $statement = $this->getDb()->prepare($query);
-        $statement->bindParam('id', $id);
+        $statement->bindParam('user_id', $user_id);
 
         $statement->execute();
     }
 
     //Returns all the interests for the given user
-    public function getAllInterests(int $id): array {
-        $query = 'SELECT env_id, interest FROM interest WHERE user_id = :id';
+    public function getAllInterests(int $user_id): array {
+        $query = 'SELECT env_id, interest FROM interest WHERE user_id = :user_id';
         $statement = $this->getDb()->prepare($query);
-        $statement->bindParam('id', $id);
+        $statement->bindParam('user_id', $user_id);
         $statement->execute();
         $interests = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -110,7 +110,7 @@ final class UserRepository {
     }
 
     //Adds the given interests to the given user
-    public function addInterests(int $id, array $interests): void {
+    public function addInterests(int $user_id, array $interests): void {
         $query = 'INSERT IGNORE INTO interest (user_id, env_id, interest) VALUES (?, ?, ?)';
         $query .= str_repeat(', (?, ?, ?)', count($interests) - 1);
         $statement = $this->getDb()->prepare($query);
@@ -118,7 +118,7 @@ final class UserRepository {
         //Creates a 1D array containing all the interests
         $insert = [];
         foreach ($interests as $interest){
-            $insert[] = $id;
+            $insert[] = $user_id;
             $insert[] = $interest['env_id'];
             $insert[] = $interest['interest'];
         }
@@ -127,19 +127,19 @@ final class UserRepository {
     }
 
     //Deletes all the user's interests
-    public function deleteAllInterests(int $id): void {
-        $query = 'DELETE FROM interest WHERE user_id = :id';
+    public function deleteAllInterests(int $user_id): void {
+        $query = 'DELETE FROM interest WHERE user_id = :user_id';
         $statement = $this->getDb()->prepare($query);
-        $statement->bindParam('id', $id);
+        $statement->bindParam('user_id', $user_id);
         
         $statement->execute();
     }
 
     //Returns the given user's availability
-    public function getAvailability(int $id): array {
-        $query = 'SELECT day, time FROM availability WHERE user_id = :id';
+    public function getAvailability(int $user_id): array {
+        $query = 'SELECT day, time FROM availability WHERE user_id = :user_id';
         $statement = $this->getDb()->prepare($query);
-        $statement->bindParam('id', $id);
+        $statement->bindParam('user_id', $user_id);
         $statement->execute();
         $availability = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
@@ -147,7 +147,7 @@ final class UserRepository {
     }
 
     //Adds the given availabilities to the given user
-    public function addAvailabilities(int $id, array $availabilities): void {
+    public function addAvailabilities(int $user_id, array $availabilities): void {
         $query = 'INSERT IGNORE INTO availability (user_id, day, time) VALUES (?, ?, ?)';
         $query .= str_repeat(', (?, ?, ?)', count($availabilities) - 1);
         $statement = $this->getDb()->prepare($query);
@@ -155,7 +155,7 @@ final class UserRepository {
         //Creates a 1D array containing all the availabilities
         $insert = [];
         foreach ($availabilities as $availability){
-            $insert[] = $id;
+            $insert[] = $user_id;
             $insert[] = $availability['day'];
             $insert[] = $availability['time'];
         }
@@ -164,21 +164,32 @@ final class UserRepository {
     }
 
     //Deletes all the user's availabilities
-    public function deleteAvailabilities(int $id): void {
-        $query = 'DELETE FROM availability WHERE user_id = :id';
+    public function deleteAvailabilities(int $user_id): void {
+        $query = 'DELETE FROM availability WHERE user_id = :user_id';
         $statement = $this->getDb()->prepare($query);
-        $statement->bindParam('id', $id);
+        $statement->bindParam('user_id', $user_id);
         
         $statement->execute();
     }
 
     //Returns the team_id's that the user is in
-    public function getUserTeams(int $id): array {
-        $query = 'SELECT team_id FROM team_member WHERE user_id = :id';
+    public function getUserTeamIDs(int $user_id): array {
+        $query = 'SELECT team_id FROM team_member WHERE user_id = :user_id';
         $statement = $this->getDb()->prepare($query);
-        $statement->bindParam('id', $id);
+        $statement->bindParam('user_id', $user_id);
         $statement->execute();
         $teams = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
+
+        return $teams;
+    }
+
+    //Returns the user's teams and their status on them
+    public function getUserTeamStatuses(int $user_id): array {
+        $query = 'SELECT team_id, status FROM team_member WHERE user_id = :user_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('user_id', $user_id);
+        $statement->execute();
+        $teams = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
         return $teams;
     }
@@ -195,7 +206,7 @@ final class UserRepository {
 
     public function getAll(): array
     {
-        $query = 'SELECT * FROM `user` ORDER BY `id`';
+        $query = 'SELECT * FROM `user` ORDER BY `user_id`';
         $statement = $this->getDb()->prepare($query);
         $statement->execute();
         return (array) $statement->fetchAll();
