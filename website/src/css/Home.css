@@ -12,6 +12,26 @@ h3 {
     color: var(--lightblue);
 }
 
+button {
+    margin-right: 10px;
+    margin-left: 10px;
+
+    padding: 10px;
+
+    border-radius: 20px; /* rounded corners */
+
+    border: 3px solid var(--navyblue);
+    color: var(--navyblue);
+    background-color: transparent;
+} button:hover {
+    background-color: var(--navyblue); /* colors invert and fills button background */
+    color: white;
+
+    transition: .2s ease-in-out;
+
+    cursor: pointer;
+}
+
 .Home{
   display: block;
   width: 100%;
@@ -56,7 +76,7 @@ h3 {
 .inviteBtn {
     background-color: var(--lightblue);
 
-    padding: 10px;
+    padding: 12px;
     border-radius: 20px;
     border: none;
 } .inviteBtn:hover { /* when hovered over, change color*/
