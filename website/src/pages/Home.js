@@ -39,10 +39,15 @@ class Home extends React.Component{
         if (userData)
           console.log(userData);
 
+        // set team id if user has a team
+        var teamId = null;
+        if (userData.teams.length > 0)
+            teamId = userData.teams[0];
+
           // update state with user data to be displayed
           this.setState({
             user: userData,
-            teamId: userData.teams[0], /* get team id of user */
+            teamId: teamId, /* get team id of user */
           });
         }
       ).catch(console.error);
