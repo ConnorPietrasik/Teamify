@@ -15,7 +15,6 @@ final class UpdateTeam extends Base {
 
         $team_id = $this->getTeamService()->updateTeam((int) $args['team_id'], $input);
 
-        $ret = array('team_id' => $team_id);
-        return JsonResponse::withJson($response, (string) json_encode($ret), 201);
+        return JsonResponse::withJson($response, '', 201);
     }
 }
