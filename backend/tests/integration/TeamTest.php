@@ -52,7 +52,7 @@ class TeamTest extends TestCase{
     /**
      * @depends testCreateTeam
      */
-    public function testUpdateTeam($team_id): void {
+    public function testUpdateTeam($team_id): int {
         $params = [
             'name' => 'testTeamUPDATED',
             'tags' => ['testTag'],
@@ -62,6 +62,8 @@ class TeamTest extends TestCase{
         $response = $this->getAppInstance()->handle($request);
 
         $this->assertEquals(200, $response->getStatusCode());
+
+        return $team_id;
     }
 
     //Verifies that the team info is all correct
