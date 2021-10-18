@@ -87,11 +87,24 @@ class TeamTest extends TestCase{
     /**
      * @depends testCreateTeam
      */
-    public function testDeleteTeam($team_id): void {
+    public function testDeleteTeam($team_id): int {
         $request = $this->createRequest('DELETE', '/team/'.$team_id);
         $response = $this->getAppInstance()->handle($request);
 
         $this->assertEquals(200, $response->getStatusCode());
+
+        return $team_id;
+    }
+
+    //Verifies that the team was deleted
+    /**
+     * @depends testDeleteTeam
+     */
+    public function testVerifyTeamDeleted($team_id): void {
+        $request = $this->createRequest('GET', '/team/'.$team_id);
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(404, $response->getStatusCode());
     }
 
     //Successfully deletes the user
