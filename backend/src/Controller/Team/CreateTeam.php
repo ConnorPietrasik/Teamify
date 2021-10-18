@@ -18,6 +18,8 @@ final class CreateTeam extends Base {
 
         $team_id = $this->getTeamService()->createTeam($input);
 
+        $_SESSION['teams'][$team_id] = 1;
+
         $ret = array('team_id' => $team_id);
         return JsonResponse::withJson($response, (string) json_encode($ret), 201);
     }

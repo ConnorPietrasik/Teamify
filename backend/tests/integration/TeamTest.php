@@ -57,7 +57,7 @@ class TeamTest extends TestCase{
             'name' => 'testTeamUPDATED',
             'tags' => ['testTag'],
         ];
-        $req = $this->createRequest('PUT', '/team/33');
+        $req = $this->createRequest('PUT', '/team/'.$team_id);
         $request = $req->withParsedBody($params);
         $response = $this->getAppInstance()->handle($request);
 
