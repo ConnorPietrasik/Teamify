@@ -12,7 +12,12 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 final class DeleteTeam extends Base {
     public function __invoke(Request $request, Response $response, array $args): Response {
 
-        $this->getTeamService()->deleteTeam((int) $args['team_id']);
+        $team_id = (int) $args['team_id'];
+        $this->getTeamService()->deleteTeam($team_id);
+
+        //Removes the team from logged in user's rights list
+        unset($_SESSION['teams'][$team_id]);
+
         return JsonResponse::withJson($response, '', 200);
     }
 }
