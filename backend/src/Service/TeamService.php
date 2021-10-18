@@ -60,6 +60,11 @@ final class TeamService {
         }
     }
 
+    //Deletes the team with given ID
+    public function deleteTeam(int $team_id): void {
+        $this->teamRepository->deleteTeam($team_id);
+    }
+
     //Returns the status of the team member, 1 = leader, 0 = member, -1 = not in team
     public function getTeamMemberLevel(int $team_id, int $user_id): int {
         return $this->teamRepository->getMemberStatus($team_id, $user_id);

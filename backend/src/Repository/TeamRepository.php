@@ -54,6 +54,15 @@ final class TeamRepository {
         $statement->execute();
     }
 
+    //Deletes the team with given ID
+    public function deleteTeam(int $team_id): void {
+        $query = 'DELETE FROM team WHERE team_id = :team_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+
+        $statement->execute();
+    }
+
     //Returns the team's environment ID
     public function getTeamEnvironmentID(int $team_id): int {
         $query = 'SELECT env_id FROM team WHERE team_id = :team_id)';

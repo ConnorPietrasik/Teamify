@@ -83,6 +83,17 @@ class TeamTest extends TestCase{
         $this->assertStringContainsString('being very good at testing', $result);
     }
 
+    //Successfully deletes the created team
+    /**
+     * @depends testCreateTeam
+     */
+    public function testDeleteTeam($team_id): void {
+        $request = $this->createRequest('DELETE', '/team/'.$team_id);
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
     //Successfully deletes the user
     /**
      * @depends testRegisterPass
