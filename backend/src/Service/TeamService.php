@@ -46,7 +46,7 @@ final class TeamService {
         if (isset($input['name']) || isset($input['description'])){
             if (isset($input['name'])) $team['name'] = $input['name'];
             if (isset($input['description'])) $team['description'] = $input['description'];
-            $this->teamRepository->updateTeam($team_id, $input);
+            $this->teamRepository->updateTeam($team_id, $team);
         }
         
         if (isset($input['tags'])){
