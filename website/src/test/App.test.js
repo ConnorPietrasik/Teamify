@@ -53,19 +53,17 @@ test('renders profile settings with correct user username and bio', () => {
 
 test('renders individual list component', () => {
   const testArrayIndividuals = ['sally', 'joe'];
-  const result = render(<IndividualsList openIndividuals={testArrayIndividuals}/>);
-  const renderedList = result.container.querySelector('.IndividualsList');
-  expect(renderedList).toBeInTheDocument();
+  const result = render(<IndividualsList />);
 });
 
 test('renders individual card component with open individual', () => {
-  const testName = 'lucie'
-  const result = render(<IndividualCard key={testName} name={testName} type='open'/>);
+  const testUser = {username: 'lucie'}
+  const result = render(<IndividualCard individual={testUser} type='open'/>);
   const renderedCard = result.container.querySelector('.IndividualCard');
   expect(renderedCard).toBeInTheDocument();
 
   // makes sure username is displayed
-  const elementWithUsername = screen.getByText(testName);
+  const elementWithUsername = screen.getByText(testUser.username);
   expect(elementWithUsername).toBeInTheDocument();
 
   // makes sure invite button is displayed

@@ -7,14 +7,14 @@ export default function IndividualCard(props) {
     <div className="IndividualCard">
       <div className="nameAndPic">
         <img className="profilePic" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" />
-        <p>{props.name}</p>
+        <p>{props.individual.username}</p>
       </div>
       <div>
 
       { props.type === "open" ?
           <button className="inviteBtn colorFadeEffect" onClick = {() => {
               // tells Individuals List to remove this card
-              props.updateList(props.name);
+              props.updateList(props.individual);
           }}>Invite</button>
           : <></>}
       </div>

@@ -12,9 +12,22 @@ export default function IndividualsList(props) {
     const [openIndividuals, setOpenIndividuals] = useState([]);
 
     useEffect(() => { // initialize based on parameter values
-      setOpenIndividuals(props.openIndividuals);
       setMyTeamId(props.myTeamId);
     }, [props]); // runs when parameter is received
+
+    useEffect(() => { // runs once at beginning
+        // get open Individuals
+        fetch(`https://api.teamify.pietrasik.top/env/1/open`)
+          .then(res => res.json())
+          .then(listOpenIndividuals => {
+              if (listOpenIndividuals)
+                console.log(listOpenIndividuals);
+
+              if(listOpenIndividuals.length > 0) { // if there are available people, set their data to be displayed
+                  setOpenIndividuals(listOpenIndividuals);
+              }
+          }).catch(console.error);
+    }, []);
 
     // update list of people to be displayed
     function updateAfterInviting(invitedPerson) {
@@ -36,7 +49,7 @@ export default function IndividualsList(props) {
                 <div className="IndividualsList" >
                   { /* list of people */
                     invited.map((individual) =>
-                    <IndividualCard key={individual} name={individual} type="invited"
+                    <IndividualCard key={individual} individual={individual} type="invited"
                         />)}
                   </div>
                 </>
@@ -48,7 +61,7 @@ export default function IndividualsList(props) {
                 <div className="IndividualsList" >
                   { /* list of people */
                     openIndividuals.map((individual) =>
-                    <IndividualCard key={individual} name={individual}
+                    <IndividualCard key={individual} individual={individual}
                         type={myTeamId ? "open" : ""} /* determines whether or not invite button shows */
 
                         /* Individuals List passes function to Individual Card child component
