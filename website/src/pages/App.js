@@ -40,7 +40,7 @@ class App extends React.Component{
        // loads user data
        if (data.user_id)
            this.setState({
-             userId: id,
+             userId: data.user_id,
         });
      }).catch(console.error);
   }
