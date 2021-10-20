@@ -17,7 +17,6 @@ class App extends React.Component{
 
   // updates user info and logged in status after user logs in / out
   updateUserInfo = (username, id) => {
-      console.log(this.username);
       this.setState({
         username: username,
         userId: id,
@@ -50,8 +49,8 @@ class App extends React.Component{
     return(
     <div className="App">
         { /*  redirects to either Home or Login page depending on whether user is signed in*/
-          this.state.username !== "" ?
-          <Home username={this.state.username} updateUserLoginInfo={this.updateUserInfo} userId={this.state.userId}/>
+          this.state.userId > -1 ?
+          <Home updateUserLoginInfo={this.updateUserInfo} userId={this.state.userId}/>
           : <Login updateUserLoginInfo={this.updateUserInfo}/>}
     </div>
     );

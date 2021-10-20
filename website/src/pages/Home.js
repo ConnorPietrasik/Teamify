@@ -28,12 +28,12 @@ class Home extends React.Component{
           },
     }).then(
         // change page display
-        this.props.updateUserLoginInfo("") // clearing username will make parent App render Login instead of Home
+        this.props.updateUserLoginInfo("", -1) // resetting user_id will make parent App render Login instead of Home
     ).catch(console.error);
   }
 
   componentDidMount() {
-    console.log("mounted");
+    console.log(this.props.userId);
 
     // get user data using userID
     fetch(`https://api.teamify.pietrasik.top/user/${this.props.userId}`)
