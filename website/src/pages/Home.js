@@ -26,10 +26,10 @@ class Home extends React.Component{
         headers: {
             'Content-Type': 'application/json'
           },
-    }).catch(console.error);
-
-    // change page display
-    this.props.updateUserLoginInfo(""); // clearing username will make parent App render Login instead of Home
+    }).then(
+        // change page display
+        this.props.updateUserLoginInfo(""); // clearing username will make parent App render Login instead of Home
+    ).catch(console.error);
   }
 
   componentDidMount() {
