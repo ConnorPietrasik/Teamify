@@ -24,9 +24,30 @@ class App extends React.Component{
       });
   };
 
-render() {
-  console.log(this.username);
-  return(
+  componentDidMount() {
+    // find user if already logged in, and gets user data if already logged in
+    fetch(`https://api.teamify.pietrasik.top/checkauth`, {
+     method: 'GET',
+     credentials: 'include',
+     headers: {
+       'Content-Type': 'application/json',
+     }, })
+     .then(res => res.json())
+     .then(data => {
+       if (data)
+         console.log(data);
+
+       // loads user data
+       if (data.user_id)
+           this.setState({
+             userId: id,
+        });
+     }).catch(console.error);
+  }
+
+  render() {
+    console.log(this.username);
+    return(
     <div className="App">
         { /*  redirects to either Home or Login page depending on whether user is signed in*/
           this.state.username !== "" ?
@@ -34,7 +55,6 @@ render() {
           : <Login updateUserLoginInfo={this.updateUserInfo}/>}
     </div>
     );
-}
-
+  }
 }
 export default App;
