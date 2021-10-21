@@ -202,7 +202,7 @@ class TeamTest extends TestCase{
         $req = $this->createRequest('POST', '/login');
         $request = $req->withParsedBody($params);
         $response = $this->getAppInstance()->handle($request);
-        $this->assertEquals(200, $response->getStatusCose());
+        $this->assertEquals(200, $response->getStatusCode());
 
         $request = $this->createRequest('DELETE', '/user');
         $response = $this->getAppInstance()->handle($request);
