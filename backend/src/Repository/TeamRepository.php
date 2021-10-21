@@ -198,7 +198,7 @@ final class TeamRepository {
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('team_id', $team_id);
         $statement->bindValue('user_id', $user_id);
-        $statement->bindValue('message', $message ?? null);
+        $statement->bindValue('message', $message ?? NULL);
 
         $statement->execute();
     } 
