@@ -40,6 +40,11 @@ final class EnvService {
         return $users;
     }
 
+    //Returns all the team IDs
+    public function getAllTeamIDs(int $env_id): array {
+        return $this->envRepository->getAllEnvTeamIDs($env_id);
+    }
+
     //Adds the user to the environment's open list
     public function addOpen(int $env_id, int $user_id): void {
         $this->envRepository->addOpen($env_id, $user_id);

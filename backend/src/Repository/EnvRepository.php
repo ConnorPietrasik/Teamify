@@ -119,4 +119,15 @@ final class EnvRepository {
 
         return $user;
     }
+
+    //Returns the IDs of all teams in the environment
+    public function getAllEnvTeamIDs(int $env_id): array {
+        $query = 'SELECT team_id FROM team WHERE env_id = :id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('id', $env_id);
+        $statement->execute();
+        $teams = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
+
+        return $teams;
+    }
 }

@@ -82,6 +82,20 @@ class TeamTest extends TestCase{
         $this->assertStringContainsString('testTag', $result);
         $this->assertStringContainsString('being very good at testing', $result);
     }
+    
+    //Gets all the teams from the default environment
+    public function testGetEnvTeams(): void {
+        $request = $this->createRequest('GET', '/env/1/teams');
+        $response = $this->getAppInstance()->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertStringContainsString('testTeamUPDATED', $result);
+        $this->assertStringContainsString('this is a test', $result);
+        $this->assertStringContainsString('testTag', $result);
+        $this->assertStringContainsString('being very good at testing', $result);
+    }
 
     //Successfully deletes the created team
     /**
