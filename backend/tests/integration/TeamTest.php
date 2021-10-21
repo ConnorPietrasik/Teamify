@@ -108,14 +108,16 @@ class TeamTest extends TestCase{
         ];
         $req = $this->createRequest('POST', '/register');
         $request = $req->withParsedBody($params);
-        $this->getAppInstance()->handle($request);
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     //Creates a new user and requests to join the new team
     /**
      * @depends testCreateTeam
      */
-    public function testRequestJoin($team_id): void {
+    public function testRequestJoin($team_id): int {
         $params = [
             'message' => 'this is a test',
         ];
@@ -124,6 +126,8 @@ class TeamTest extends TestCase{
         $response = $this->getAppInstance()->handle($request);
 
         $this->assertEquals(200, $response->getStatusCode());
+
+        return $team_id;
     }
 
     //Checks that the request went through
