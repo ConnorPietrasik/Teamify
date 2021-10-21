@@ -28,7 +28,7 @@ class Home extends React.Component{
           },
     }).then(
         // change page display
-        this.props.updateUserLoginInfo("", -1) // resetting user_id will make parent App render Login instead of Home
+        this.props.updateUserLoginInfo(-1) // resetting user_id will make parent App render Login instead of Home
     ).catch(console.error);
   }
 

@@ -56,7 +56,7 @@ class Login extends React.Component {
           // log in if sucessful
           if (data.status !== 'error') {
             console.log("login ok");
-            this.props.updateUserLoginInfo(username, data.user_id);  // send log in info to parent component, go to home screen
+            this.props.updateUserLoginInfo(data.user_id);  // send log in info to parent component, go to home screen
           }
         }).catch(console.error);
   }
@@ -102,7 +102,7 @@ class Login extends React.Component {
 
     // redirect to home page
     this.setState({ username: tokenDecoded.email }); // set username
-    this.props.updateUserLoginInfo(this.state.username);
+    this.props.updateUserLoginInfo(4);
   }
 
   render() {

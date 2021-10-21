@@ -10,15 +10,13 @@ class App extends React.Component{
     super(props);
     this.state = {
       // no user logged in yet
-      username: "",
       userId: -1,
     };
   }
 
   // updates user info and logged in status after user logs in / out
-  updateUserInfo = (username, id) => {
+  updateUserInfo = (id) => {
       this.setState({
-        username: username,
         userId: id,
       });
   };
