@@ -191,4 +191,15 @@ final class TeamRepository {
 
         return (!$team) ? -1 : $team;
     }
+
+    //Adds the request to join the specified team
+    public function addTeamRequest(int $team_id, int $user_id, string $message): void {
+        $query = 'INSERT INTO team_request (team_id, user_id, status, message) VALUES (:team_id, :user_id, 0, :message)';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+        $statement->bindValue('user_id', $user_id);
+        $statement->bindValue('message', $message ?? null);
+
+        $statement->execute();
+    }
 }

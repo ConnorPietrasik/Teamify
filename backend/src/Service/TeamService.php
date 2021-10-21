@@ -69,4 +69,13 @@ final class TeamService {
     public function getTeamMemberLevel(int $team_id, int $user_id): int {
         return $this->teamRepository->getMemberStatus($team_id, $user_id);
     }
+
+    //Adds the team request
+    public function requestJoinTeam(int $team_id, int $user_id, string $message): void {
+        $env_id = $this->teamRepository->getTeamEnvironmentID($team_id);
+
+        if ($this->teamRepository->getEnvUserTeam($env_id, $user_id) != -1)
+            throw new TeamException("User already in a team for this environment", 409);
+        $this->teamRepository->addTeamRequest($team_id, $user_id, $message);
+    }
 }
