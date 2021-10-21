@@ -20,7 +20,7 @@ class TeamAuthMemberMiddleware {
         
         $team_id = (int) RouteContext::fromRequest($request)->getRoute()->getArgument('team_id');
 
-        if (!isset($_SESSION['teams'][$team_id]) throw new TeamException('User not a member of team', 401);
+        if (!isset($_SESSION['teams'][$team_id])) throw new TeamException('User not a member of team', 401);
 
         $response = $handler->handle($request);
         return $response;

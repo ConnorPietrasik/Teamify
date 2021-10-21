@@ -21,9 +21,9 @@ $app->get('/env/{env_id}/teams', App\Controller\Environment\GetAllTeams::class);
 $app->get('/team/{team_id}', App\Controller\Team\GetTeam::class);
 
 //Routes that require team membership
-// $app->group('', function (RouteCollectorProxy $group){
-//     $group->get('/team/{team_id}/requests', App\Controller\Team\GetRequests::class);
-// })->add(new TeamAuthMemberMiddleware);
+$app->group('', function (RouteCollectorProxy $group){
+    $group->get('/team/{team_id}/requests', App\Controller\Team\GetRequests::class);
+})->add(new TeamAuthMemberMiddleware);
 
 //Routes that require just user authentication
 $app->group('', function (RouteCollectorProxy $group){
