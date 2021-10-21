@@ -13,7 +13,7 @@ final class RequestJoin extends Base {
     public function __invoke(Request $request, Response $response, array $args): Response {
         $input = (array) $request->getParsedBody();
 
-        $this->getTeamService()->requestJoinTeam((int) args['team_id'], $_SESSION['user_id'], $input['message'] ?? null);
+        $this->getTeamService()->requestJoinTeam((int) $args['team_id'], $_SESSION['user_id'], $input['message'] ?? null);
         return JsonResponse::withJson($response, '', 200);
     }
 }
