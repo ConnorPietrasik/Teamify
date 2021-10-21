@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 use Slim\Routing\RouteCollectorProxy;
 use App\Controller\Auth\AuthMiddleware;
-use App\Controller\Team\TeamAuthMiddleware;
+use App\Controller\Team\TeamAuthAdminMiddleware;
+use App\Controller\Team\TeamAuthMemberMiddleware;
 
 $app->get('/', 'App\Controller\Home:getHelp');
 $app->get('/status', 'App\Controller\Home:getStatus');
@@ -18,6 +19,11 @@ $app->get('/env/{env_id}/user', App\Controller\Environment\getAllEnvUsers::class
 $app->get('/env/{env_id}/user/{user_id}', App\Controller\Environment\GetEnvUser::class);
 $app->get('/env/{env_id}/teams', App\Controller\Environment\GetAllTeams::class);
 $app->get('/team/{team_id}', App\Controller\Team\GetTeam::class);
+
+//Routes that require team membership
+$app->group('', function (RouteCollectorProxy $group){
+    $group->get('/team/{team_id}/requests', App\Controller\Team\GetRequests::class);
+})->add(new TeamAuthMemberMiddleware);
 
 //Routes that require just user authentication
 $app->group('', function (RouteCollectorProxy $group){
@@ -34,4 +40,4 @@ $app->group('', function (RouteCollectorProxy $group){
 $app->group('', function (RouteCollectorProxy $group){
     $group->put('/team/{team_id}', App\Controller\Team\UpdateTeam::class);
     $group->delete('/team/{team_id}', App\Controller\Team\DeleteTeam::class);
-})->add(new TeamAuthMiddleware);
+})->add(new TeamAuthAdminMiddleware);

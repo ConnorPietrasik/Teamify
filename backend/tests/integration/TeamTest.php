@@ -97,6 +97,60 @@ class TeamTest extends TestCase{
         $this->assertStringContainsString('being very good at testing', $result);
     }
 
+    //Creates a second user to make the request, out here so the delete gets called even if request fails
+    public function testCreateSecondUser(): void {
+        $request = $this->createRequest('POST', '/logout');
+        $this->getAppInstance()->handle($request);
+
+        $params = [
+            'username' => 'testUser2',
+            'password' => 'test'
+        ];
+        $req = $this->createRequest('POST', '/register');
+        $request = $req->withParsedBody($params);
+        $this->getAppInstance()->handle($request);
+    }
+
+    //Creates a new user and requests to join the new team
+    /**
+     * @depends testCreateTeam
+     */
+    public function testRequestJoin($team_id): void {
+        $params = [
+            'message' => 'this is a test',
+        ];
+        $req = $this->createRequest('POST', '/team/'.$team_id.'/request');
+        $request = $req->withParsedBody($params);
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    //Checks that the request went through
+    /**
+     * @depends testRequestJoin
+     */
+    public function testGetTeamRequests($team_id): void {
+        $request = $this->createRequest('POST', '/logout');
+        $this->getAppInstance()->handle($request);
+
+        $params = [
+            'username' => 'testUser',
+            'password' => 'test'
+        ];
+        $req = $this->createRequest('POST', '/login');
+        $request = $req->withParsedBody($params);
+        $this->getAppInstance()->handle($request);
+
+        $request = $this->createRequest('GET', '/team/'.$team_id.'/requests');
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $result = (string) $response->getBody();
+        $this->assertStringContainsString('test', $result);
+    }
+
     //Successfully deletes the created team
     /**
      * @depends testCreateTeam
@@ -126,6 +180,25 @@ class TeamTest extends TestCase{
      * @depends testRegisterPass
      */
     public function testDeleteUser(): void {
+        $request = $this->createRequest('DELETE', '/user');
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    //Successfully deletes the second user
+    /**
+     * @depends testCreateSecondUser
+     */
+    public function testDeleteSecondUser(): void {
+        $params = [
+            'username' => 'testUser2',
+            'password' => 'test'
+        ];
+        $req = $this->createRequest('POST', '/login');
+        $request = $req->withParsedBody($params);
+        $this->getAppInstance()->handle($request);
+
         $request = $this->createRequest('DELETE', '/user');
         $response = $this->getAppInstance()->handle($request);
 

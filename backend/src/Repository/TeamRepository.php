@@ -201,5 +201,16 @@ final class TeamRepository {
         $statement->bindValue('message', $message ?? null);
 
         $statement->execute();
+    } 
+
+    //Returns all the requests to join the given team
+    public function getTeamRequests(int $team_id): array {
+        $query = 'SELECT user_id, status, message FROM team_request WHERE team_id = :team_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+
+        $statement->execute();
+        $tags = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return $tags;
     }
 }
