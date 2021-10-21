@@ -14,7 +14,7 @@ final class GetAllTeams extends Base {
 
         $ids = $this->getEnvService()->getAllTeamIDs((int) $args['env_id']);
         $teams = array();
-        foreach $ids as $id $teams[] = $this->getTeamService()->getTeam($id);
+        foreach ($ids as $id) $teams[] = $this->getTeamService()->getTeam($id);
 
         return JsonResponse::withJson($response, (string) json_encode($teams), 200);
     }
