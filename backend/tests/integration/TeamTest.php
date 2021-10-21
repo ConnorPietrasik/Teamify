@@ -110,7 +110,7 @@ class TeamTest extends TestCase{
         $request = $req->withParsedBody($params);
         $response = $this->getAppInstance()->handle($request);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(201, $response->getStatusCode());
     }
 
     //Creates a new user and requests to join the new team
@@ -201,7 +201,8 @@ class TeamTest extends TestCase{
         ];
         $req = $this->createRequest('POST', '/login');
         $request = $req->withParsedBody($params);
-        $this->getAppInstance()->handle($request);
+        $response = $this->getAppInstance()->handle($request);
+        $this->assertEquals(200, $response->getStatusCose());
 
         $request = $this->createRequest('DELETE', '/user');
         $response = $this->getAppInstance()->handle($request);
