@@ -11,9 +11,9 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 final class RequestJoin extends Base {
     public function __invoke(Request $request, Response $response, array $args): Response {
-        $message = ((array) $request->getParsedBody())['message'] ?? null;
+        $input = (array) $request->getParsedBody();
 
-        $this->getTeamService()->requestJoinTeam((int) args['team_id'], $_SESSION['user_id'], $message);
+        $this->getTeamService()->requestJoinTeam((int) args['team_id'], $_SESSION['user_id'], $input['message'] ?? null);
         return JsonResponse::withJson($response, '', 200);
     }
 }
