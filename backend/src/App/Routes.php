@@ -40,4 +40,5 @@ $app->group('', function (RouteCollectorProxy $group){
 $app->group('', function (RouteCollectorProxy $group){
     $group->put('/team/{team_id}', App\Controller\Team\UpdateTeam::class);
     $group->delete('/team/{team_id}', App\Controller\Team\DeleteTeam::class);
+    $group->post('/team/{team_id}/accept/{user_id}', App\Controller\Team\AcceptRequest::class);
 })->add(new TeamAuthAdminMiddleware);
