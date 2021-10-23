@@ -213,4 +213,15 @@ final class TeamRepository {
         $tags = $statement->fetchAll(\PDO::FETCH_ASSOC);
         return $tags;
     }
+
+    //Updates the team request with the given status
+    public function updateTeamRequest(int $team_id, int $user_id, int $status): void {
+        $query = 'UPDATE team_request SET status = :status WHERE team_id = :team_id AND user_id = :user_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+        $statement->bindValue('user_id', $user_id);
+        $statement->bindValue('status', $status);
+
+        $statement->execute();
+    }
 }

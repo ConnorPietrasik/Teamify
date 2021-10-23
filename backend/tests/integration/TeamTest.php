@@ -117,7 +117,7 @@ class TeamTest extends TestCase{
     /**
      * @depends testCreateTeam
      */
-    public function testRequestJoin($team_id): int {
+    public function testRequestJoin($team_id): array {
         $params = [
             'message' => 'this is a test',
         ];
@@ -127,14 +127,16 @@ class TeamTest extends TestCase{
 
         $this->assertEquals(200, $response->getStatusCode());
 
-        return $team_id;
+        $ret = ['team_id' => $team_id, 'user_id' => $_SESSION['user_id']];
+
+        return $ret;
     }
 
     //Checks that the request went through
     /**
      * @depends testRequestJoin
      */
-    public function testGetTeamRequests($team_id): void {
+    public function testGetTeamRequests($info): void {
         $request = $this->createRequest('POST', '/logout');
         $this->getAppInstance()->handle($request);
 
@@ -146,13 +148,40 @@ class TeamTest extends TestCase{
         $request = $req->withParsedBody($params);
         $this->getAppInstance()->handle($request);
 
-        $request = $this->createRequest('GET', '/team/'.$team_id.'/requests');
+        $request = $this->createRequest('GET', '/team/'.$info['team_id'].'/requests');
         $response = $this->getAppInstance()->handle($request);
 
         $this->assertEquals(200, $response->getStatusCode());
 
         $result = (string) $response->getBody();
         $this->assertStringContainsString('test', $result);
+    }
+    
+    //Accepts the user into the team
+    /** 
+     * @depends testRequestJoin
+     */
+    public function testAcceptRequest($info): array {
+        $request = $this->createRequest('POST', '/team/'.$info['team_id'].'/accept/'.$info['user_id']);
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        return $info;
+    }
+
+    //Makes sure the user is now a team member
+    /**
+     * @depends testAcceptRequest
+     */
+    public function testCheckAccepted($info): void {
+        $request = $this->createRequest('GET', '/team/'.$info['team_id']);
+        $response = $this->getAppInstance()->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertStringContainsString(''.$info['user_id'], $result);
     }
 
     //Successfully deletes the created team

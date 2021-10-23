@@ -83,4 +83,10 @@ final class TeamService {
     public function getTeamRequests(int $team_id): array {
         return $this->teamRepository->getTeamRequests($team_id);
     }
+
+    //Accepts the given user into the given team
+    public function acceptRequest(int $team_id, int $user_id): void {
+        $this->teamRepository->updateTeamRequest($team_id, $user_id, 1);
+        $this->teamRepository->addMember($team_id, $user_id, 0);
+    }
 }
