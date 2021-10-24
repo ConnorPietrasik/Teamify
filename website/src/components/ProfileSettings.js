@@ -29,7 +29,7 @@ export default function ProfileSettings(props) {
         username: username,
         bio: bio,
       })
-    }).then(res => res.json())
+    }).then()
       .then(data => {
           if (data)
             console.log(data);
