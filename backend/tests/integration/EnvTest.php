@@ -100,6 +100,24 @@ class EnvTest extends TestCase{
         $this->assertStringContainsString('water', $result);
     }
 
+    //Tests if it returns by skill
+    public function testGetOpenBySkill(): void {
+        $params = [
+            'skills' =>   ['this is a skill', 'this is a second skill']
+        ];
+        $req = $this->createRequest('GET', '/env/1/open/skills');
+        $request = $req->withParsedBody($params);
+        $response = $this->getAppInstance()->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertStringContainsString('this is a skill', $result);
+        $this->assertStringContainsString('this is a second skill', $result);
+        $this->assertStringContainsString('1:00AM-3:00AM', $result);
+        $this->assertStringContainsString('water', $result);
+    }
+
     //Successfully deletes the user
     public function testDelete(): void {
         $request = $this->createRequest('DELETE', '/user');

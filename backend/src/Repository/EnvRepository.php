@@ -28,6 +28,22 @@ final class EnvRepository {
         return $users;
     }
 
+    //Returns all the IDs open that match one of the given skills
+    public function getOpenSkillIDs(int $env_id, array $skills): array {
+        $query = 'SELECT DISTINCT user_id FROM skill WHERE env_id = ? AND user_id IN (SELECT user_id FROM env_open WHERE env_id = ?) AND skill IN (?';
+        $query .= str_repeat(', ?', count($skills) - 1);
+        $query .= ')';
+        $statement = $this->getDb()->prepare($query);
+
+        $args[] = $env_id;
+        foreach ($skills as $skill) $args[] = $skill;
+
+        $statement->execute($args);
+        $users = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
+
+        return $users;
+    }
+
     //Returns all the open users in a given environment
     public function getOpenIDs(int $env_id): array {
         $query = 'SELECT user_id FROM env_open WHERE env_id = :id';

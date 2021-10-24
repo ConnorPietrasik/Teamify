@@ -24,6 +24,16 @@ final class EnvService {
         return $users;
     }
 
+    //Returns all open users that match at least one skill
+    public function getOpenUsersBySkill(int $env_id, array $skills): array {
+        $user_ids = $this->envRepository->getOpenSkillIDs($env_id, $skills);
+        $users = [];
+        foreach ($user_ids as $user_id){
+            $users[] = $this->getEnvUser($env_id, $user_id);
+        }
+        return $users;
+    }
+
     //Returns a list of all open users for that environment
     public function getOpenIDs(int $env_id): array {
         $user_ids = $this->envRepository->getOpenIDs($env_id);
