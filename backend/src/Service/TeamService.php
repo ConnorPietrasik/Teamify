@@ -89,4 +89,9 @@ final class TeamService {
         $this->teamRepository->updateTeamRequest($team_id, $user_id, 1);
         $this->teamRepository->addMember($team_id, $user_id, 0);
     }
+
+    //Denies the user's request to join
+    public function denyRequest(int $team_id, int $user_id): void {
+        $this->teamRepository->updateTeamRequest($team_id, $user_id, 2);
+    }
 }

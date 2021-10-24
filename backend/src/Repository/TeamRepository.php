@@ -223,5 +223,7 @@ final class TeamRepository {
         $statement->bindValue('status', $status);
 
         $statement->execute();
+
+        if ($statement->rowCount() < 1) throw new TeamException("No matching request found", 409);
     }
 }
