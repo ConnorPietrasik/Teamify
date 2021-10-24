@@ -24,6 +24,16 @@ export default function TeamsList(props) {
                 setMyTeam(teamData);
             }).catch(console.error);
         }
+
+        // show available teams
+        else {
+            fetch(`https://api.teamify.pietrasik.top/env/1/teams`)
+              .then(res => res.json())
+              .then(teamData => {
+                  if (teamData.length > 0)
+                    setOpenTeams(teamData);
+              }).catch(console.error);
+        }
     }, [props.myTeamId]); // runs when parameter is received
 
     // makes new team with user as first team member, saves to API
