@@ -105,7 +105,7 @@ class EnvTest extends TestCase{
         $params = [
             'skills' =>   ['this is a skill', 'this is a second skill']
         ];
-        $req = $this->createRequest('GET', '/env/1/open/skill');
+        $req = $this->createRequest('POST', '/env/1/open/skill');
         $request = $req->withParsedBody($params);
         $response = $this->getAppInstance()->handle($request);
 
