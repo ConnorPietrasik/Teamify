@@ -36,6 +36,7 @@ final class EnvRepository {
         $statement = $this->getDb()->prepare($query);
 
         $args[] = $env_id;
+        $args[] = $env_id;
         foreach ($skills as $skill) $args[] = $skill;
 
         $statement->execute($args);
