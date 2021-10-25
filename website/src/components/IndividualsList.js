@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Home.css';
 import IndividualCard from './IndividualCard.js';
+import CandidateCard from './CandidateCard.js';
 
 export default function IndividualsList(props) {
     // if user wants to invite more team members on team's behalf, we need to know which team user is on
@@ -59,6 +60,17 @@ export default function IndividualsList(props) {
         <div>
             <h2>Find Team Members</h2>
 
+            {candidates.length > 0 && myTeamId ?
+              <>
+                <h3>People Requesting to Join</h3>
+                <div className="IndividualsList" >
+                  {candidates.map((candidate) =>
+                    <CandidateCard key={candidate} candidate={candidate}
+                        />)}
+                  </div>
+                </>
+            : <></>}
+
             {invited.length > 0 && myTeamId ?
               <>
                 <h3>People Invited </h3>
@@ -66,17 +78,6 @@ export default function IndividualsList(props) {
                   { /* list of people */
                     invited.map((individual) =>
                     <IndividualCard key={individual} individual={individual} type="invited"
-                        />)}
-                  </div>
-                </>
-            : <></>}
-
-            {candidates.length > 0 && myTeamId ?
-              <>
-                <h3>People Requesting to Join</h3>
-                <div className="IndividualsList" >
-                  {candidates.map((candidate) =>
-                    <IndividualCard key={candidate} individual={candidate} type="candidate"
                         />)}
                   </div>
                 </>
