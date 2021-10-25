@@ -65,7 +65,7 @@ export default function IndividualsList(props) {
                 <h3>People Requesting to Join</h3>
                 <div className="IndividualsList" >
                   {candidates.map((candidate) =>
-                    <CandidateCard key={candidate} candidate={candidate}
+                    <CandidateCard key={candidate} candidate={candidate} myTeamId={myTeamId}
                         />)}
                   </div>
                 </>

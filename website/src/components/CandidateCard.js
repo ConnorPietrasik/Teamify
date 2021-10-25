@@ -11,9 +11,29 @@ export default function CandidateCard(props) {
       </div>
       <div>
           <button className="inviteBtn colorFadeEffect" onClick = {() => {
+              // accept this candidate into team of user currently logged in, if user is leader
+              fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}/accept/${props.candidate.user_id}`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                }).then()
+                .then(data => {
+                }).catch(console.error);
           }}>Accept</button>
 
           <button className="inviteBtn colorFadeEffect" onClick = {() => {
+              // reject this candidate
+              fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}/deny/${props.candidate.user_id}`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                }).then()
+                .then(data => {
+                }).catch(console.error);
           }}>Reject</button>
       </div>
     </div>
