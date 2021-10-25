@@ -16,7 +16,19 @@ export default function IndividualCard(props) {
               // tells Individuals List to remove this card
               props.updateList(props.individual);
           }}>Invite</button>
-          : <></>}
+          :
+          <>
+            { /* is candidate who applied to team */
+              props.type === "candidate" ?
+              <>
+                  <button className="inviteBtn colorFadeEffect" onClick = {() => {
+                  }}>Accept</button>
+
+                  <button className="inviteBtn colorFadeEffect" onClick = {() => {
+                  }}>Reject</button>
+              </>
+              : <></>}
+          </>}
       </div>
     </div>
   );

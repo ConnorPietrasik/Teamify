@@ -7,13 +7,29 @@ export default function IndividualsList(props) {
     const [myTeamId, setMyTeamId] = useState(null);
 
     // list of people that will be displayed
-    const [candidates, setCandidate] = useState([]); // people who requested to join my team
+    const [candidates, setCandidates] = useState([]); // people who requested to join my team
     const [invited, setInvited] = useState([]); // people my team invited
     const [openIndividuals, setOpenIndividuals] = useState([]);
 
     useEffect(() => { // initialize based on parameter values
-      setMyTeamId(props.myTeamId);
-    }, [props]); // runs when parameter is received
+      if (props.myTeamId != null) {
+          setMyTeamId(props.myTeamId);
+
+          // get all requests from individuals who want to join my team
+          fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}/requests`, {
+              method: 'GET',
+              credentials: 'include',
+              })
+              .then(res => res.json())
+              .then(candidateData => {
+                  // if no error code returned, then successfully got data
+                  if (!candidateData.code) {
+                      setCandidates(candidateData);
+                  } else
+                    console.log(candidateData.message);
+              }).catch(console.error);
+      }
+    }, [props.myTeamId]); // runs when parameter is received
 
     useEffect(() => { // runs once at beginning
         // get open Individuals
@@ -50,6 +66,17 @@ export default function IndividualsList(props) {
                   { /* list of people */
                     invited.map((individual) =>
                     <IndividualCard key={individual} individual={individual} type="invited"
+                        />)}
+                  </div>
+                </>
+            : <></>}
+
+            {candidates.length > 0 && myTeamId ?
+              <>
+                <h3>People Requesting to Join</h3>
+                <div className="IndividualsList" >
+                  {candidates.map((candidate) =>
+                    <IndividualCard key={candidate} individual={candidate} type="candidate"
                         />)}
                   </div>
                 </>
