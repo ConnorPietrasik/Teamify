@@ -7,16 +7,22 @@ export default function TeamCard(props) {
   const [members, setMembers] = useState([]);
 
   useEffect(() => {
+      console.log("team: ");
+      console.log(props.team);
+
+      console.log("team members: ");
+      console.log(props.team.members);
+
       // get team members from parameter
       setMembers(props.team.members);
-  }, [props.team]);
+  }, [props.team, props.team.members]);
 
   return (
     <div className="IndividualCard">
         <h3>{props.team.name}</h3>
 
         { /* show list of team members */
-            members.length > 0 ?
+            members && members.length > 0 ?
             <div>
                 <h4>Members:</h4>
                 {members.map((member) => <p>{member.user_id}</p>)}
