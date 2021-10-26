@@ -39,6 +39,11 @@ final class TeamService {
         return $team;
     }
 
+    //Returns the environment ID for the team
+    public function getTeamEnvID(int $team_id): int {
+        return $this->teamRepository->getTeamEnvironmentID($team_id);
+    }
+
     //Updates the team with given info
     public function updateTeam(int $team_id, array $input): void {
         $team = $this->teamRepository->getTeam($team_id);
