@@ -12,7 +12,13 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 final class GetRequests extends Base {
     public function __invoke(Request $request, Response $response, array $args): Response {
 
-        $team = $this->getTeamService()->getTeamRequests((int) $args['team_id']);
-        return JsonResponse::withJson($response, (string) json_encode($team), 200);
+        $requests = $this->getTeamService()->getTeamRequests((int) $args['team_id']);
+        $env_id = $this->getTeamService()->getTeamEnvironmentID((int) $args['team_id']);
+        foreach ($requests as &$req) {
+            $req['user'] = $this->getEnvService()->getEnvUser($env_id, $req['user_id']);
+            unset($req['user_id']);
+        }
+
+        return JsonResponse::withJson($response, (string) json_encode($requests), 200);
     }
 }
