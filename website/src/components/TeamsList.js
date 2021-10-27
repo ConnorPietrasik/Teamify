@@ -34,7 +34,7 @@ export default function TeamsList(props) {
                     setOpenTeams(teamData);
               }).catch(console.error);
         }
-    }, [props.myTeamId]); // runs when parameter is received
+    }, [props.myTeamId, props.refreshTeamCard]); // runs when parameter is received
 
     // makes new team with user as first team member, saves to API
     function createTeam(teamName) {

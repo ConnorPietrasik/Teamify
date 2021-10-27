@@ -12,10 +12,12 @@ class Home extends React.Component{
       // gets user info from parent App component
       user: {},
       teamId: null,
+      refreshTeamCard: false, // to notify child Team List component to refresh
     };
     this.logout = this.logout.bind(this);
     this.updateProfile = this.updateProfile.bind(this);
     this.updateTeam = this.updateTeam.bind(this);
+    this.refreshTeamCard = this.refreshTeamCard.bind(this);
   }
 
   logout() {
@@ -71,9 +73,14 @@ class Home extends React.Component{
     });
   }
 
-  render() {
-    const individuals = ["alice", "bob", "trudy", "belle", "harry"];  // list of people available to team up
+  refreshTeamCard() {
+    this.setState({
+        // when value changed, Team Card component would be notified to refresh
+        refreshTeamCard: !this.state.refreshTeamCard,
+    });
+  }
 
+  render() {
     return (
       <div className="Home">
         <div>
@@ -90,8 +97,18 @@ class Home extends React.Component{
           <button onClick={this.logout}>Log Out </button>
         </div>
 
-        <TeamsList updateTeam={this.updateTeam} myTeamId={this.state.teamId}/>
-        <IndividualsList openIndividuals={individuals}
+        <TeamsList updateTeam={this.updateTeam} myTeamId={this.state.teamId}
+
+            /* Team List listens to this state for changes
+                when change is detected, Team List will refresh Team Card */
+            refreshTeamCard={this.state.refreshTeamCard}
+            />
+
+        <IndividualsList
+            /* Individuals List may tell Home that Team Card needs to be refreshed
+                (when user accepts a candidate, candidate needs to be added to team) */
+            refreshTeamCard={this.refreshTeamCard}
+
             myTeamId={this.state.teamId} /* user (as team member) may look for individuals on behalf of team */
             />
 

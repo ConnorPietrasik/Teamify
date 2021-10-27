@@ -46,7 +46,24 @@ export default function IndividualsList(props) {
           }).catch(console.error);
     }, []);
 
-    // update list of people to be displayed
+    // update list after team leader accepted candidate
+    function updateAfterAccepting(acceptedCandidate) {
+        // remove from list of candidates
+        setCandidates(candidates.filter(candidate => candidate !== acceptedCandidate));
+
+        // add to list of team members on team card
+        props.refreshTeamCard();
+    }
+
+    function updateAfterRejecting(rejectedCandidate) {
+        // remove from list of candidates
+        setCandidates(candidates.filter(candidate => candidate !== rejectedCandidate));
+
+        // add to list of open individuals
+        openIndividuals.push(rejectedCandidate.user);
+    }
+
+    // update list of people to be displayed after user invites an individual to user's team
     function updateAfterInviting(invitedPerson) {
         // remove an individual from list and update state
         const updatedAvailableIndividuals = openIndividuals.filter(otherUser => otherUser !== invitedPerson);
@@ -65,7 +82,9 @@ export default function IndividualsList(props) {
                 <h3>People Requesting to Join</h3>
                 <div className="IndividualsList" >
                   {candidates.map((candidate) =>
-                    <CandidateCard key={candidate} candidate={candidate} myTeamId={myTeamId}
+                    <CandidateCard key={candidate} candidateData={candidate} myTeamId={myTeamId}
+                        accept={updateAfterAccepting}
+                        reject={updateAfterRejecting}
                         />)}
                   </div>
                 </>
