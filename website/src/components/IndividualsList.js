@@ -30,7 +30,9 @@ export default function IndividualsList(props) {
                     console.log(candidateData.message);
               }).catch(console.error);
       }
+      }, [props.myTeamId]);
 
+      useEffect(() => {
         // get open Individuals
         fetch(`https://api.teamify.pietrasik.top/env/1/open`)
           .then(res => res.json())
@@ -48,7 +50,7 @@ export default function IndividualsList(props) {
               }
           }).catch(console.error);
 
-    }, [props.myTeamId]);
+    }, [candidates]);
 
     // update list after team leader accepted candidate
     function updateAfterAccepting(acceptedCandidate) {
