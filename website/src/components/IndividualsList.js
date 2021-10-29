@@ -30,9 +30,7 @@ export default function IndividualsList(props) {
                     console.log(candidateData.message);
               }).catch(console.error);
       }
-    }, [props.myTeamId]); // runs when parameter is received
 
-    useEffect(() => { // runs once at beginning
         // get open Individuals
         fetch(`https://api.teamify.pietrasik.top/env/1/open`)
           .then(res => res.json())
@@ -41,10 +39,16 @@ export default function IndividualsList(props) {
                 console.log(listOpenIndividuals);
 
               if(listOpenIndividuals.length > 0) { // if there are available people, set their data to be displayed
-                  setOpenIndividuals(listOpenIndividuals);
+                  setOpenIndividuals( // get open users who haven't applied to current user's team
+                      listOpenIndividuals.filter(openUser => // get open users who are not candidates
+                          candidates.filter(candidate => // if candidate, will return array with candidate data
+                             candidate.user.user_id === openUser.user_id
+                         ).length === 0) // if not candidate, empty [] returned
+                      );
               }
           }).catch(console.error);
-    }, []);
+
+    }, [props.myTeamId]);
 
     // update list after team leader accepted candidate
     function updateAfterAccepting(acceptedCandidate) {
