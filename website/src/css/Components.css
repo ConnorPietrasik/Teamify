@@ -9,16 +9,11 @@
   transition: .2s ease-in-out;
 }
 
-/* card that allows user to make a new team */
-#createTeamCard:hover {
-    cursor: pointer;
-}
-
 /* form not visible unless user hovers over card*/
-#createTeamCard form {
+.showInnerElementOnHover form {
     height:0;
     visibility: hidden;
-} #createTeamCard:hover form {
+} .showInnerElementOnHover:hover form {
     height:100%;
     visibility: visible;
 }

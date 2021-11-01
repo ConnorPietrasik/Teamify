@@ -130,7 +130,7 @@ function CreateTeamCard(props) {
     const[newTeamName, setNewTeamName] = useState('');
 
     return (
-        <div id="createTeamCard" className="IndividualCard">
+        <div className="IndividualCard showInnerElementOnHover">
             Create a Team
             <form>
                 <LineInput placeholder="team name" stateValue={newTeamName} stateSetter={setNewTeamName}/>

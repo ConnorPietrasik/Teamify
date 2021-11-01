@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Home.css';
 import '../css/Components.css';
+import LineInput from './Input.js';
 
 // shows info for one team
 export default function TeamCard(props) {
   const [members, setMembers] = useState([]);
 
+  const[messageToTeam, setMessageToTeam] = useState(''); // a message user can send to team upon applying
+
   useEffect(() => {
-      console.log("team: ");
-      console.log(props.team);
-
-      console.log("team members: ");
-      console.log(props.team.members);
-
       // get team members from parameter
       setMembers(props.team.members);
   }, [props.team, props.team.members]);
 
   return (
-    <div className="IndividualCard">
+    <div className="IndividualCard showInnerElementOnHover">
         <h3>{props.team.name}</h3>
 
         { /* show list of team members */
@@ -32,27 +29,33 @@ export default function TeamCard(props) {
 
         { /* Request to Join button appears if team is open and user hasn't requested to join yet */
           props.status === 'open' ?
-            <button className="inviteBtn colorFadeEffect" onClick = {() => {
-                // send request for currently logged in user to join this team
-                fetch(`https://api.teamify.pietrasik.top/team/${props.team.team_id}/request`, {
-                  method: 'POST',
-                  credentials: 'include',
-                  headers: {
-                    'Content-Type': 'application/json'
-                  },
-                  body: JSON.stringify({
-                    message: "can i join?",
-                  })
-                }).then()
-                  .then(data => {
-                    if (data)
-                      console.log(data);
+            <div>
+                <form>
+                    <LineInput placeholder={`message ${props.team.name}`} stateValue={messageToTeam} stateSetter={setMessageToTeam}/>
+                </form>
 
-                  }).catch(console.error);
+                <button className="inviteBtn colorFadeEffect" onClick = {() => {
+                    // send request for currently logged in user to join this team
+                    fetch(`https://api.teamify.pietrasik.top/team/${props.team.team_id}/request`, {
+                      method: 'POST',
+                      credentials: 'include',
+                      headers: {
+                        'Content-Type': 'application/json'
+                      },
+                      body: JSON.stringify({
+                        message: messageToTeam,
+                      })
+                    }).then()
+                      .then(data => {
+                        if (data)
+                          console.log(data);
 
-                // move team card from Open Teams List to Requests Sent List
-                props.updateSentRequestsList(props.team);
-            }}>Request to Join</button>
+                      }).catch(console.error);
+
+                    // move team card from Open Teams List to Requests Sent List
+                    props.updateSentRequestsList(props.team);
+                }}>Request to Join</button>
+            </div>
             : <></>}
 
     </div>
