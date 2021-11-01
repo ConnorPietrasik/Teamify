@@ -10,6 +10,7 @@ export default function CandidateCard(props) {
         <p>{props.candidateData.user.username}</p>
       </div>
       <div>
+          <p>{props.candidateData.message ? props.candidateData.message : ''}</p>
           <button className="inviteBtn colorFadeEffect" onClick = {() => {
               // accept this candidate into team of user currently logged in, if user is leader
               fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}/accept/${props.candidateData.user.user_id}`, {
