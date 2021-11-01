@@ -11,7 +11,7 @@ export default function LineInput(props) {
     }
 
     return(
-        <input type="text" value={props.stateValue}
+        <input type="text" value={props.stateValue} placeholder={props.placeholder}
            onChange = {e => handleInputChange(e, props.stateSetter) }/>
     );
 }

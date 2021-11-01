@@ -85,7 +85,7 @@ class Home extends React.Component{
       <div className="Home">
         <div>
           <h1>Hello {this.state.user.username}</h1>
-          <p>{this.state.user.bio != null ? `About Me: ${this.state.user.bio}` : ''}</p>
+          <button onClick={this.logout}>Log Out </button>
           <ProfileSettings
             user={this.state.user} /* for user to see their current data and decide to change it */
 
@@ -94,7 +94,6 @@ class Home extends React.Component{
                 after user info gets updated in backend by Settings component  */
             updateProfile={this.updateProfile}
             />
-          <button onClick={this.logout}>Log Out </button>
         </div>
 
         <TeamsList updateTeam={this.updateTeam} myTeamId={this.state.teamId}
