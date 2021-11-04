@@ -186,7 +186,7 @@ final class TeamRepository {
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('user', $user_id);
         $statement->execute();
-        $user_team_ids = $statement->fetchColumn();
+        $user_team_ids = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
 
         $query = 'SELECT team_id FROM team WHERE env_id = :env AND team_id IN (:user_team_ids)';
         $statement = $this->getDb()->prepare($query);
