@@ -186,7 +186,7 @@ class TeamTest extends TestCase{
 
     //Makes sure the request was denied
     /**
-     * @depends testAcceptRequest
+     * @depends testDenyRequest
      */
     public function testCheckDenied($info): void {
         $request = $this->createRequest('GET', '/team/'.$info['team_id'].'/requests');
