@@ -77,9 +77,8 @@ final class TeamService {
 
     //Adds the team request
     public function requestJoinTeam(int $team_id, int $user_id, string $message = null): void {
-        $env_id = $this->teamRepository->getTeamEnvID($team_id);
-        if ($this->teamRepository->getEnvUserTeam($env_id, $user_id) != -1)
-            throw new TeamException("User already in a team for this environment", 409);
+        $errCheck = $this->teamRepository->getEnvUserTeam($this->teamRepository->getTeamEnvID($team_id), $user_id);
+        if ($errCheck != -1) throw new TeamException("User already in a team for this environment, team ID: ".$errCheck, 409);
 
         $this->teamRepository->addTeamRequest($team_id, $user_id, $message);
     }

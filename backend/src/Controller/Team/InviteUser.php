@@ -13,7 +13,7 @@ final class InviteUser extends Base {
     public function __invoke(Request $request, Response $response, array $args): Response {
         $input = (array) $request->getParsedBody();
 
-        $this->getTeamService()->inviteUserTeam((int) $args['team_id'], (int) $_SESSION['user_id'], $input['message'] ?? null);
+        $this->getTeamService()->inviteUserTeam((int) $args['team_id'], (int) $args['user_id'], $input['message'] ?? null);
         return JsonResponse::withJson($response, '', 200);
     }
 }
