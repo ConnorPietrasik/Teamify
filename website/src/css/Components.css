@@ -5,19 +5,15 @@
   border: 1px solid lightgrey;
 } .Card:hover { /* when hovered over */
   border: 1px solid transparent;
-  box-shadow: 0 5px 15px grey;
-}
-
-/* card that allows user to make a new team */
-#createTeamCard:hover {
-    cursor: pointer;
+  box-shadow: 0 7px 25px -10px grey;
+  transition: .2s ease-in-out;
 }
 
 /* form not visible unless user hovers over card*/
-#createTeamCard form {
+.showInnerElementOnHover form {
     height:0;
     visibility: hidden;
-} #createTeamCard:hover form {
+} .showInnerElementOnHover:hover form {
     height:100%;
     visibility: visible;
 }
