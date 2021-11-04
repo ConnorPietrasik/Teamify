@@ -182,10 +182,16 @@ final class TeamRepository {
 
     //Returns the team_id that matches the current user and environment, or -1 if it doesn't exist
     public function getEnvUserTeam(int $env_id, int $user_id): int {
-        $query = 'SELECT team_id FROM team WHERE env_id = :env AND team_id IN (SELECT team_id FROM team_member WHERE user_id = :user)';
+        $query = 'SELECT team_id FROM team_member WHERE user_id = :user';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('user', $user_id);
+        $statement->execute();
+        $user_team_ids = $statement->fetchColumn();
+
+        $query = 'SELECT team_id FROM team WHERE env_id = :env AND team_id IN :user_team_ids';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('env', $env_id);
-        $statement->bindParam('user', $user_id);
+        $statement->bindParam('user_team_ids', $user_team_ids);
         $statement->execute();
         $team = $statement->fetchColumn();
 
