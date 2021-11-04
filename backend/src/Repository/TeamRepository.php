@@ -229,7 +229,7 @@ final class TeamRepository {
 
     //Deletes the user's requests for the given teams
     public function deleteTeamRequestsByUserAndEnv(int $user_id, int $env_id): void {
-        $query = 'DELETE FROM team_request WHERE user_id = :user_id AND (status = 0 OR status = 1) AND team_id IN (SELECT team_id FROM team WHERE env_id = :env_id))';
+        $query = 'DELETE FROM team_request WHERE user_id = :user_id AND (status = 0 OR status = 1) AND team_id IN (SELECT team_id FROM team WHERE env_id = :env_id)';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('user_id', $user_id);
         $statement->bindParam('env_id', $env_id);
