@@ -204,6 +204,17 @@ final class UserRepository {
         $statement->execute();
     }
 
+    //Returns all the user's team requests
+    public function getUserTeamRequests(int $user_id): array {
+        $query = 'SELECT team_id, status, message FROM team_request WHERE user_id = :user_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('user_id', $user_id);
+
+        $statement->execute();
+        $requests = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return $requests;
+    }
+
     public function getAll(): array
     {
         $query = 'SELECT * FROM `user` ORDER BY `user_id`';

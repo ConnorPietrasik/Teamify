@@ -210,8 +210,8 @@ final class TeamRepository {
         $statement->bindParam('team_id', $team_id);
 
         $statement->execute();
-        $tags = $statement->fetchAll(\PDO::FETCH_ASSOC);
-        return $tags;
+        $requests = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return $requests;
     }
 
     //Updates the team request with the given status
@@ -225,5 +225,15 @@ final class TeamRepository {
         $statement->execute();
 
         if ($statement->rowCount() < 1) throw new TeamException("No matching request found", 409);
+    }
+
+    //Deletes the user's requests for the given teams
+    public function deleteOpenTeamRequestsByUser(int $user_id, array $team_ids): void {
+        $query = 'DELETE FROM team_request WHERE user_id = :user_id AND env_id = :env_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('user_id', $user_id);
+        $statement->bindParam('env_id', $env_id);
+
+        $statement->execute();
     }
 }

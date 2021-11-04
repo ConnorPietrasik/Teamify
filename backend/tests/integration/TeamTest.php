@@ -136,6 +136,20 @@ class TeamTest extends TestCase{
     /**
      * @depends testRequestJoin
      */
+    public function testGetRequests($info): void {
+        $request = $this->createRequest('GET', '/user/requests');
+        $response = $this->getAppInstance()->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertStringContainsString($info['team_id'], $result);
+    }
+
+    //Checks that the request went through
+    /**
+     * @depends testRequestJoin
+     */
     public function testGetTeamRequests($info): void {
         $request = $this->createRequest('POST', '/logout');
         $this->getAppInstance()->handle($request);

@@ -61,4 +61,10 @@ final class UserService
     public function deleteUser(int $user_id): void {
         $this->userRepository->deleteUser($user_id);
     }
+
+    //Returns the user's team requests
+    public function getUserTeamRequests(int $user_id): array {
+        $requests = $this->userRepository->getUserTeamRequests($user_id);
+        return $requests;
+    }
 }
