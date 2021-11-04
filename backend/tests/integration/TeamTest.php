@@ -175,7 +175,7 @@ class TeamTest extends TestCase{
     /**
      * @depends testRequestJoin
      */
-    public function testInviteUser($info): void {
+    public function testInviteUser($info): array {
         $params = [
             'message' => 'this is a test',
         ];
@@ -184,11 +184,13 @@ class TeamTest extends TestCase{
         $response = $this->getAppInstance()->handle($request);
 
         $this->assertEquals(200, $response->getStatusCode());
+
+        return $info;
     }
 
     //Denies the request
     /** 
-     * @depends testRequestJoin
+     * @depends testInviteUser
      */
     public function testDenyRequest($info): array {
         $request = $this->createRequest('POST', '/team/'.$info['team_id'].'/deny/'.$info['user_id']);
@@ -201,7 +203,7 @@ class TeamTest extends TestCase{
 
     //Makes sure the request was denied
     /**
-     * @depends testDenyRequest
+     * @depends testInviteUser
      */
     public function testCheckDenied($info): void {
         $request = $this->createRequest('GET', '/team/'.$info['team_id'].'/requests');
@@ -216,7 +218,7 @@ class TeamTest extends TestCase{
     
     //Accepts the user into the team
     /** 
-     * @depends testRequestJoin
+     * @depends testInviteUser
      */
     public function testAcceptRequest($info): array {
         $request = $this->createRequest('POST', '/team/'.$info['team_id'].'/accept/'.$info['user_id']);
