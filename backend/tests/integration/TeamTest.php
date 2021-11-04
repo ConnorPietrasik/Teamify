@@ -143,7 +143,7 @@ class TeamTest extends TestCase{
         $result = (string) $response->getBody();
 
         $this->assertEquals(200, $response->getStatusCode());
-        $this->assertStringContainsString((string) $info['team_id'], $result);
+        $this->assertStringContainsString("".$info['team_id'], $result);
     }
 
     //Checks that the request went through
