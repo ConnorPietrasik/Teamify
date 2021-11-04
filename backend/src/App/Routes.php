@@ -13,6 +13,7 @@ $app->get('/status', 'App\Controller\Home:getStatus');
 //Routes that require team membership
 $app->group('', function (RouteCollectorProxy $group){
     $group->get('/team/{team_id}/requests', App\Controller\Team\GetRequests::class);
+    $group->post('/team/{team_id}/invite/{user_id}', App\Controller\Team\InviteUser::class);
 })->add(new TeamAuthMemberMiddleware);
 
 //Routes that require just user authentication

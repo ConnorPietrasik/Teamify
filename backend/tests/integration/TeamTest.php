@@ -171,6 +171,21 @@ class TeamTest extends TestCase{
         $this->assertStringContainsString('test', $result);
     }
 
+    //Invites the user
+    /**
+     * @depends testRequestJoin
+     */
+    public function testInviteUser($info): void {
+        $params = [
+            'message' => 'this is a test',
+        ];
+        $req = $this->createRequest('POST', '/team/'.$info['team_id'].'/invite/'.$info['user_id']);
+        $request = $req->withParsedBody($params);
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
     //Denies the request
     /** 
      * @depends testRequestJoin

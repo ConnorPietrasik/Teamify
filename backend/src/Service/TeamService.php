@@ -41,7 +41,7 @@ final class TeamService {
 
     //Returns the environment ID for the team
     public function getTeamEnvID(int $team_id): int {
-        return $this->teamRepository->getTeamEnvironmentID($team_id);
+        return $this->teamRepository->getTeamEnvID($team_id);
     }
 
     //Updates the team with given info
@@ -77,7 +77,7 @@ final class TeamService {
 
     //Adds the team request
     public function requestJoinTeam(int $team_id, int $user_id, string $message = null): void {
-        $env_id = $this->teamRepository->getTeamEnvironmentID($team_id);
+        $env_id = $this->teamRepository->getTeamEnvID($team_id);
         if ($this->teamRepository->getEnvUserTeam($env_id, $user_id) != -1)
             throw new TeamException("User already in a team for this environment", 409);
 
@@ -93,11 +93,18 @@ final class TeamService {
     public function acceptRequest(int $team_id, int $user_id): void {
         $this->teamRepository->updateTeamRequest($team_id, $user_id, 1);
         $this->teamRepository->addMember($team_id, $user_id, 0);
-        $this->teamRepository->deleteTeamRequestsByUserAndEnv($user_id, $this->teamRepository->getTeamEnvironmentID($team_id));
+        $this->teamRepository->deleteTeamRequestsByUserAndEnv($user_id, $this->teamRepository->getTeamEnvID($team_id));
     }
 
     //Denies the user's request to join
     public function denyRequest(int $team_id, int $user_id): void {
         $this->teamRepository->updateTeamRequest($team_id, $user_id, 2);
+    }
+
+    //Invites the given user to the given team
+    public function inviteUserTeam(int $team_id, int $user_id, string $message = null): void {
+        if ($this->teamRepository->getEnvUserTeam($this->teamRepository->getTeamEnvID($team_id), $user_id) != -1)
+            throw new TeamException("User already in a team for this environment", 409);
+        $this->inviteUserTeam($team_id, $user_id, $message, (int) $_SESSION['user_id']);
     }
 }

@@ -64,7 +64,7 @@ final class TeamRepository {
     }
 
     //Returns the team's environment ID
-    public function getTeamEnvironmentID(int $team_id): int {
+    public function getTeamEnvID(int $team_id): int {
         $query = 'SELECT env_id FROM team WHERE team_id = :team_id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('team_id', $team_id);
@@ -233,6 +233,18 @@ final class TeamRepository {
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('user_id', $user_id);
         $statement->bindParam('env_id', $env_id);
+
+        $statement->execute();
+    }
+
+    //Invites the given user to the given team
+    public function inviteUserTeam(int $team_id, int $user_id, string $message = null, int $inviter_id): void {
+        $query = 'INSERT INTO team_invite (team_id, user_id, inviter_id, status, message) VALUES (:team_id, :user_id, :inviter_id, 0, :message)';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+        $statement->bindValue('user_id', $user_id);
+        $statement->bindValue('inviter_id', $inviter_id);
+        $statement->bindValue('message', $message ?? NULL);
 
         $statement->execute();
     }
