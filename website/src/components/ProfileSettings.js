@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Components.css';
 import LineInput from './Input.js';
+import MultiSelect from './inputs/MultiSelect.js';
 
 // allowing user to view and edit their data
 export default function ProfileSettings(props) {
   // keeping track of how user data values change
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
+  const [skills, setSkills] = useState([]);
 
   const [editMode, setEditMode] = useState(false); // whether or not user can edit profile
 
@@ -71,16 +73,26 @@ export default function ProfileSettings(props) {
          </div>
 
         <div className="shiftRight">{`About Me: `}
-                { editMode ?
-                 <LineInput stateValue={bio} stateSetter={setBio}/>
-                 : bio}</div>
+            { editMode ?
+             <LineInput stateValue={bio} stateSetter={setBio}/>
+             : bio
+            } </div>
 
-     {editMode ? <button onClick = {(e) => {
+        <div className="multiSelect">
+            {editMode ?
+                /* editable list of skills */
+                <MultiSelect stateValue={skills} stateSetter={setSkills}/>
+
+                : /* non editable list */
+                skills.map(skill => <p>{skill}</p>)
+            }</div>
+
+        {editMode ? <button onClick = {(e) => {
          if (username !== "" && bio !== "") // only non empty inputs go through
             updateUserInfo(e);
          else
              alert("Please make sure inputs are nonempty");
-     }}> Update </button> : <></>}
+        }}> Update </button> : <></>}
 
     </div>
   );
