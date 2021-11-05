@@ -92,7 +92,9 @@ final class TeamService {
     public function acceptRequest(int $team_id, int $user_id): void {
         $this->teamRepository->updateTeamRequest($team_id, $user_id, 1);
         $this->teamRepository->addMember($team_id, $user_id, 0);
-        $this->teamRepository->deleteTeamRequestsByUserAndEnv($user_id, $this->teamRepository->getTeamEnvID($team_id));
+        $env_id = $this->teamRepository->getTeamEnvID($team_id);
+        $this->teamRepository->deleteTeamRequestsByUserAndEnv($user_id, $env_id);
+        $this->teamRepository->deleteTeamInvitesByUserAndEnv($user_id, $env_id);
     }
 
     //Denies the user's request to join

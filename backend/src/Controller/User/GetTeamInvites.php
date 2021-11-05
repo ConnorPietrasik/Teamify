@@ -15,7 +15,13 @@ final class GetTeamInvites extends Base {
         $invites = $this->getUserService()->getUserTeamInvites((int) $_SESSION['user_id']);
         foreach ($invites as &$inv) {
             $inv['team'] = $this->getTeamService()->getTeam($inv['team_id']);
+            $env_id = $this->getTeamService()->getTeamEnvID($inv['team_id']);
             unset($inv['team_id']);
+
+            foreach ($inv['team']['members'] as &$member){
+                $member['user'] = $this->getEnvService()->getEnvUser($env_id, $member['user_id']);
+                unset($member['user_id']);
+            }
         }
 
         return JsonResponse::withJson($response, (string) json_encode($inv), 200);

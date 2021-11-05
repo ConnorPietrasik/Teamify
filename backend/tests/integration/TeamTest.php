@@ -188,6 +188,42 @@ class TeamTest extends TestCase{
         return $info;
     }
 
+    //Checks that the invite went through
+    /**
+     * @depends testInviteUser
+     */
+    public function testCheckUserInvites($info): void {
+        $request = $this->createRequest('POST', '/logout');
+        $this->getAppInstance()->handle($request);
+
+        $params = [
+            'username' => 'testUser2',
+            'password' => 'test'
+        ];
+        $req = $this->createRequest('POST', '/login');
+        $request = $req->withParsedBody($params);
+        $this->getAppInstance()->handle($request);
+
+        $request = $this->createRequest('GET', '/user/invites');
+        $response = $this->getAppInstance()->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertStringContainsString(''.$info['team_id'], $result);
+
+        $request = $this->createRequest('POST', '/logout');
+        $this->getAppInstance()->handle($request);
+
+        $params = [
+            'username' => 'testUser',
+            'password' => 'test'
+        ];
+        $req = $this->createRequest('POST', '/login');
+        $request = $req->withParsedBody($params);
+        $this->getAppInstance()->handle($request);
+    }
+
     //Denies the request
     /** 
      * @depends testInviteUser
