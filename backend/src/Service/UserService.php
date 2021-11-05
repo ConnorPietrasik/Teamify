@@ -67,4 +67,10 @@ final class UserService
         $requests = $this->userRepository->getUserTeamRequests($user_id);
         return $requests;
     }
+
+    //Returns the user's team invites
+    public function getUserTeamInvites(int $user_id): array {
+        $invites = $this->userRepository->getUserTeamInvites($user_id);
+        return $invites;
+    }
 }
