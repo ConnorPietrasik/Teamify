@@ -114,8 +114,8 @@ export default function TeamsList(props) {
                             <h3>Teams Applied To</h3>
                             <div className="IndividualsList" >
                                 {/* list of teams that user requested to join */
-                                  teamRequestsSent.map((team) =>
-                                    <TeamCard team={team} status='applied'/>
+                                  teamRequestsSent.map((teamData) =>
+                                    <TeamCard team={teamData.team} status='applied'/>
                                     )}
                             </div>
                         </>
