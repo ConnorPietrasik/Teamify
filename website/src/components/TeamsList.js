@@ -28,14 +28,34 @@ export default function TeamsList(props) {
 
         // show available teams
         else {
-            fetch(`https://api.teamify.pietrasik.top/env/1/teams`)
-              .then(res => res.json())
-              .then(teamData => {
-                  if (teamData.length > 0)
-                    setOpenTeams(teamData);
-              }).catch(console.error);
+            // get teams I've applied to
+            fetch(`https://api.teamify.pietrasik.top/user/requests`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+              })
+            .then(res => res.json())
+            .then(teamData => {
+                if (teamData.length > 0)
+                  setTeamRequestsSent(teamData);
+            }).catch(console.error);
         }
     }, [props.myTeamId, props.refreshTeamCard]); // runs when parameter is received
+
+    useEffect(() => {
+        const idsOfTeamsApplied = teamRequestsSent.map((requestData) => requestData.team.team_id);
+
+        // get teams available
+        fetch(`https://api.teamify.pietrasik.top/env/1/teams`)
+          .then(res => res.json())
+          .then(teamData => {
+              if (teamData.length > 0)
+                // add filter to get only available teams that current user hasn't applied to yet
+                setOpenTeams(teamData.filter(availableTeam => !idsOfTeamsApplied.includes(availableTeam.team_id)));
+          }).catch(console.error);
+    }, [teamRequestsSent]);
 
     // makes new team with user as first team member, saves to API
     function createTeam(teamName) {
