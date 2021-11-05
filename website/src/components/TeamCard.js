@@ -22,7 +22,7 @@ export default function TeamCard(props) {
             members && members.length > 0 ?
             <div>
                 <h4>Members:</h4>
-                {members.map((member) => <p>{member.user_id}</p>)}
+                {members.map((member) => <p>{member.user.username}</p>)}
             </div>
             : <></>
         }
