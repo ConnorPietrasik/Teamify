@@ -16,9 +16,7 @@ export default function ProfileSettings(props) {
     setUsername(props.user.username + '');
     setBio(`${props.user.bio != null ? props.user.bio : ''}`);
 
-    console.log(props.user);
     if (typeof(props.user.skills) !== 'undefined' && props.user.skills != null) {
-        console.log("setting skills data: " + props.user.skills);
         setSkills(props.user.skills); // array of skill objects
     }
   }, [props.user]); // runs when user parameter is received
@@ -63,7 +61,6 @@ export default function ProfileSettings(props) {
           setUsername(props.user.username);
           setBio(props.user.bio);
           if (typeof(props.user.skills) !== 'undefined' && props.user.skills != null) {
-              console.log("quit edit mode: " + props.user.skills);
               setSkills(props.user.skills);
           }
       }

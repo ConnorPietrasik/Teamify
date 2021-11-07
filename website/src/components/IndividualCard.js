@@ -11,6 +11,11 @@ export default function IndividualCard(props) {
       </div>
       <div>
 
+      { /* viewable list of skills */
+        props.individual.skills && props.individual.skills.length > 0 ?
+          props.individual.skills.map(skillObj => <p>{skillObj.skill}</p>) : <></>
+      }
+
       { props.type === "open" ?
           <button className="inviteBtn colorFadeEffect" onClick = {() => {
               // tells Individuals List to remove this card
