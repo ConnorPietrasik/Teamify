@@ -15,7 +15,12 @@ export default function ProfileSettings(props) {
   useEffect(() => { // initialize user data text input value based on parameter values
     setUsername(props.user.username + '');
     setBio(`${props.user.bio != null ? props.user.bio : ''}`);
-    setSkills(props.user.skills);
+
+    console.log(props.user);
+    if (typeof(props.user.skills) !== 'undefined' && props.user.skills != null) {
+        console.log("setting skills data: " + props.user.skills);
+        setSkills(props.user.skills);
+    }
   }, [props.user]); // runs when user parameter is received
 
   // after user clicks button to update user info changes
@@ -57,7 +62,10 @@ export default function ProfileSettings(props) {
           // restore original values
           setUsername(props.user.username);
           setBio(props.user.bio);
-          setSkills(props.user.skills);
+          if (typeof(props.user.skills) !== 'undefined' && props.user.skills != null) {
+              console.log("quit edit mode: " + props.user.skills);
+              setSkills(props.user.skills);
+          }
       }
       else // allow editing
         setEditMode(true);
