@@ -19,7 +19,7 @@ export default function ProfileSettings(props) {
     console.log(props.user);
     if (typeof(props.user.skills) !== 'undefined' && props.user.skills != null) {
         console.log("setting skills data: " + props.user.skills);
-        setSkills(props.user.skills);
+        setSkills(props.user.skills); // array of skill objects
     }
   }, [props.user]); // runs when user parameter is received
 
@@ -96,11 +96,11 @@ export default function ProfileSettings(props) {
                 <MultiSelect stateValue={skills} stateSetter={setSkills}/>
 
                 : /* non editable list */
-                skills.map(skill => <p>{skill}</p>)
+                skills.map(skillObj => <p>{skillObj.skill}</p>)
             }</div>
 
         {editMode ? <button onClick = {(e) => {
-         if (username !== "" && bio !== "") // only non empty inputs go through
+         if (username !== "") // only non empty inputs go through
             updateUserInfo(e);
          else
              alert("Please make sure inputs are nonempty");
