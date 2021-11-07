@@ -13,7 +13,7 @@ export default function IndividualCard(props) {
 
       { /* viewable list of skills */
         props.individual.skills && props.individual.skills.length > 0 ?
-          props.individual.skills.map(skillObj => <p>{skillObj.skill}</p>) : <></>
+          props.individual.skills.map(skillStr => <p>{skillStr}</p>) : <></>
       }
 
       { props.type === "open" ?
