@@ -30,7 +30,7 @@ final class EnvRepository {
 
     //Returns all the IDs open that match one of the given skills
     public function getOpenSkillIDs(int $env_id, array $skills): array {
-        $query = 'SELECT DISTINCT user_id FROM skill WHERE env_id = ? AND user_id IN (SELECT user_id FROM env_open WHERE env_id = ?) AND skill IN (?';
+        $query = 'SELECT DISTINCT user_id FROM skill WHERE env_id = ? AND user_id IN (SELECT user_id FROM env_open WHERE (env_id = ? OR env_id = 0)) AND skill IN (?';
         $query .= str_repeat(', ?', count($skills) - 1);
         $query .= ')';
         $statement = $this->getDb()->prepare($query);
