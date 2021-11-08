@@ -26,6 +26,7 @@ export default function MultiSelect(props) {
                     primary: 'black',
                   },
                 })}
+                placeholder={props.placeholder ? props.placeholder : 'Select . . .'}
                 defaultValue={chosenOptions} // prefilled options selected
                 options={[ // hardcoded suggestions for user's options, shown in drop down
                     {value: 'Multithreading', label: "Multithreading"},

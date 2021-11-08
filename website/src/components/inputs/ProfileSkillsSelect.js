@@ -44,6 +44,7 @@ export default function ProfileSkillsSelect(props) {
         <>
             { prefilledOptions ?
                 <MultiSelect
+                    placeholder={'Add my skills'}
                     stateValue={prefilledOptions} // what is given to MultiSelect to display on default
                     stateSetter={fromLibToDatabase} // where MultiSelect will report user's changes to
                     />

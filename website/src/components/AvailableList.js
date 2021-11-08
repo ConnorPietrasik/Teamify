@@ -1,17 +1,58 @@
 import React, { useState, useEffect } from 'react';
 
 import IndividualCard from './IndividualCard.js';
+import MultiSelect from './inputs/MultiSelect.js';
 
 // list of people available to team up
 export default function AvailableList(props) {
-    if (!props.openIndividuals)
+    const [searchInput, setSearchInput] = useState(null); // array of skills to search (in library's format)
+
+    const [listToDisplay, setListToDisplay] = useState(null); // list of people's data
+
+    useEffect(() => {
+        setSearchInput([]);
+        setListToDisplay(props.openIndividuals);
+    }, [props.openIndividuals]);
+
+    // when user searches individuals list for specific skills
+    function search() {
+        // display new results based on search query
+        if (searchInput.length > 0)
+            fetch(`https://api.teamify.pietrasik.top/env/1/open/skill`, {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                skills: searchInput.map(searchedSkillObj => searchedSkillObj.label),
+                })
+                }).then(res => res.json())
+                .then(individualsData => {
+                    if (individualsData)
+                      setListToDisplay(individualsData); // change list of individuals displayed
+            }).catch(console.error);
+    }
+
+    if (!listToDisplay || !searchInput)
         return <div>loading</div>;
+    else if (listToDisplay.length == 0)
+        return <div>No Results</div>;
     return(
         <>
         <h3>People Available</h3>
+
+        {/* Search bar input field and search query submit button*/}
+        <MultiSelect
+            placeholder={'Search for people skilled in . . .'}
+            stateValue={searchInput} // fed to MultiSelect to display as options chosen
+            stateSetter={setSearchInput} // where MultiSelect will report user's changes to
+            />
+        <button onClick={search}>Search</button>
+
         <div className="IndividualsList" >
           { /* list of people */
-            props.openIndividuals.map((individual) =>
+            listToDisplay.map((individual) =>
             <IndividualCard key={individual} individual={individual}
                 type={props.myTeamId ? "open" : ""} /* determines whether or not invite button shows */
 
