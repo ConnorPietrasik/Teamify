@@ -9,7 +9,7 @@ import MultiSelect from './MultiSelect.js';
     options[]: [{value: a unique value, label: string being displayed}]
 */
 export default function ProfileSkillsSelect(props) {
-    const [prefilledOptions, setPrefilledOptions] = useState([]);
+    const [prefilledOptions, setPrefilledOptions] = useState(null);
 
     // get data from parent to be displayed
     // process data read from database > library's expectation
@@ -41,9 +41,14 @@ export default function ProfileSkillsSelect(props) {
     }
 
     return(
-        <MultiSelect
-            stateValue={prefilledOptions} // what is given to MultiSelect to display on default
-            stateSetter={fromLibToDatabase} // where MultiSelect will report user's changes to
-            />
+        <>
+            { prefilledOptions ?
+                <MultiSelect
+                    stateValue={prefilledOptions} // what is given to MultiSelect to display on default
+                    stateSetter={fromLibToDatabase} // where MultiSelect will report user's changes to
+                    />
+                : <></>
+            }
+        </>
     );
 }
