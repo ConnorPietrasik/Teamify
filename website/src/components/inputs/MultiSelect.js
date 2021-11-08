@@ -11,16 +11,7 @@ export default function MultiSelect(props) {
 
     useEffect(() => {
         // prefilled selections based on existing user data passed from parameter
-        // turn array of objects from database's format into format expected by library
-        var prefilledOptions = [];
-        for (var i = 0; i < props.stateValue.length; i++) {
-            var userChoice = {};
-            var skillStr = props.stateValue[i].skill;
-            userChoice.value = skillStr;
-            userChoice.label = skillStr;
-            prefilledOptions[i] = userChoice;
-        }
-        setChosenOptions(prefilledOptions);
+        setChosenOptions(props.stateValue);
     }, [props.stateValue]);
 
     return(
@@ -46,15 +37,7 @@ export default function MultiSelect(props) {
                 // when user adds or deletes an option
                 onChange={(selectedData) => {
                     // record user's choices to parent component, in case user decides to update info in parent
-                    // convert array format to match database storage format
-                    var intoDatabase = [];
-                    for (var i = 0; i < selectedData.length; i++) {
-                        var skillObj = {};
-                        skillObj.skill = selectedData[i].label;
-                        skillObj.env_id = 0;
-                        intoDatabase[i] = skillObj;
-                    }
-                    props.stateSetter(intoDatabase);
+                    props.stateSetter(selectedData);
                 }}
                 />
         : <></>}

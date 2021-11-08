@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Components.css';
 import LineInput from './Input.js';
-import MultiSelect from './inputs/MultiSelect.js';
+import ProfileSkillsSelect from './inputs/ProfileSkillsSelect.js';
 
 // allowing user to view and edit their data
 export default function ProfileSettings(props) {
@@ -90,7 +90,7 @@ export default function ProfileSettings(props) {
         <div className="multiSelect">
             {editMode ?
                 /* editable list of skills */
-                <MultiSelect stateValue={skills} stateSetter={setSkills}/>
+                <ProfileSkillsSelect stateValue={skills} stateSetter={setSkills}/>
 
                 : /* non editable list */
                 skills.map(skillObj => <p>{skillObj.skill}</p>)
