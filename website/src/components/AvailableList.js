@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import IndividualCard from './IndividualCard.js';
 import MultiSelect from './inputs/MultiSelect.js';
 
+import '../css/Components.css';
+
 // list of people available to team up
 export default function AvailableList(props) {
     const [searchInput, setSearchInput] = useState(null); // array of skills to search (in library's format)
@@ -36,22 +38,24 @@ export default function AvailableList(props) {
 
     if (!listToDisplay || !searchInput)
         return <div>loading</div>;
-    else if (listToDisplay.length == 0)
-        return <div>No Results</div>;
     return(
         <>
         <h3>People Available</h3>
 
-        {/* Search bar input field and search query submit button*/}
-        <MultiSelect
-            placeholder={'Search for people skilled in . . .'}
-            stateValue={searchInput} // fed to MultiSelect to display as options chosen
-            stateSetter={setSearchInput} // where MultiSelect will report user's changes to
-            />
-        <button onClick={search}>Search</button>
+        <div className="SearchInputAndBar">
+            {/* Search bar input field and search query submit button*/}
+            <div className="searchInputContainer">
+                <MultiSelect className="searchInputContainer"
+                    placeholder={'Search for people skilled in . . .'}
+                    stateValue={searchInput} // fed to MultiSelect to display as options chosen
+                    stateSetter={setSearchInput} // where MultiSelect will report user's changes to
+                    />
+                    </div>
+            <button className="searchBtn" onClick={search}>Search</button>
+        </div>
 
         <div className="IndividualsList" >
-          { /* list of people */
+          { listToDisplay.length > 0 ?
             listToDisplay.map((individual) =>
             <IndividualCard key={individual} individual={individual}
                 type={props.myTeamId ? "open" : ""} /* determines whether or not invite button shows */
@@ -59,7 +63,8 @@ export default function AvailableList(props) {
                 /* Individuals List passes function to Individual Card child component
                     to let Card notify List when List needs to be updated */
                 updateList={props.updateList}
-                />)}
+                />)
+            : <div>No Results</div>}
           </div>
           </>
     );
