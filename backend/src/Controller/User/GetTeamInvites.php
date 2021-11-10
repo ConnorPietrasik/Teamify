@@ -24,6 +24,6 @@ final class GetTeamInvites extends Base {
             }
         }
 
-        return JsonResponse::withJson($response, (string) json_encode($inv), 200);
+        return JsonResponse::withJson($response, (string) json_encode($invites), 200);
     }
 }
