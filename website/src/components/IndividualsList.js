@@ -3,6 +3,8 @@ import '../css/Home.css';
 import IndividualCard from './IndividualCard.js';
 import CandidateCard from './CandidateCard.js';
 
+import AvailableList from './AvailableList.js';
+
 export default function IndividualsList(props) {
     // if user wants to invite more team members on team's behalf, we need to know which team user is on
     const [myTeamId, setMyTeamId] = useState(null);
@@ -109,20 +111,7 @@ export default function IndividualsList(props) {
             : <></>}
 
             {openIndividuals.length > 0 ?
-                <>
-                <h3>People Available</h3>
-                <div className="IndividualsList" >
-                  { /* list of people */
-                    openIndividuals.map((individual) =>
-                    <IndividualCard key={individual} individual={individual}
-                        type={myTeamId ? "open" : ""} /* determines whether or not invite button shows */
-
-                        /* Individuals List passes function to Individual Card child component
-                            to let Card notify List when List needs to be updated */
-                        updateList={updateAfterInviting}
-                        />)}
-                  </div>
-                  </>
+                <AvailableList openIndividuals={openIndividuals} updateList={updateAfterInviting} myTeamId={myTeamId}/>
               : <></>}
           </div>
     );

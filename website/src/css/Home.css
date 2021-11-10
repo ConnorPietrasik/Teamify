@@ -3,6 +3,10 @@
   --navyblue: #2F4664;
 }
 
+body {
+    margin: 40px;
+}
+
 h2 {
     font-size: xx-large;
     color: var(--navyblue);
