@@ -1,8 +1,8 @@
 .Card {
   padding: 20px;
 
-
   border: 1px solid lightgrey;
+  transition: .4s ease-in-out;
 } .Card:hover { /* when hovered over */
   border: 1px solid transparent;
   box-shadow: 0 7px 25px -10px grey;
@@ -11,10 +11,8 @@
 
 /* form not visible unless user hovers over card*/
 .showInnerElementOnHover form {
-    height:0;
     visibility: hidden;
 } .showInnerElementOnHover:hover form {
-    height:100%;
     visibility: visible;
 }
 

@@ -7,6 +7,7 @@ import LineInput from './Input.js';
 // show list of teams if user has no team, user's team if they have one
 export default function TeamsList(props) {
     const [teamRequestsSent, setTeamRequestsSent] = useState([]);
+    const [teamRequestsReceived, setTeamRequestsReceived] = useState([]);
     const [openTeams, setOpenTeams] = useState([]);
 
     const [myTeam, setMyTeam] = useState(null);
@@ -28,6 +29,18 @@ export default function TeamsList(props) {
 
         // show available teams
         else {
+            // get teams that have invited me
+            fetch(`https://api.teamify.pietrasik.top/user/invites`, {
+                method: 'GET',
+                credentials: 'include',
+                headers: {'Content-Type': 'application/json'}
+                }).then(res => res.json())
+                .then(teamData => {
+                    if (teamData.length > 0)
+                      setTeamRequestsReceived(teamData);
+
+                }).catch(console.error);
+
             // get teams I've applied to
             fetch(`https://api.teamify.pietrasik.top/user/requests`, {
                 method: 'GET',
@@ -46,6 +59,7 @@ export default function TeamsList(props) {
 
     useEffect(() => {
         const idsOfTeamsApplied = teamRequestsSent.map((requestData) => requestData.team.team_id);
+        const idsOfTeamsInvitedMe = teamRequestsReceived.map((requestData) => requestData.team.team_id);
 
         // get teams available
         fetch(`https://api.teamify.pietrasik.top/env/1/teams`)
@@ -53,9 +67,12 @@ export default function TeamsList(props) {
           .then(teamData => {
               if (teamData.length > 0)
                 // add filter to get only available teams that current user hasn't applied to yet
-                setOpenTeams(teamData.filter(availableTeam => !idsOfTeamsApplied.includes(availableTeam.team_id)));
+                // or teams that haven't invited current user
+                setOpenTeams(teamData.filter(availableTeam =>
+                    !idsOfTeamsApplied.includes(availableTeam.team_id)
+                    && !idsOfTeamsInvitedMe.includes(availableTeam.team_id)));
           }).catch(console.error);
-    }, [teamRequestsSent]);
+    }, [teamRequestsSent, teamRequestsReceived]);
 
     // makes new team with user as first team member, saves to API
     function createTeam(teamName) {
@@ -108,6 +125,18 @@ export default function TeamsList(props) {
                 :
                 <div>
                     <h2>Find Teams</h2>
+
+                    { teamRequestsReceived.length > 0 ?
+                        <>
+                            <h3>Teams That Invited Me</h3>
+                            <div className="IndividualsList" >
+                                {/* list of teams that invited user to join */
+                                  teamRequestsReceived.map((teamData) =>
+                                    <TeamCard team={teamData.team} status=''/>
+                                    )}
+                            </div>
+                        </>
+                        : <></>}
 
                     { teamRequestsSent.length > 0 ?
                         <>

@@ -56,9 +56,10 @@ button {
   width: 25%;
 
   box-shadow: 0 5px 6px lightgrey;
+  transition: .4s ease-in-out;
 } .IndividualCard:hover { /* when hovered over */
   /* grow larger with animation */
-  transform: scale(1.05);
+  transform: scale(1.02);
   box-shadow: 0 6px 12px grey;
   transition: .2s ease-in-out;
 }
