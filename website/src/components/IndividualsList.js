@@ -48,6 +48,8 @@ export default function IndividualsList(props) {
       }, [props.myTeamId]);
 
       useEffect(() => {
+        const idsOfInvited = invited.map((inviteData) => inviteData.user.user_id);
+
         // get open Individuals
         fetch(`https://api.teamify.pietrasik.top/env/1/open`)
           .then(res => res.json())
@@ -60,12 +62,12 @@ export default function IndividualsList(props) {
                       listOpenIndividuals.filter(openUser => // get open users who are not candidates
                           candidates.filter(candidate => // if candidate, will return array with candidate data
                              candidate.user.user_id === openUser.user_id
-                         ).length === 0) // if not candidate, empty [] returned
+                             ).length === 0 // if not candidate, empty [] returned
+                          && !idsOfInvited.includes(openUser.user_id) /* don't include invited users in list */ )
                       );
               }
           }).catch(console.error);
-
-    }, [candidates]);
+    }, [candidates, invited]);
 
     // update list after team leader accepted candidate
     function updateAfterAccepting(acceptedCandidate) {
