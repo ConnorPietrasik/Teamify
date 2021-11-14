@@ -14,6 +14,7 @@ $app->get('/status', 'App\Controller\Home:getStatus');
 $app->group('', function (RouteCollectorProxy $group){
     $group->get('/team/{team_id}/requests', App\Controller\Team\GetRequests::class);
     $group->post('/team/{team_id}/invite/{user_id}', App\Controller\Team\InviteUser::class);
+    $group->get('/team/{team_id}/invites', App\Controller\Team\GetInvites::class);
 })->add(new TeamAuthMemberMiddleware);
 
 //Routes that require just user authentication

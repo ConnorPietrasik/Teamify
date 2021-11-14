@@ -249,6 +249,17 @@ final class TeamRepository {
         $statement->execute();
     }
 
+    //Returns the invites for the given team
+    public function getTeamInvites(int $team_id): array {
+        $query = 'SELECT user_id, inviter_id, status, message FROM team_invite WHERE team_id = :team_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+
+        $statement->execute();
+        $requests = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return $requests;
+    }
+
     //Deletes the user's requests for the given teams
     public function deleteTeamInvitesByUserAndEnv(int $user_id, int $env_id): void {
         $query = 'DELETE FROM team_invite WHERE user_id = :user_id AND (status = 0 OR status = 1) AND team_id IN (SELECT team_id FROM team WHERE env_id = :env_id)';

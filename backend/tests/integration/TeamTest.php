@@ -192,6 +192,20 @@ class TeamTest extends TestCase{
     /**
      * @depends testInviteUser
      */
+    public function testCheckTeamInvites($info): void {
+        $request = $this->createRequest('GET', '/user/invites');
+        $response = $this->getAppInstance()->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertStringContainsString(''.$info['user_id'], $result);
+    }
+
+    //Checks that the invite went through
+    /**
+     * @depends testInviteUser
+     */
     public function testCheckUserInvites($info): void {
         $request = $this->createRequest('POST', '/logout');
         $this->getAppInstance()->handle($request);

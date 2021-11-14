@@ -110,5 +110,8 @@ final class TeamService {
         $this->teamRepository->inviteUserTeam($team_id, $user_id, $message, (int) $_SESSION['user_id']);
     }
 
-    
+    //Returns all the invites for the given team
+    public function getTeamInvites(int $team_id): array {
+        return $this->teamRepository->getTeamInvites($team_id);
+    }
 }
