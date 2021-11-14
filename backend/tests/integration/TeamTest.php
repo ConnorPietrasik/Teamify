@@ -284,7 +284,7 @@ class TeamTest extends TestCase{
         $request = $req->withParsedBody($params);
         $this->getAppInstance()->handle($request);
 
-        $request = $this->createRequest('POST', '/team/'.$info.'/accept');
+        $request = $this->createRequest('POST', '/team/'.$info['team_id'].'/accept');
         $response = $this->getAppInstance()->handle($request);
 
         $this->assertEquals(200, $response->getStatusCode());
