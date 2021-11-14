@@ -260,6 +260,19 @@ final class TeamRepository {
         return $requests;
     }
 
+    //Updates the team request with the given status
+    public function updateTeamInvite(int $team_id, int $user_id, int $status): void {
+        $query = 'UPDATE team_invite SET status = :status WHERE team_id = :team_id AND user_id = :user_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+        $statement->bindValue('user_id', $user_id);
+        $statement->bindValue('status', $status);
+
+        $statement->execute();
+
+        if ($statement->rowCount() < 1) throw new TeamException("No matching invite found", 409);
+    }
+
     //Deletes the user's requests for the given teams
     public function deleteTeamInvitesByUserAndEnv(int $user_id, int $env_id): void {
         $query = 'DELETE FROM team_invite WHERE user_id = :user_id AND (status = 0 OR status = 1) AND team_id IN (SELECT team_id FROM team WHERE env_id = :env_id)';

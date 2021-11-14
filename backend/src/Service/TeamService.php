@@ -131,4 +131,9 @@ final class TeamService {
         $this->teamRepository->deleteTeamRequestsByUserAndEnv($user_id, $env_id);
         $this->teamRepository->deleteTeamInvitesByUserAndEnv($user_id, $env_id);
     }
+
+    //Denies the team's invitation
+    public function denyInvite(int $team_id, int $user_id): void {
+        $this->teamRepository->updateTeamInvite($team_id, $user_id, 2);
+    }
 }
