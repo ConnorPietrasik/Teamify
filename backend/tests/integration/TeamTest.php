@@ -192,7 +192,21 @@ class TeamTest extends TestCase{
     /**
      * @depends testInviteUser
      */
-    public function testCheckUserInvites($info): array {
+    public function testCheckTeamInvites($info): void {
+        $request = $this->createRequest('GET', '/team/'.$info['team_id'].'/invites');
+        $response = $this->getAppInstance()->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertStringContainsString(''.$info['user_id'], $result);
+    }
+
+    //Checks that the invite went through
+    /**
+     * @depends testInviteUser
+     */
+    public function testCheckUserInvites($info): void {
         $request = $this->createRequest('POST', '/logout');
         $this->getAppInstance()->handle($request);
 
@@ -222,22 +236,6 @@ class TeamTest extends TestCase{
         $req = $this->createRequest('POST', '/login');
         $request = $req->withParsedBody($params);
         $this->getAppInstance()->handle($request);
-
-        return $info;
-    }
-
-    //Checks that the invite went through
-    /**
-     * @depends testCheckUserInvites
-     */
-    public function testCheckTeamInvites($info): void {
-        $request = $this->createRequest('GET', '/user/invites');
-        $response = $this->getAppInstance()->handle($request);
-
-        $result = (string) $response->getBody();
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertStringContainsString(''.$info['user_id'], $result);
     }
 
     //Denies the request
