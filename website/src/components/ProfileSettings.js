@@ -81,7 +81,8 @@ export default function ProfileSettings(props) {
              </div>
          </div>
 
-        <div className="shiftRight">{`About Me: `}
+        <div className="shiftRight">{`About Me: `}</div>
+        <div>
             { editMode ?
              <LineInput stateValue={bio} stateSetter={setBio}/>
              : bio
