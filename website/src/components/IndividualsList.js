@@ -31,6 +31,19 @@ export default function IndividualsList(props) {
                   } else
                     console.log(candidateData.message);
               }).catch(console.error);
+
+          // get people my team has invited
+          fetch(`https://api.teamify.pietrasik.top/team/79/invites`, {
+              method: 'GET',
+              credentials: 'include',
+              headers: {'Content-Type': 'application/json'},
+              }).then(res => res.json())
+              .then(inviteData => {
+                  if (!inviteData.code) {
+                      setInvited(inviteData);
+                  } else
+                    console.log(inviteData);
+              }).catch(console.error);
       }
       }, [props.myTeamId]);
 
@@ -78,7 +91,7 @@ export default function IndividualsList(props) {
         setOpenIndividuals(updatedAvailableIndividuals);
 
         // add to list of invited people
-        invited.push(invitedPerson);
+        invited.push({user: invitedPerson});
     }
 
     return (
@@ -103,8 +116,8 @@ export default function IndividualsList(props) {
                 <h3>People Invited </h3>
                 <div className="IndividualsList" >
                   { /* list of people */
-                    invited.map((individual) =>
-                    <IndividualCard key={individual} individual={individual} type="invited"
+                    invited.map((inviteData) =>
+                    <IndividualCard key={inviteData.user} individual={inviteData.user} type="invited"
                         />)}
                   </div>
                 </>
