@@ -28,7 +28,7 @@ export default function IndividualCard(props) {
 
             <button className="inviteBtn colorFadeEffect" onClick = {() => {
                 // invite a user to join my team
-                fetch(`https://api.teamify.pietrasik.top/team/${props.team.team_id}/invite/${props.individual.user_id}}`, {
+                fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}/invite/${props.individual.user_id}}`, {
                   method: 'POST',
                   credentials: 'include',
                   headers: { 'Content-Type': 'application/json' },
