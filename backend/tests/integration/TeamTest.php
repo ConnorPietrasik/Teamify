@@ -146,9 +146,31 @@ class TeamTest extends TestCase{
         $this->assertStringContainsString("".$info['team_id'], $result);
     }
 
-    //Checks that the request went through
+    //Creates a third user to test accepting invites
     /**
      * @depends testRequestJoin
+     */
+    public function testCreateThirdUser($info): array {
+        $request = $this->createRequest('POST', '/logout');
+        $this->getAppInstance()->handle($request);
+
+        $params = [
+            'username' => 'testUser3',
+            'password' => 'test'
+        ];
+        $req = $this->createRequest('POST', '/register');
+        $request = $req->withParsedBody($params);
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(201, $response->getStatusCode());
+
+        $info['user3_id'] = $_SESSION['user_id'];
+        return $info;
+    }
+
+    //Checks that the request went through
+    /**
+     * @depends testCreateThirdUser
      */
     public function testGetTeamRequests($info): void {
         $request = $this->createRequest('POST', '/logout');
@@ -171,15 +193,21 @@ class TeamTest extends TestCase{
         $this->assertStringContainsString('test', $result);
     }
 
-    //Invites the user
+    //Invites the users
     /**
-     * @depends testRequestJoin
+     * @depends testGetTeamRequests
      */
-    public function testInviteUser($info): array {
+    public function testInviteUsers($info): array {
         $params = [
             'message' => 'this is a test',
         ];
         $req = $this->createRequest('POST', '/team/'.$info['team_id'].'/invite/'.$info['user_id']);
+        $request = $req->withParsedBody($params);
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $req = $this->createRequest('POST', '/team/'.$info['team_id'].'/invite/'.$info['user3_id']);
         $request = $req->withParsedBody($params);
         $response = $this->getAppInstance()->handle($request);
 
@@ -190,7 +218,7 @@ class TeamTest extends TestCase{
 
     //Checks that the invite went through
     /**
-     * @depends testInviteUser
+     * @depends testInviteUsers
      */
     public function testCheckTeamInvites($info): void {
         $request = $this->createRequest('GET', '/team/'.$info['team_id'].'/invites');
@@ -204,7 +232,7 @@ class TeamTest extends TestCase{
 
     //Checks that the invite went through
     /**
-     * @depends testInviteUser
+     * @depends testInviteUsers
      */
     public function testCheckUserInvites($info): void {
         $request = $this->createRequest('POST', '/logout');
@@ -238,9 +266,58 @@ class TeamTest extends TestCase{
         $this->getAppInstance()->handle($request);
     }
 
+    //Checks that the invite went through
+    /**
+     * @depends testInviteUsers
+     */
+    public function testAcceptInvite($info): array {
+        $request = $this->createRequest('POST', '/logout');
+        $this->getAppInstance()->handle($request);
+
+        $params = [
+            'username' => 'testUser3',
+            'password' => 'test'
+        ];
+        $req = $this->createRequest('POST', '/login');
+        $request = $req->withParsedBody($params);
+        $this->getAppInstance()->handle($request);
+
+        $request = $this->createRequest('POST', '/team/'.$info.'/accept');
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $request = $this->createRequest('POST', '/logout');
+        $this->getAppInstance()->handle($request);
+
+        $params = [
+            'username' => 'testUser',
+            'password' => 'test'
+        ];
+        $req = $this->createRequest('POST', '/login');
+        $request = $req->withParsedBody($params);
+        $this->getAppInstance()->handle($request);
+
+        return $info;
+    }
+
+    //Checks that the invite went through
+    /**
+     * @depends testAcceptInvite
+     */
+    public function testCheckInvAccepted($info): void {
+        $request = $this->createRequest('GET', '/team/'.$info['team_id']);
+        $response = $this->getAppInstance()->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertStringContainsString(''.$info['user3_id'], $result);
+    }
+
     //Denies the request
     /** 
-     * @depends testInviteUser
+     * @depends testInviteUsers
      */
     public function testDenyRequest($info): array {
         $request = $this->createRequest('POST', '/team/'.$info['team_id'].'/deny/'.$info['user_id']);
@@ -253,7 +330,7 @@ class TeamTest extends TestCase{
 
     //Makes sure the request was denied
     /**
-     * @depends testInviteUser
+     * @depends testInviteUsers
      */
     public function testCheckDenied($info): void {
         $request = $this->createRequest('GET', '/team/'.$info['team_id'].'/requests');
@@ -268,7 +345,7 @@ class TeamTest extends TestCase{
     
     //Accepts the user into the team
     /** 
-     * @depends testInviteUser
+     * @depends testInviteUsers
      */
     public function testAcceptRequest($info): array {
         $request = $this->createRequest('POST', '/team/'.$info['team_id'].'/accept/'.$info['user_id']);
@@ -335,6 +412,26 @@ class TeamTest extends TestCase{
     public function testDeleteSecondUser(): void {
         $params = [
             'username' => 'testUser2',
+            'password' => 'test'
+        ];
+        $req = $this->createRequest('POST', '/login');
+        $request = $req->withParsedBody($params);
+        $response = $this->getAppInstance()->handle($request);
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $request = $this->createRequest('DELETE', '/user');
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    //Successfully deletes the second user
+    /**
+     * @depends testCreateThirdUser
+     */
+    public function testDeleteThirdUser(): void {
+        $params = [
+            'username' => 'testUser3',
             'password' => 'test'
         ];
         $req = $this->createRequest('POST', '/login');

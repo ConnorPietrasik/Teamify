@@ -28,6 +28,7 @@ $app->group('', function (RouteCollectorProxy $group){
     $group->delete('/env/{env_id}/open', App\Controller\Environment\RemoveOpen::class);
     $group->post('/env/{env_id}/createteam', App\Controller\Team\CreateTeam::class);
     $group->post('/team/{team_id}/request', App\Controller\Team\RequestJoin::class);
+    $group->post('/team/{team_id}/accept', App\Controller\Team\AcceptInvite::class);
 })->add(new AuthMiddleware);
 
 //Routes that require team admin rights

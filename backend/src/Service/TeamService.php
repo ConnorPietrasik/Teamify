@@ -90,7 +90,6 @@ final class TeamService {
 
     //Accepts the given user into the given team
     public function acceptRequest(int $team_id, int $user_id): void {
-        $this->teamRepository->updateTeamRequest($team_id, $user_id, 1);
         $this->teamRepository->addMember($team_id, $user_id, 0);
         $env_id = $this->teamRepository->getTeamEnvID($team_id);
         $this->teamRepository->deleteTeamRequestsByUserAndEnv($user_id, $env_id);
@@ -113,5 +112,23 @@ final class TeamService {
     //Returns all the invites for the given team
     public function getTeamInvites(int $team_id): array {
         return $this->teamRepository->getTeamInvites($team_id);
+    }
+
+    //Accepts the given user into the team
+    public function acceptInvite(int $team_id, int $user_id): void {
+        $invites = $this->teamRepository->getTeamInvites($team_id);
+        $found = false;
+        foreach ($invites as $inv) {
+            if ($inv['user_id'] = $user_id){
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) throw new TeamException("No invite found for given user and team", 409);
+
+        $this->teamRepository->addMember($team_id, $user_id, 0);
+        $env_id = $this->teamRepository->getTeamEnvID($team_id);
+        $this->teamRepository->deleteTeamRequestsByUserAndEnv($user_id, $env_id);
+        $this->teamRepository->deleteTeamInvitesByUserAndEnv($user_id, $env_id);
     }
 }
