@@ -172,7 +172,7 @@ class TeamTest extends TestCase{
     /**
      * @depends testCreateThirdUser
      */
-    public function testGetTeamRequests($info): void {
+    public function testGetTeamRequests($info): array {
         $request = $this->createRequest('POST', '/logout');
         $this->getAppInstance()->handle($request);
 
@@ -191,6 +191,8 @@ class TeamTest extends TestCase{
 
         $result = (string) $response->getBody();
         $this->assertStringContainsString('test', $result);
+
+        return $info;
     }
 
     //Invites the users
