@@ -60,7 +60,7 @@ export default function TeamCard(props) {
 
         {props.status === 'invited' ?
             <>
-            <button className="inviteBtn colorFadeEffect" onClick = {() => {
+            <button className="inviteBtn colorFadeEffect acceptBtn" onClick = {() => {
                 // current user accepts team's invite to join them
                 fetch(`https://api.teamify.pietrasik.top/team/${props.team.team_id}/accept`, {
                     method: 'POST',
@@ -78,7 +78,7 @@ export default function TeamCard(props) {
                 props.joinTeam(props.team);
                 }}>Accept</button>
 
-            <button className="inviteBtn colorFadeEffect" onClick = {() => {
+            <button className="inviteBtn colorFadeEffect denyBtn" onClick = {() => {
                 // current user rejects team's invite to join them
                 fetch(`https://api.teamify.pietrasik.top/team/${props.team.team_id}/deny`, {
                     method: 'POST',
