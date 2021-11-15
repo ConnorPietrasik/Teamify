@@ -58,6 +58,28 @@ export default function TeamCard(props) {
             </div>
             : <></>}
 
+        {props.status === 'invited' ?
+            <>
+            <button className="inviteBtn colorFadeEffect" onClick = {() => {
+                // current user accepts team's invite to join them
+                fetch(`https://api.teamify.pietrasik.top/team/${props.team.team_id}/accept`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                    }).then()
+                    .then(data => {
+                            if (data)
+                              console.log(data);
+                    }).catch(console.error);
+
+                // display info of user's new team
+                props.joinTeam(props.team);
+                }}>Accept</button>
+            </>
+            : <></>}
+
     </div>
   );
 }

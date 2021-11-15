@@ -132,7 +132,9 @@ export default function TeamsList(props) {
                             <div className="IndividualsList" >
                                 {/* list of teams that invited user to join */
                                   teamRequestsReceived.map((teamData) =>
-                                    <TeamCard team={teamData.team} status=''/>
+                                    <TeamCard team={teamData.team} status='invited'
+                                        joinTeam={setMyTeam} // method to be called (to update UI) if user decides to join team
+                                        />
                                     )}
                             </div>
                         </>
