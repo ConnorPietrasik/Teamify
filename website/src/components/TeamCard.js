@@ -77,6 +77,21 @@ export default function TeamCard(props) {
                 // display info of user's new team
                 props.joinTeam(props.team);
                 }}>Accept</button>
+
+            <button className="inviteBtn colorFadeEffect" onClick = {() => {
+                // current user rejects team's invite to join them
+                fetch(`https://api.teamify.pietrasik.top/team/${props.team.team_id}/deny`, {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                    }).then()
+                    .then(data => {
+                            if (data)
+                              console.log(data);
+                    }).catch(console.error);
+                }}>Deny</button>
             </>
             : <></>}
 
