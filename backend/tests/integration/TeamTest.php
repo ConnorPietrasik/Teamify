@@ -364,21 +364,6 @@ class TeamTest extends TestCase{
 
         return $info;
     }
-
-    //Makes sure the request was denied
-    /**
-     * @depends testInviteUsers
-     */
-    public function testCheckDenied($info): void {
-        $request = $this->createRequest('GET', '/team/'.$info['team_id'].'/requests');
-        $response = $this->getAppInstance()->handle($request);
-
-        $result = (string) $response->getBody();
-
-        $this->assertEquals(200, $response->getStatusCode());
-        $this->assertStringContainsString(''.$info['user_id'], $result);
-        $this->assertStringContainsString('2', $result);
-    }
     
     //Accepts the user into the team
     /** 
