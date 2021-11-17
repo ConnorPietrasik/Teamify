@@ -205,7 +205,7 @@ final class TeamRepository {
 
     //Returns all the requests to join the given team
     public function getTeamRequests(int $team_id): array {
-        $query = 'SELECT user_id, status, message FROM team_request WHERE team_id = :team_id';
+        $query = 'SELECT user_id, status, message FROM team_request WHERE team_id = :team_id AND status = 0';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('team_id', $team_id);
 
