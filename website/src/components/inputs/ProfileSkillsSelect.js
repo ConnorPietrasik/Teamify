@@ -41,7 +41,7 @@ export default function ProfileSkillsSelect(props) {
     }
 
     return(
-        <>
+        <div className="profileSkillsSelect">
             { prefilledOptions ?
                 <MultiSelect
                     placeholder={'Add my skills'}
@@ -50,6 +50,6 @@ export default function ProfileSkillsSelect(props) {
                     />
                 : <></>
             }
-        </>
+        </div>
     );
 }

@@ -31,10 +31,25 @@ export default function IndividualsList(props) {
                   } else
                     console.log(candidateData.message);
               }).catch(console.error);
+
+          // get people my team has invited
+          fetch(`https://api.teamify.pietrasik.top/team/79/invites`, {
+              method: 'GET',
+              credentials: 'include',
+              headers: {'Content-Type': 'application/json'},
+              }).then(res => res.json())
+              .then(inviteData => {
+                  if (!inviteData.code) {
+                      setInvited(inviteData);
+                  } else
+                    console.log(inviteData);
+              }).catch(console.error);
       }
       }, [props.myTeamId]);
 
       useEffect(() => {
+        const idsOfInvited = invited.map((inviteData) => inviteData.user.user_id);
+
         // get open Individuals
         fetch(`https://api.teamify.pietrasik.top/env/1/open`)
           .then(res => res.json())
@@ -47,12 +62,12 @@ export default function IndividualsList(props) {
                       listOpenIndividuals.filter(openUser => // get open users who are not candidates
                           candidates.filter(candidate => // if candidate, will return array with candidate data
                              candidate.user.user_id === openUser.user_id
-                         ).length === 0) // if not candidate, empty [] returned
+                             ).length === 0 // if not candidate, empty [] returned
+                          && !idsOfInvited.includes(openUser.user_id) /* don't include invited users in list */ )
                       );
               }
           }).catch(console.error);
-
-    }, [candidates]);
+    }, [candidates, invited]);
 
     // update list after team leader accepted candidate
     function updateAfterAccepting(acceptedCandidate) {
@@ -78,7 +93,7 @@ export default function IndividualsList(props) {
         setOpenIndividuals(updatedAvailableIndividuals);
 
         // add to list of invited people
-        invited.push(invitedPerson);
+        invited.push({user: invitedPerson});
     }
 
     return (
@@ -103,8 +118,8 @@ export default function IndividualsList(props) {
                 <h3>People Invited </h3>
                 <div className="IndividualsList" >
                   { /* list of people */
-                    invited.map((individual) =>
-                    <IndividualCard key={individual} individual={individual} type="invited"
+                    invited.map((inviteData) =>
+                    <IndividualCard key={inviteData.user} individual={inviteData.user} type="invited"
                         />)}
                   </div>
                 </>

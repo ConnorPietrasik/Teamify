@@ -12,6 +12,7 @@ export default function LineInput(props) {
 
     return(
         <input type="text" value={props.stateValue} placeholder={props.placeholder}
+           style={{width: '80%'}}
            onChange = {e => handleInputChange(e, props.stateSetter) }/>
     );
 }
