@@ -50,10 +50,10 @@ export default function TeamCard(props) {
                         if (data)
                           console.log(data);
 
+                        // move team card from Open Teams List to Requests Sent List
+                        props.updateSentRequestsList({team: props.team, message: messageToTeam});
                       }).catch(console.error);
 
-                    // move team card from Open Teams List to Requests Sent List
-                    props.updateSentRequestsList(props.team);
                 }}>Request to Join</button>
             </div>
             : <></>}
