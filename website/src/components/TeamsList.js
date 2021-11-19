@@ -110,9 +110,9 @@ export default function TeamsList(props) {
         setOpenTeams(remainingOpenTeams);
 
         // add team to Requests Sent List
-        teamRequestsSent.push(teamAppliedTo);
-        setTeamRequestsSent(teamRequestsSent);
-        console.log("adding new team request", teamRequestsSent);
+        var newTeamRequestsSent = [...teamRequestsSent] // copy values
+        newTeamRequestsSent.push(teamAppliedTo)
+        setTeamRequestsSent(newTeamRequestsSent);
     }
 
     return (
