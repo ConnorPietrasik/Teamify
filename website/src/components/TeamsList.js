@@ -112,6 +112,7 @@ export default function TeamsList(props) {
         // add team to Requests Sent List
         teamRequestsSent.push(teamAppliedTo);
         setTeamRequestsSent(teamRequestsSent);
+        console.log("adding new team request", teamRequestsSent);
     }
 
     return (
@@ -145,6 +146,7 @@ export default function TeamsList(props) {
                         <>
                             <h3>Teams Applied To</h3>
                             <div className="IndividualsList" >
+                                {console.log("displayed team requests", teamRequestsSent)}
                                 {/* list of teams that user requested to join */
                                   teamRequestsSent.map((teamData) =>
                                     <TeamCard team={teamData.team} status='applied'/>

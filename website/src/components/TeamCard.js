@@ -49,7 +49,7 @@ export default function TeamCard(props) {
                       .then(data => {
                         if (data)
                           console.log(data);
-
+                        console.log("requested to join", props.team);
                         // move team card from Open Teams List to Requests Sent List
                         props.updateSentRequestsList({team: props.team, message: messageToTeam});
                       }).catch(console.error);
