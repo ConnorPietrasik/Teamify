@@ -13,7 +13,7 @@ export default function TeamsList(props) {
     const [myTeam, setMyTeam] = useState(null);
 
     useEffect(() => { // initialize based on parameter values
-      setOpenTeams([{name: 'openTeam1'}, {name: 'openTeam2'}, {name: 'openTeam3'}, {name: 'openTeam4'}]);
+      setOpenTeams([{name: 'openTeam1', team_id: '-1'}, {name: 'openTeam2', team_id: '-2'}, {name: 'openTeam3', team_id: '-3'}, {name: 'openTeam4', team_id: '-4'}]);
 
       // get team data using team id parameter
       if (props.myTeamId != null) {
@@ -106,11 +106,12 @@ export default function TeamsList(props) {
         // api
 
         // remove from Open Teams List
-        const remainingOpenTeams = openTeams.filter(otherTeam => otherTeam !== teamAppliedTo);
+        const remainingOpenTeams = openTeams.filter(otherTeam => otherTeam.team_id !== teamAppliedTo.team.team_id);
         setOpenTeams(remainingOpenTeams);
 
         // add team to Requests Sent List
         teamRequestsSent.push(teamAppliedTo);
+        setTeamRequestsSent(teamRequestsSent);
     }
 
     return (
