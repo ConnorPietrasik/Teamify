@@ -27,7 +27,9 @@ final class UserService
         $user['skills'] = $this->userRepository->getAllSkills($user_id);
         $user['availability'] = $this->userRepository->getAvailability($user_id);
         $user['interests'] = $this->userRepository->getAllInterests($user_id);
-        $user['teams'] = $this->userRepository->getUserTeamStatuses($user_id);
+        $user['teams'] = $this->userRepository->getUserTeamIDs($user_id);
+        $user['team_statuses'] = $this->userRepository->getUserTeamStatuses($user_id);
+
         return $user;
     }
 
