@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS environment(
 
 CREATE TABLE IF NOT EXISTS env_code(
 	env_id		INT NOT NULL,
-	code		VARCHAR(10) NO NULL UNIQUE,
+	code		VARCHAR(10) NOT NULL UNIQUE,
 	PRIMARY KEY(env_id),
 	CONSTRAINT fk_env_code_env_id
 		FOREIGN KEY(env_id) REFERENCES environment(env_id) 
