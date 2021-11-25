@@ -90,6 +90,16 @@ final class TeamService {
 
     //Accepts the given user into the given team
     public function acceptRequest(int $team_id, int $user_id): void {
+        $requests = $this->teamRepository->getTeamRequests($team_id);
+        $found = false;
+        foreach ($requests as $req) {
+            if ($req['user_id'] = $user_id) {
+                $found = true;
+                break;
+            }
+        }
+        if (!$found) throw new TeamException("No request found for given user and team", 409);
+
         $this->teamRepository->addMember($team_id, $user_id, 0);
         $env_id = $this->teamRepository->getTeamEnvID($team_id);
         $this->teamRepository->deleteTeamRequestsByUserAndEnv($user_id, $env_id);
