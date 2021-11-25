@@ -90,7 +90,7 @@ final class TeamService {
 
     //Accepts the given user into the given team
     public function acceptRequest(int $team_id, int $user_id): void {
-        $requests = $this->teamRepository->getTeamRequests($team_id);
+        $requests = $this->teamRepository->getAllTeamRequests($team_id);
         $found = false;
         foreach ($requests as $req) {
             if ($req['user_id'] = $user_id) {
@@ -126,7 +126,7 @@ final class TeamService {
 
     //Accepts the given user into the team
     public function acceptInvite(int $team_id, int $user_id): void {
-        $invites = $this->teamRepository->getTeamInvites($team_id);
+        $invites = $this->teamRepository->getAllTeamInvites($team_id);
         $found = false;
         foreach ($invites as $inv) {
             if ($inv['user_id'] = $user_id){

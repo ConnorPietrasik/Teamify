@@ -203,9 +203,20 @@ final class TeamRepository {
         $statement->execute();
     } 
 
-    //Returns all the requests to join the given team
+    //Returns all the unresolved requests to join the given team
     public function getTeamRequests(int $team_id): array {
         $query = 'SELECT user_id, status, message FROM team_request WHERE team_id = :team_id AND status = 0';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+
+        $statement->execute();
+        $requests = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return $requests;
+    }
+
+    //Returns all the requests to join the given team, including denied
+    public function getAllTeamRequests(int $team_id): array {
+        $query = 'SELECT user_id, status, message FROM team_request WHERE team_id = :team_id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('team_id', $team_id);
 
@@ -249,8 +260,19 @@ final class TeamRepository {
         $statement->execute();
     }
 
-    //Returns the invites for the given team
+    //Returns the unresolved invites for the given team
     public function getTeamInvites(int $team_id): array {
+        $query = 'SELECT user_id, inviter_id, status, message FROM team_invite WHERE team_id = :team_id AND status = 0';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+
+        $statement->execute();
+        $requests = $statement->fetchAll(\PDO::FETCH_ASSOC);
+        return $requests;
+    }
+
+    //Returns all the invites for the given team, including denied
+    public function getAllTeamInvites(int $team_id): array {
         $query = 'SELECT user_id, inviter_id, status, message FROM team_invite WHERE team_id = :team_id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('team_id', $team_id);
