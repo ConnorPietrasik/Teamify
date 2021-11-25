@@ -13,7 +13,7 @@ final class AcceptRequest extends Base {
     public function __invoke(Request $request, Response $response, array $args): Response {
 
         $this->getTeamService()->acceptRequest((int) $args['team_id'], (int) $args['user_id']);
-        $this->getEnvService()->removeOpen($this->getTeamService()->getTeamEnvID((int) $args['team_id']), (int) $_SESSION['user_id']);
+        $this->getEnvService()->removeOpen($this->getTeamService()->getTeamEnvID((int) $args['team_id']), (int) $args['user_id']);
         return JsonResponse::withJson($response, '', 200);
     }
 }
