@@ -27,12 +27,17 @@ final class UserService
         $user['skills'] = $this->userRepository->getAllSkills($user_id);
         $user['availability'] = $this->userRepository->getAvailability($user_id);
         $user['interests'] = $this->userRepository->getAllInterests($user_id);
-        $user['teams'] = $this->userRepository->getUserTeamIDs($user_id);
+        $user['teams'] = $this->userRepository->getUserTeamStatuses($user_id);
         return $user;
     }
 
-    //Returns the user's teams
+    //Returns the user's teams as an array with key as team_id and val as status
     public function getUserTeams(int $user_id): array {
+        return $this->userRepository->getUserTeamStatusesKP($user_id);
+    }
+
+    //Returns the user's teams and their status on them as an associative array
+    public function getUserTeamStatuses(int $user_id): array {
         return $this->userRepository->getUserTeamStatuses($user_id);
     }
 

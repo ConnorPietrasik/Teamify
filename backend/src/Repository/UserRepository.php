@@ -183,13 +183,24 @@ final class UserRepository {
         return $teams;
     }
 
-    //Returns the user's teams and their status on them
-    public function getUserTeamStatuses(int $user_id): array {
+    //Returns the user's teams and their status on them as an array with key = team_id and val = status
+    public function getUserTeamStatusesKP(int $user_id): array {
         $query = 'SELECT team_id, status FROM team_member WHERE user_id = :user_id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('user_id', $user_id);
         $statement->execute();
         $teams = $statement->fetchAll(\PDO::FETCH_KEY_PAIR);
+
+        return $teams;
+    }
+
+    //Returns the user's teams and their status on them as an associative array
+    public function getUserTeamStatuses(int $user_id): array {
+        $query = 'SELECT team_id, status FROM team_member WHERE user_id = :user_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('user_id', $user_id);
+        $statement->execute();
+        $teams = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
         return $teams;
     }
