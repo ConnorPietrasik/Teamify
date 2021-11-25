@@ -72,7 +72,7 @@ final class EnvService {
         $user['availability'] = $this->envRepository->getAvailability($user_id);
         $user['interests'] = $this->envRepository->getEnvInterests($env_id, $user_id);
         $user['team'] = $this->envRepository->getEnvUserTeamID($env_id, $user_id);
-        $user['status'] = $this->envRepository->getUserTeamStatus($user_id, $user['team']);
+        //$user['status'] = $this->envRepository->getUserTeamStatus($user_id, $user['team']);
 
         return $user;
     }
