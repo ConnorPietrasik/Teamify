@@ -79,6 +79,17 @@ class EnvTest extends TestCase{
         $this->assertStringContainsString('"env_status":0', $result);
     }
 
+    //Gets the list of users for the environment
+    public function testGetAllEnvUsers(): void {
+        $request = $this->createRequest('GET', '/env/1/user/' . $_SESSION['user_id']);
+        $response = $this->getAppInstance()->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertStringContainsString('this is a skill', $result);
+    }
+
     //Successfully adds the user to the open list for env 1
     public function testPostOpen(): void {
         $request = $this->createRequest('POST', '/env/1/open');
