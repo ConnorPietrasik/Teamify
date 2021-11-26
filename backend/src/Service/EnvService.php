@@ -73,6 +73,7 @@ final class EnvService {
         $user['interests'] = $this->envRepository->getEnvInterests($env_id, $user_id);
         $user['team'] = $this->envRepository->getEnvUserTeamID($env_id, $user_id);
         if ($user['team'] != -1) $user['status'] = $this->envRepository->getUserTeamStatus($user_id, $user['team']);
+        else $user['status'] = -1;
 
         return $user;
     }
