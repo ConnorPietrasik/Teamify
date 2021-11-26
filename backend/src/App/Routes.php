@@ -47,7 +47,7 @@ $app->post('/logout', App\Controller\Auth\Logout::class);
 $app->get('/user/{id}', App\Controller\User\GetWhole::class);
 $app->get('/env/{env_id}/open', App\Controller\Environment\GetOpen::class);
 $app->post('/env/{env_id}/open/skill', App\Controller\Environment\GetOpenSkill::class);
-$app->get('/env/{env_id}/users', App\Controller\Environment\getAllEnvUsers::class);
+$app->get('/env/{env_id}/users', App\Controller\Environment\GetAllEnvUsers::class);
 $app->get('/env/{env_id}/user/{user_id}', App\Controller\Environment\GetEnvUser::class);
 $app->get('/env/{env_id}/teams', App\Controller\Environment\GetAllTeams::class);
 $app->get('/team/{team_id}', App\Controller\Team\GetTeam::class);
