@@ -22,12 +22,10 @@ final class TeamRepository {
         $query = 'SELECT * FROM team WHERE team_id = :id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('id', $team_id);
+
         $statement->execute();
         $team = $statement->fetch(\PDO::FETCH_ASSOC);
-        if (! $team) {
-            throw new TeamException('Team not found.', 404);
-        }
-
+        if (!$team) throw new TeamException('Team not found.', 404);
         return $team;
     }
     
@@ -186,9 +184,9 @@ final class TeamRepository {
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('env', $env_id);
         $statement->bindParam('user', $user_id);
+
         $statement->execute();
         $team = $statement->fetchColumn();
-
         return (!$team) ? -1 : $team;
     }
 
@@ -234,7 +232,6 @@ final class TeamRepository {
         $statement->bindValue('status', $status);
 
         $statement->execute();
-
         if ($statement->rowCount() < 1) throw new TeamException("No matching request found", 409);
     }
 
@@ -245,8 +242,8 @@ final class TeamRepository {
         $statement->bindParam('team_id', $team_id);
         $statement->bindParam('user_id', $user_id);
 
+        $statement->execute();
         $status = $statement->fetchColumn();
-
         return ($status === false) ? -1 : $status;
     }
 
@@ -303,7 +300,6 @@ final class TeamRepository {
         $statement->bindValue('status', $status);
 
         $statement->execute();
-
         if ($statement->rowCount() < 1) throw new TeamException("No matching invite found", 409);
     }
 
@@ -314,8 +310,8 @@ final class TeamRepository {
         $statement->bindParam('team_id', $team_id);
         $statement->bindParam('user_id', $user_id);
 
+        $statement->execute();
         $status = $statement->fetchColumn();
-        throw new TeamException("TESTING: team_id = ".$team_id.", user_id = ".$user_id.", status = ".$status, 500);
 
         return ($status === false) ? -1 : $status;
     }
