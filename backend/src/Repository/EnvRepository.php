@@ -159,4 +159,16 @@ final class EnvRepository {
 
         return $teams;
     }
+
+    //Returns the user's status in the environment, or -1 if it doesn't exist
+    public function getEnvUserStatus(int $user_id, int $env_id): int {
+        $query = 'SELECT status FROM user_environment WHERE user_id = :user_id AND env_id = :env_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('user_id', $user_id);
+        $statement->bindParam('env_id', $env_id);
+        $statement->execute();
+        $status = $statement->fetchColumn();
+
+        return ($status === false) ? -1 : $status;
+    }
 }

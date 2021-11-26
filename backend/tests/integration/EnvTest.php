@@ -65,8 +65,8 @@ class EnvTest extends TestCase{
     }
 
     //Gets the updated user and confirms it worked
-    public function testGetUser(): void {
-        $request = $this->createRequest('GET', '/user/'.$_SESSION['user_id']);
+    public function testGetEnvUser(): void {
+        $request = $this->createRequest('GET', '/env/1/user/'.$_SESSION['user_id']);
         $response = $this->getAppInstance()->handle($request);
 
         $result = (string) $response->getBody();
@@ -76,6 +76,7 @@ class EnvTest extends TestCase{
         $this->assertStringContainsString('this is a second skill', $result);
         $this->assertStringContainsString('1:00AM-3:00AM', $result);
         $this->assertStringContainsString('water', $result);
+        $this->assertStringContainsString('"env_status":0', $result);
     }
 
     //Successfully adds the user to the open list for env 1
