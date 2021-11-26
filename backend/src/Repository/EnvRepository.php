@@ -131,6 +131,7 @@ final class EnvRepository {
         $statement->bindParam('team_id', $team_id);
         $statement->execute();
         $status = $statement->fetchColumn();
+        throw new EnvException("TESTING: user_id = ".$user_id.", team_id = ".$team_id.", status = ".$status, 500);
 
         return (!$status) ? -1 : $status;
     }
