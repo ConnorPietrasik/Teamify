@@ -50,13 +50,16 @@ CREATE TABLE IF NOT EXISTS env_code(
 CREATE TABLE IF NOT EXISTS user_environment(
 	user_id		INT NOT NULL,
 	env_id		INT NOT NULL,
+	status		TINYINT NOT NULL,
 	PRIMARY KEY(user_id, env_id),
 	CONSTRAINT fk_user_environment_user_id
 		FOREIGN KEY(user_id) REFERENCES user(user_id) 
 		ON DELETE CASCADE,
 	CONSTRAINT fk_user_environment_env_id
 		FOREIGN KEY(env_id) REFERENCES environment(env_id) 
-		ON DELETE CASCADE
+		ON DELETE CASCADE,
+	CONSTRAINT user_environment_valid_status
+		CHECK (status >= 0 AND status <= 2)
 );
 
 CREATE TABLE IF NOT EXISTS skill(

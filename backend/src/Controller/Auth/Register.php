@@ -14,6 +14,7 @@ final class Register extends Base {
         $input = (array) $request->getParsedBody();
 
         $user_id = $this->getAuthService()->createUser($input);
+        $this->getUserService()->addUserEnvironment($user_id, 1);
 
         //Logs the user in as well
         $_SESSION['user_id'] = $user_id;

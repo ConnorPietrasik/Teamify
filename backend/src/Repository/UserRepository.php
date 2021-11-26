@@ -237,11 +237,14 @@ final class UserRepository {
         return $requests;
     }
 
-    public function getAll(): array
-    {
-        $query = 'SELECT * FROM `user` ORDER BY `user_id`';
+    //Adds the given user to the given environment
+    public function addUserEnvironment(int $user_id, int $env_id, int $status): void {
+        $query = 'INSERT INTO user_environment (user_id, env_id, status) VALUES (:user, :env, :status)';
         $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('user', $user_id);
+        $statement->bindParam('env', $env_id);
+        $statement->bindParam('status', $status);
+
         $statement->execute();
-        return (array) $statement->fetchAll();
     }
 }

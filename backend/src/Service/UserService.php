@@ -80,4 +80,9 @@ final class UserService
         $invites = $this->userRepository->getUserTeamInvites($user_id);
         return $invites;
     }
+
+    //Adds the given user to the given environment
+    public function addUserEnvironment(int $user_id, int $env_id, int $status = 0): void {
+        $this->userRepository->addUserEnvironment($user_id, $env_id, $status);
+    }
 }
