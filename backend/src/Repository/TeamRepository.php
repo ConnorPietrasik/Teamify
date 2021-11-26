@@ -315,6 +315,7 @@ final class TeamRepository {
         $statement->bindParam('user_id', $user_id);
 
         $status = $statement->fetchColumn();
+        throw new TeamException("TESTING: team_id = ".$team_id.", user_id = ".$user_id.", status = ".$status, 500);
 
         return ($status === false) ? -1 : $status;
     }
