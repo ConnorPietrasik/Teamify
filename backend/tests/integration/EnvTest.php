@@ -81,7 +81,7 @@ class EnvTest extends TestCase{
 
     //Gets the list of users for the environment
     public function testGetAllEnvUsers(): void {
-        $request = $this->createRequest('GET', '/env/1/user/' . $_SESSION['user_id']);
+        $request = $this->createRequest('GET', '/env/1/users';
         $response = $this->getAppInstance()->handle($request);
 
         $result = (string) $response->getBody();
