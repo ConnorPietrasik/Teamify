@@ -133,7 +133,7 @@ final class EnvRepository {
         $status = $statement->fetchColumn();
         throw new EnvException("TESTING: user_id = ".$user_id.", team_id = ".$team_id.", status = ".$status, 500);
 
-        return (!$status) ? -1 : $status;
+        return ($status === false) ? -1 : $status;
     }
 
     //Returns the data from the user table with the given ID
