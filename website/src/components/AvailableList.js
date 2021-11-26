@@ -20,7 +20,7 @@ export default function AvailableList(props) {
     function search() {
         // display new results based on search query
         if (searchInput.length > 0)
-            fetch(`https://api.teamify.pietrasik.top/env/1/open/skill`, {
+            fetch(`https://api.teamify.pietrasik.top/env/${props.envId}/open/skill`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

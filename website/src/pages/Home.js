@@ -12,6 +12,7 @@ class Home extends React.Component{
       // gets user info from parent App component
       user: {},
       teamId: null,
+      teamMemberRole: -1,
       refreshTeamCard: false, // to notify child Team List component to refresh
     };
     this.logout = this.logout.bind(this);
@@ -41,21 +42,28 @@ class Home extends React.Component{
     fetch(`https://api.teamify.pietrasik.top/user/${this.props.userId}`)
       .then(res => res.json())
       .then(userData => {
-        if (userData)
+        if (userData.status === "error")
           console.log(userData);
-
-        // set team id if user has a team
-        var teamId = null;
-        if (userData.teams.length > 0)
-            teamId = userData.teams[0];
-
+        else
           // update state with user data to be displayed
           this.setState({
             user: userData,
-            teamId: teamId, /* get team id of user */
           });
         }
       ).catch(console.error);
+
+     // get team_id and team member status for environmenmt
+     fetch(`https://api.teamify.pietrasik.top/env/${this.props.envId}/user/${this.props.userId}`)
+       .then(res => res.json())
+       .then(userData => {
+         if (userData.status === "error")
+           console.log(userData);
+         else
+           this.setState({
+             teamId: userData.team,
+             teamMemberRole: userData.status,
+           });
+       }).catch(console.error);
   }
 
   // receives updated user data to display on screen
@@ -93,6 +101,7 @@ class Home extends React.Component{
                 to allow this component to update user data for display
                 after user info gets updated in backend by Settings component  */
             updateProfile={this.updateProfile}
+            envId={this.props.envId}
             />
         </div>
 
@@ -101,6 +110,7 @@ class Home extends React.Component{
             /* Team List listens to this state for changes
                 when change is detected, Team List will refresh Team Card */
             refreshTeamCard={this.state.refreshTeamCard}
+            envId={this.props.envId}
             />
 
         <IndividualsList
@@ -109,6 +119,7 @@ class Home extends React.Component{
             refreshTeamCard={this.refreshTeamCard}
 
             myTeamId={this.state.teamId} /* user (as team member) may look for individuals on behalf of team */
+            envId={this.props.envId}
             />
 
           {/* cite resource */}

@@ -11,6 +11,7 @@ class App extends React.Component{
     this.state = {
       // no user logged in yet
       userId: -1,
+      envId: 1,
     };
   }
 
@@ -48,7 +49,7 @@ class App extends React.Component{
     <div className="App">
         { /*  redirects to either Home or Login page depending on whether user is signed in*/
           this.state.userId > -1 ?
-          <Home updateUserLoginInfo={this.updateUserInfo} userId={this.state.userId}/>
+          <Home updateUserLoginInfo={this.updateUserInfo} userId={this.state.userId} envId={this.state.envId}/>
           : <Login updateUserLoginInfo={this.updateUserInfo}/>}
     </div>
     );

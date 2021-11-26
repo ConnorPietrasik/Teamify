@@ -34,7 +34,7 @@ export default function ProfileSkillsSelect(props) {
         for (var i = 0; i < libraryResponse.length; i++) {
             var skillObj = {};
             skillObj.skill = libraryResponse[i].label;
-            skillObj.env_id = 0;
+            skillObj.env_id = props.envId;
             intoDatabase[i] = skillObj;
         }
         props.stateSetter(intoDatabase);

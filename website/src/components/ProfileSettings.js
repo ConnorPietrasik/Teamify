@@ -91,7 +91,8 @@ export default function ProfileSettings(props) {
         <div className="multiSelect">
             {editMode ?
                 /* editable list of skills */
-                <ProfileSkillsSelect stateValue={skills} stateSetter={setSkills}/>
+                <ProfileSkillsSelect stateValue={skills} stateSetter={setSkills}
+                    envId={0}/>
 
                 : /* non editable list */
                 skills.map(skillObj => <p>{skillObj.skill}</p>)

@@ -51,7 +51,7 @@ export default function IndividualsList(props) {
         const idsOfInvited = invited.map((inviteData) => inviteData.user.user_id);
 
         // get open Individuals
-        fetch(`https://api.teamify.pietrasik.top/env/1/open`)
+        fetch(`https://api.teamify.pietrasik.top/env/${props.envId}/open`)
           .then(res => res.json())
           .then(listOpenIndividuals => {
               if (listOpenIndividuals)
@@ -125,9 +125,9 @@ export default function IndividualsList(props) {
                 </>
             : <></>}
 
-            {openIndividuals.length > 0 ?
-                <AvailableList openIndividuals={openIndividuals} updateList={updateAfterInviting} myTeamId={myTeamId}/>
-              : <></>}
+            <AvailableList openIndividuals={openIndividuals} updateList={updateAfterInviting} myTeamId={myTeamId}
+                envId={props.envId}/>
+
           </div>
     );
 }
