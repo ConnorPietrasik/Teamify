@@ -125,6 +125,7 @@ final class EnvRepository {
 
     //Returns the user's status on the given team, or -1 if it doesn't exist
     public function getUserTeamStatus(int $user_id, int $team_id): int {
+        throw new EnvException("TESTING: Team id: ".$team_id, 500);
         $query = 'SELECT status FROM team_member WHERE user_id = :user_id AND team_id = :team_id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('user_id', $user_id);
