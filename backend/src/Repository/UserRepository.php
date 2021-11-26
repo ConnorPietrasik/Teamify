@@ -247,4 +247,15 @@ final class UserRepository {
 
         $statement->execute();
     }
+
+    //Returns the user's env_ids and their status in them as an associative array
+    public function getUserEnvStatuses(int $user_id): array {
+        $query = 'SELECT env_id, status FROM user_environment WHERE user_id = :user_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('user_id', $user_id);
+        $statement->execute();
+        $envs = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        return $envs;
+    }
 }

@@ -29,6 +29,7 @@ final class UserService
         $user['interests'] = $this->userRepository->getAllInterests($user_id);
         $user['teams'] = $this->userRepository->getUserTeamIDs($user_id);
         $user['team_statuses'] = $this->userRepository->getUserTeamStatuses($user_id);
+        $user['environments'] = $this->userRepository->getUserEnvStatuses($user_id);
 
         return $user;
     }

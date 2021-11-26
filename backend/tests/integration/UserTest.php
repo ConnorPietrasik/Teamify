@@ -91,6 +91,7 @@ class UserTest extends TestCase{
         $this->assertStringContainsString('this is a second skill', $result);
         $this->assertStringContainsString('1:00AM-3:00AM', $result);
         $this->assertStringContainsString('water', $result);
+        $this->assertStringContainsString('"env_id":1', $result);
     }
 
     //Successfully deletes the user
