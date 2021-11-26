@@ -57,7 +57,7 @@ export default function TeamsList(props) {
         }
     }, [props.myTeamId, props.refreshTeamCard]); // runs when parameter is received
 
-    useEffect(() => { console.log("env_id", props.envId)
+    useEffect(() => {
         const idsOfTeamsApplied = teamRequestsSent.map((requestData) => requestData.team.team_id);
         const idsOfTeamsInvitedMe = teamRequestsReceived.map((requestData) => requestData.team.team_id);
 
@@ -75,7 +75,7 @@ export default function TeamsList(props) {
     }, [teamRequestsSent, teamRequestsReceived]);
 
     // makes new team with user as first team member, saves to API
-    function createTeam(teamName) { console.log("env_id", props.envId)
+    function createTeam(teamName) {
         // record new team in database
         fetch(`https://api.teamify.pietrasik.top/env/${props.envId}/createteam`, {
           method: 'POST',

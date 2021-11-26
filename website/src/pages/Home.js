@@ -58,11 +58,13 @@ class Home extends React.Component{
        .then(userData => {
          if (userData.status === "error")
            console.log(userData);
-         else
-           this.setState({
-             teamId: userData.team,
-             teamMemberRole: userData.status,
-           });
+         else {
+           if (userData.team > -1) // get team info if user has a team
+               this.setState({
+                 teamId: userData.team,
+                 teamMemberRole: userData.status,
+               });
+          }
        }).catch(console.error);
   }
 
