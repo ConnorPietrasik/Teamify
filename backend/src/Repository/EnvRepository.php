@@ -22,9 +22,9 @@ final class EnvRepository {
         $query = 'SELECT user_id FROM user_environment WHERE env_id = :id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('id', $env_id);
+        
         $statement->execute();
         $users = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
-
         return $users;
     }
 
@@ -41,7 +41,6 @@ final class EnvRepository {
 
         $statement->execute($args);
         $users = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
-
         return $users;
     }
 
@@ -50,9 +49,9 @@ final class EnvRepository {
         $query = 'SELECT user_id FROM env_open WHERE env_id = :id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('id', $env_id);
+
         $statement->execute();
         $users = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
-
         return $users;
     }
 
@@ -82,9 +81,9 @@ final class EnvRepository {
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('env', $env_id);
         $statement->bindParam('user', $user_id);
+
         $statement->execute();
         $skills = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
-
         return $skills;
     }
 
@@ -93,9 +92,9 @@ final class EnvRepository {
         $query = 'SELECT day, time FROM availability WHERE user_id = :id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('id', $user_id);
+
         $statement->execute();
         $availability = $statement->fetchAll(\PDO::FETCH_ASSOC);
-
         return $availability;
     }
 
@@ -105,9 +104,9 @@ final class EnvRepository {
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('env', $env_id);
         $statement->bindParam('user', $user_id);
+
         $statement->execute();
         $skills = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
-
         return $skills;
     }
 
@@ -117,9 +116,9 @@ final class EnvRepository {
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('env', $env_id);
         $statement->bindParam('user', $user_id);
+
         $statement->execute();
         $team = $statement->fetchColumn();
-
         return (!$team) ? -1 : $team;
     }
 
@@ -129,9 +128,9 @@ final class EnvRepository {
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('user_id', $user_id);
         $statement->bindParam('team_id', $team_id);
+
         $statement->execute();
         $status = $statement->fetchColumn();
-
         return ($status === false) ? -1 : $status;
     }
 
@@ -140,12 +139,10 @@ final class EnvRepository {
         $query = 'SELECT * FROM user WHERE user_id = :id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('id', $user_id);
+
         $statement->execute();
         $user = $statement->fetch(\PDO::FETCH_ASSOC);
-        if (! $user) {
-            throw new UserException('User not found.', 404);
-        }
-
+        if (! $user) throw new UserException('User not found.', 404);
         return $user;
     }
 
@@ -154,9 +151,9 @@ final class EnvRepository {
         $query = 'SELECT team_id FROM team WHERE env_id = :id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('id', $env_id);
+
         $statement->execute();
         $teams = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
-
         return $teams;
     }
 
@@ -166,9 +163,42 @@ final class EnvRepository {
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('user_id', $user_id);
         $statement->bindParam('env_id', $env_id);
+
         $statement->execute();
         $status = $statement->fetchColumn();
-
         return ($status === false) ? -1 : $status;
+    }
+
+    //Creates the environment with given specs
+    public function createEnv(string $name, string $code): int {
+        $query = 'INSERT INTO environment (name, code) VALUES (:name, :code)';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindValue('name', $name);
+        $statement->bindValue('code', $code);
+
+        $statement->execute();
+        return (int) $this->getDb()->lastInsertId();
+    }
+
+    //Adds the user to the environment with given status
+    public function addEnvMember(int $env_id, int $user_id, int $status = 0): void {
+        $query = 'INSERT INTO user_environment (env_id, user_id, status) VALUES (:env_id, :user_id, :status)';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindValue('env_id', $env_id);
+        $statement->bindValue('user_id', $user_id);
+        $statement->bindValue('status', $status);
+
+        $statement->execute();
+    }
+
+    //Returns the environment's ID from the code, or -1 if it doesn't exist
+    public function getEnvIDByCode(string $code): int {
+        $query = 'SELECT env_id FROM environment WHERE code = :code';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('code', $code);
+
+        $statement->execute();
+        $id = $statement->fetchColumn();
+        return (!$id) ? -1 : $id;
     }
 }

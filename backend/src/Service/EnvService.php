@@ -78,4 +78,14 @@ final class EnvService {
 
         return $user;
     }
+
+    //Creates the environment with given specs
+    public function createEnv(int $owner_id, string $name, string $code): int {
+        $errCheck = $this->envRepository->getEnvIDByCode($code);
+        if ($errCheck != -1) throw new EnvException("Environment code already in use for env_id ".$errCheck, 409);
+        
+        $env_id = $this->envRepository->createEnv($name, $code);
+        $this->envRepository->addEnvMember($env_id, $owner_id, 1);
+        return $env_id;
+    }
 }

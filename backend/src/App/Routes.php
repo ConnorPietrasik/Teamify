@@ -24,6 +24,7 @@ $app->group('', function (RouteCollectorProxy $group){
     $group->delete('/user', App\Controller\User\Delete::class);
     $group->get('/user/requests', App\Controller\User\GetTeamRequests::class);
     $group->get('/user/invites', App\Controller\User\GetTeamInvites::class);
+    $group->post('/env/create', App\Controller\Environment\CreateEnv::class);
     $group->post('/env/{env_id}/open', App\Controller\Environment\PostOpen::class);
     $group->delete('/env/{env_id}/open', App\Controller\Environment\RemoveOpen::class);
     $group->post('/env/{env_id}/createteam', App\Controller\Team\CreateTeam::class);

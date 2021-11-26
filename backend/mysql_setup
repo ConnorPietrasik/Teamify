@@ -30,21 +30,9 @@ CREATE TABLE IF NOT EXISTS oauth(
 
 CREATE TABLE IF NOT EXISTS environment(
 	env_id		INT NOT NULL AUTO_INCREMENT,
-	owner_id	INT NOT NULL,
 	name		VARCHAR(45),
-	PRIMARY KEY(env_id),
-	CONSTRAINT fk_environment_owner_id
-		FOREIGN KEY(owner_id) REFERENCES user(user_id)
-		ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS env_code(
-	env_id		INT NOT NULL,
 	code		VARCHAR(10) NOT NULL UNIQUE,
-	PRIMARY KEY(env_id),
-	CONSTRAINT fk_env_code_env_id
-		FOREIGN KEY(env_id) REFERENCES environment(env_id) 
-		ON DELETE CASCADE
+	PRIMARY KEY(env_id)
 );
 
 CREATE TABLE IF NOT EXISTS user_environment(
@@ -192,28 +180,18 @@ CREATE TABLE IF NOT EXISTS team_request(
 		CHECK (status >= 0 AND status <= 2)
 );
 
-INSERT INTO user 
-VALUES (0, 'admin', 'Admin Account', 'This is the admin account to own the global environment stuff');
-
-UPDATE user
-SET user_id = 0
-WHERE user_id = 1;
-
 INSERT INTO environment
-VALUES (0, 0, 'Global Environment');
+VALUES (0, 'Global Environment', '');
 
 UPDATE environment
 SET env_id = 0
 WHERE env_id = 1;
 
 INSERT INTO environment
-VALUES (1, 0, 'Default Environment');
+VALUES (1, 'Default Environment', 'DEFAULT');
 
 \! echo\ &echo "Tables created:"
 SHOW TABLES;
-
-\! echo\ &echo "User created:"
-SELECT * FROM user;
 
 \! echo\ &echo "Environments created:"
 SELECT * FROM environment;
