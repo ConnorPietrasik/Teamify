@@ -21,8 +21,8 @@ export default function CandidateCard(props) {
                 },
                 }).then()
                 .then(data => {
+                    props.accept(props.candidateData);
                 }).catch(console.error);
-              props.accept(props.candidateData);
 
           }}>Accept</button>
 

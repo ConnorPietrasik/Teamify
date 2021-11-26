@@ -33,7 +33,7 @@ export default function IndividualsList(props) {
               }).catch(console.error);
 
           // get people my team has invited
-          fetch(`https://api.teamify.pietrasik.top/team/79/invites`, {
+          fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}/invites`, {
               method: 'GET',
               credentials: 'include',
               headers: {'Content-Type': 'application/json'},
