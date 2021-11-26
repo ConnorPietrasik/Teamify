@@ -79,6 +79,8 @@ final class TeamService {
     public function requestJoinTeam(int $team_id, int $user_id, string $message = null): void {
         $errCheck = $this->teamRepository->getEnvUserTeam($this->teamRepository->getTeamEnvID($team_id), $user_id);
         if ($errCheck != -1) throw new TeamException("User already in a team for this environment, team ID: ".$errCheck, 409);
+        $errCheck = $this->teamRepository->getTeamUserInvStatus($team_id, $user_id);
+        if ($errCheck != -1) throw new TeamException("User already invited to team, invite status: ".$errCheck, 409);
 
         $this->teamRepository->addTeamRequest($team_id, $user_id, $message);
     }
@@ -115,6 +117,8 @@ final class TeamService {
     public function inviteUserTeam(int $team_id, int $user_id, string $message = null): void {
         $errCheck = $this->teamRepository->getEnvUserTeam($this->teamRepository->getTeamEnvID($team_id), $user_id);
         if ($errCheck != -1) throw new TeamException("User already in a team for this environment, team ID: ".$errCheck, 409);
+        $errCheck = $this->teamRepository->getTeamUserInvStatus($team_id, $user_id);
+        if ($errCheck != -1) throw new TeamException("User already invited to team, invite status: ".$errCheck, 409);
 
         $this->teamRepository->inviteUserTeam($team_id, $user_id, $message, (int) $_SESSION['user_id']);
     }

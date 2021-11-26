@@ -238,6 +238,18 @@ final class TeamRepository {
         if ($statement->rowCount() < 1) throw new TeamException("No matching request found", 409);
     }
 
+    //Checks if a user has already requested to join a team
+    public function getTeamUserReqStatus(int $team_id, int $user_id): int {
+        $query = 'SELECT status FROM team_request WHERE team_id = :team_id AND user_id = :user_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+        $statement->bindParam('user_id', $user_id);
+
+        $status = $statement->fetchColumn();
+
+        return ($status === false) ? -1 : $status;
+    }
+
     //Deletes the user's requests for the given teams
     public function deleteTeamRequestsByUserAndEnv(int $user_id, int $env_id): void {
         $query = 'DELETE FROM team_request WHERE user_id = :user_id AND (status = 0 OR status = 1) AND team_id IN (SELECT team_id FROM team WHERE env_id = :env_id)';
@@ -293,6 +305,18 @@ final class TeamRepository {
         $statement->execute();
 
         if ($statement->rowCount() < 1) throw new TeamException("No matching invite found", 409);
+    }
+
+    //Checks if a user has already been invited to a team
+    public function getTeamUserInvStatus(int $team_id, int $user_id): int {
+        $query = 'SELECT status FROM team_invite WHERE team_id = :team_id AND user_id = :user_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+        $statement->bindParam('user_id', $user_id);
+
+        $status = $statement->fetchColumn();
+
+        return ($status === false) ? -1 : $status;
     }
 
     //Deletes the user's requests for the given teams
