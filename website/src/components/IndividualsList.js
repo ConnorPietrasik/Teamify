@@ -106,6 +106,7 @@ export default function IndividualsList(props) {
                 <div className="IndividualsList" >
                   {candidates.map((candidate) =>
                     <CandidateCard key={candidate} candidateData={candidate} myTeamId={myTeamId}
+                        teamMemberRole={props.teamMemberRole}
                         accept={updateAfterAccepting}
                         reject={updateAfterRejecting}
                         />)}
@@ -126,8 +127,7 @@ export default function IndividualsList(props) {
             : <></>}
 
             <AvailableList openIndividuals={openIndividuals} updateList={updateAfterInviting} myTeamId={myTeamId}
-                envId={props.envId}
-                teamMemberRole={props.teamMemberRole}/>
+                envId={props.envId}/>
 
           </div>
     );

@@ -9,7 +9,9 @@ export default function CandidateCard(props) {
         <img className="profilePic" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" />
         <p>{props.candidateData.user.username}</p>
       </div>
-      <div>
+
+      { props.teamMemberRole === 1 /* display accept/reject buttons only if user is team leader */ ?
+         <div>
           <p>{props.candidateData.message ? props.candidateData.message : ''}</p>
           <button className="inviteBtn colorFadeEffect" onClick = {() => {
               // accept this candidate into team of user currently logged in, if user is leader
@@ -41,6 +43,8 @@ export default function CandidateCard(props) {
 
           }}>Reject</button>
       </div>
+    : <></>}
+
     </div>
   );
 }
