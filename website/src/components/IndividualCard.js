@@ -20,7 +20,7 @@ export default function IndividualCard(props) {
           props.individual.skills.map(skillStr => <p>{skillStr}</p>) : <></>
       }
 
-      { props.type === "open" ?
+      { props.type === "open" && props.teamMemberRole === 1 ?
         <div>
             <form>
                 <LineInput placeholder={`hi ${props.individual.username}...`} stateValue={messageToIndividual} stateSetter={setMessageToIndividual}/>

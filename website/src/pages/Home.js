@@ -122,6 +122,7 @@ class Home extends React.Component{
 
             myTeamId={this.state.teamId} /* user (as team member) may look for individuals on behalf of team */
             envId={this.props.envId}
+            teamMemberRole={this.state.teamMemberRole}
             />
 
           {/* cite resource */}

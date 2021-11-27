@@ -126,7 +126,8 @@ export default function IndividualsList(props) {
             : <></>}
 
             <AvailableList openIndividuals={openIndividuals} updateList={updateAfterInviting} myTeamId={myTeamId}
-                envId={props.envId}/>
+                envId={props.envId}
+                teamMemberRole={props.teamMemberRole}/>
 
           </div>
     );
