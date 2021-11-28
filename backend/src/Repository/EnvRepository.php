@@ -203,7 +203,7 @@ final class EnvRepository {
     }
 
     //Deletes the given environment
-    public function deleteAvailabilities(int $env_id): void {
+    public function deleteEnv(int $env_id): void {
         $query = 'DELETE FROM environment WHERE env_id = :env_id';
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('env_id', $env_id);
