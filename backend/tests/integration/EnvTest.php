@@ -79,21 +79,21 @@ class EnvTest extends TestCase{
         $this->assertStringContainsString('"env_status":0', $result);
     }
 
-    //Creates a new environment - SKIPPED UNTIL DATABASE REFORMAT
-    // public function testCreateEnv(): void {
-    //     $params = [
-    //         'name' => 'TestEnv',
-    //         'code' => 'test'
-    //     ];
-    //     $req = $this->createRequest('POST', '/env/create');
-    //     $request = $req->withParsedBody($params);
-    //     $response = $this->getAppInstance()->handle($request);
+    //Creates a new environment
+    public function testCreateEnv(): void {
+        $params = [
+            'name' => 'TestEnv',
+            'code' => 'test'
+        ];
+        $req = $this->createRequest('POST', '/env/create');
+        $request = $req->withParsedBody($params);
+        $response = $this->getAppInstance()->handle($request);
 
-    //     $result = (string) $response->getBody();
+        $result = (string) $response->getBody();
 
-    //     $this->assertEquals(201, $response->getStatusCode());
-    //     $this->assertStringContainsString('env_id', $result);
-    // }
+        $this->assertEquals(201, $response->getStatusCode());
+        $this->assertStringContainsString('env_id', $result);
+    }
 
     //Gets the list of users for the environment
     public function testGetAllEnvUsers(): void {
@@ -126,6 +126,7 @@ class EnvTest extends TestCase{
         $this->assertStringContainsString('this is a second skill', $result);
         $this->assertStringContainsString('1:00AM-3:00AM', $result);
         $this->assertStringContainsString('water', $result);
+        $this->assertStringContainsString('env_id', $result);
     }
 
     //Tests if it returns by skill
