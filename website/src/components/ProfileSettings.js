@@ -150,7 +150,7 @@ export default function ProfileSettings(props) {
     <FormControlLabel label={`Other users ${isOpen ? 'can' : 'cannot'} see my profile and invite me`}
         control={<Switch
                     style={{color:  `${isOpen ? '#6b96cf' : 'lightgrey'}`}}
-                    defaultChecked={isOpen}
+                    checked={isOpen}
                     onChange={() => toggleIsOpen()} />} />
     </>
   );
