@@ -83,7 +83,7 @@ final class EnvRepository {
         $statement->bindParam('user_id', $user_id);
 
         $statement->execute();
-        return $statement->fetchColumn();
+        return (bool) $statement->fetchColumn();
     }
 
     //Returns all the skills for the user matching the environment
