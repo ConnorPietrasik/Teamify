@@ -96,6 +96,52 @@ class EnvTest extends TestCase{
         return json_decode($result)->env_id;
     }
 
+    //Creates a second user to join the environment
+    public function testCreateSecondUser(): void {
+        $request = $this->createRequest('POST', '/logout');
+        $this->getAppInstance()->handle($request);
+
+        $params = [
+            'username' => 'testUser2',
+            'password' => 'test'
+        ];
+        $req = $this->createRequest('POST', '/register');
+        $request = $req->withParsedBody($params);
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(201, $response->getStatusCode());
+    }
+
+    //Creates a second user to join the environment
+    public function testJoinEnvironment(): void {
+        $params = [
+            'code' => 'test'
+        ];
+        $req = $this->createRequest('POST', '/env/join');
+        $request = $req->withParsedBody($params);
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+    //Deletes the second user and logs the first back in
+    public function testDeleteSecond(): void {
+        $request = $this->createRequest('DELETE', '/user');
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $params = [
+            'username' => 'testUser',
+            'password' => 'test'
+        ];
+        $req = $this->createRequest('POST', '/login');
+        $request = $req->withParsedBody($params);
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
     //Deletes the environment
     /**
      * @depends testCreateEnv
