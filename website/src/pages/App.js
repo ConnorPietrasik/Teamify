@@ -5,6 +5,17 @@ import Home from './Home';
 import React, { useState } from 'react';
 import {Routes, Route} from "react-router-dom";
 
+import Box from '@mui/material/Box';
+import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+
+import Drawer from '@mui/material/Drawer';
+import IconButton from '@mui/material/IconButton';
+
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+
 class App extends React.Component{
   constructor(props) {
     super(props);
@@ -12,6 +23,7 @@ class App extends React.Component{
       // no user logged in yet
       userId: -1,
       envId: 1,
+      drawerIsOpen: false,  // whether or not Sidebar is shown
     };
   }
 
@@ -49,7 +61,63 @@ class App extends React.Component{
     <div className="App">
         { /*  redirects to either Home or Login page depending on whether user is signed in*/
           this.state.userId > -1 ?
-          <Home updateUserLoginInfo={this.updateUserInfo} userId={this.state.userId} envId={this.state.envId}/>
+          <Box sx={{ display: 'flex' }}>
+
+            {/* Sidebar */}
+            <Box  sx={{ flexGrow: 1 }}>
+              <Drawer variant="permanent" open={this.state.drawerIsOpen} anchor="left"
+              sx={{'& .MuiDrawer-paper': {
+                    border: 'none',
+                    boxShadow: '0 0 10px 3px rgba(0, 0, 0, .125)',
+
+                    /* side bar slides open with animation */
+                    width: `${this.state.drawerIsOpen ? '250px' : '0'}`,
+                    transition: 'width .1s ease-in-out',
+                  },
+                }}>
+
+                <Toolbar>
+                  {/* button to close Sidebar*/}
+                  <IconButton sx={{width: 50}} style={{color: 'grey'}}
+                    onClick={() => this.setState({drawerIsOpen: false})}>
+                    {'<'}</IconButton>
+                  </Toolbar>
+
+                {/* list of environments */}
+                <List>
+                  {['Home Env', 'Math Proj', 'CS Proj', 'Engl Proj', 'Hackathon'].map((text, index) => (
+                    <ListItem button key={text}>
+                      <ListItemText primary={text} />
+                    </ListItem>
+                  ))}
+                </List>
+
+                </Drawer>
+              </Box>
+
+            {/* App bar, dashboard */}
+            <Box sx={{
+                /* app bar & dashboard width shrinks as sidebar slides open */
+                width: `${this.state.drawerIsOpen ? `${100-((255/window.innerWidth)*100)}%` : '100%'}`,
+                                                /* width % = % of viewport width - % of viewport width drawer takes up */
+                transition: 'width .1s ease-in-out'}}>
+
+                {/* App bar */}
+                <Toolbar sx={{mt: '-40px', ml: '-40px', mr: '-40px', /* undo default margins on all sides except bottom margin */
+                            boxShadow: '0 0 10px 3px rgba(0, 0, 0, .125)',}}>
+                    {this.state.drawerIsOpen ? <></> :
+                        /* button to open Sidebar */
+                        <IconButton edge="start" sx={{width: 120, fontSize: 14}} style={{color: 'grey'}}
+                            onClick={() => this.setState({drawerIsOpen: true})}>
+                            {'> environments'}</IconButton>}
+
+                    <Box sx={{ flexGrow: 1 }}><h3 align="left">Teamify</h3></Box>
+                    </Toolbar>
+
+                {/* dashboard */}
+                <Home updateUserLoginInfo={this.updateUserInfo} userId={this.state.userId} envId={this.state.envId}/>
+            </Box>
+          </Box>
           : <Login updateUserLoginInfo={this.updateUserInfo}/>}
     </div>
     );
