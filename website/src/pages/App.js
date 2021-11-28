@@ -15,6 +15,7 @@ import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import RoomPreferencesRoundedIcon from '@mui/icons-material/RoomPreferencesRounded';
 
 class App extends React.Component{
   constructor(props) {
@@ -124,9 +125,9 @@ class App extends React.Component{
                             boxShadow: '0 0 10px 3px rgba(0, 0, 0, .125)',}}>
                     {this.state.drawerIsOpen ? <></> :
                         /* button to open Sidebar */
-                        <IconButton edge="start" sx={{width: 120, fontSize: 14}} style={{color: 'grey'}}
+                        <IconButton edge="start" sx={{width: 50}} style={{color: 'grey'}}
                             onClick={() => this.setState({drawerIsOpen: true})}>
-                            {'> environments'}</IconButton>}
+                            <RoomPreferencesRoundedIcon fontSize="large"/></IconButton>}
 
                     <Box sx={{ flexGrow: 1 }}><h3 align="left">Teamify</h3></Box>
                     <Button variant="text" onClick={this.logout} style={{color: '#2F4664'}}>Logout</Button>
