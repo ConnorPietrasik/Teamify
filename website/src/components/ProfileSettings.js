@@ -6,6 +6,8 @@ import ProfileSkillsSelect from './inputs/ProfileSkillsSelect.js';
 import Avatar from '@mui/material/Avatar';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
 
 // allowing user to view and edit their data
 export default function ProfileSettings(props) {
@@ -134,7 +136,9 @@ export default function ProfileSettings(props) {
                     envId={0}/>
 
                 : /* non editable list */
-                skills.map(skillObj => <p>{skillObj.skill}</p>)
+                <Stack direction="row" spacing={1}>
+                    {skills.map(skillObj => <Chip label={skillObj.skill} />)}
+                </Stack>
             }</div>
 
         {editMode ? <button onClick = {(e) => {
