@@ -269,4 +269,15 @@ final class UserRepository {
 
         return $envs;
     }
+
+    //Returns all the env_ids for environments where the user is listed as open
+    public function getUserOpenEnvIDs(int $user_id): array {
+        $query = 'SELECT env_id FROM env_open WHERE user_id = :user_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('user_id', $user_id);
+        $statement->execute();
+        $envs = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
+
+        return $envs;
+    }
 }

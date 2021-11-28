@@ -30,6 +30,7 @@ final class UserService
         $user['teams'] = $this->userRepository->getUserTeamIDs($user_id);
         $user['team_statuses'] = $this->userRepository->getUserTeamStatuses($user_id);
         $user['environments'] = $this->userRepository->getUserEnvStatuses($user_id);
+        $user['open_envs'] = $this->userRepository->getUserOpenEnvIDs($user_id);
 
         return $user;
     }
