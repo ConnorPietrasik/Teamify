@@ -75,6 +75,7 @@ final class EnvService {
         if ($user['team'] != -1) $user['status'] = $this->envRepository->getUserTeamStatus($user_id, $user['team']);
         else $user['status'] = -1;
         $user['env_status'] = $this->envRepository->getUserEnvStatus($user_id, $env_id);
+        $user['open'] = $this->envRepository->isOpen($env_id, $user_id);
 
         return $user;
     }

@@ -75,6 +75,17 @@ final class EnvRepository {
         $statement->execute();
     }
 
+    //Returns true if the given user is open in the given environment, false otherwise
+    public function isOpen(int $env_id, int $user_id): bool {
+        $query = 'SELECT COUNT(*) FROM env_open WHERE env_id = :env_id AND user_id = :user_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('env_id', $env_id);
+        $statement->bindParam('user_id', $user_id);
+
+        $statement->execute();
+        return $statement->fetchColumn();
+    }
+
     //Returns all the skills for the user matching the environment
     public function getEnvSkills(int $env_id, int $user_id): array {
         $query = 'SELECT skill FROM skill WHERE user_id = :user AND (env_id = :env OR env_id = 0)';
