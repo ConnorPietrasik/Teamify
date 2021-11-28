@@ -90,6 +90,19 @@ final class EnvService {
         return $env_id;
     }
 
+    //Joins the environment with the given code
+    public function joinEnv(int $user_id, string $code): int {
+        $env_id = $this->envRepository->getEnvIDByCode($code);
+        if ($env_id == -1) throw new EnvException("Environment code not found", 404);
+
+        $status = $this->envRepository->getEnvMemberStatus($env_id, $user_id);
+        if ($status == 2) throw new EnvException("User has been banned from environment", 401);
+        if ($status != -1) throw new EnvException("User already in environment", 409);
+
+        $this->envRepository->addEnvMember($env_id, $user_id);
+        return $env_id;
+    }
+
     //Deletes the given environment
     public function deleteEnv(int $env_id): void {
         $this->envRepository->deleteEnv($env_id);

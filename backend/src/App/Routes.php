@@ -27,6 +27,7 @@ $app->group('', function (RouteCollectorProxy $group){
     $group->get('/user/requests', App\Controller\User\GetTeamRequests::class);
     $group->get('/user/invites', App\Controller\User\GetTeamInvites::class);
     $group->post('/env/create', App\Controller\Environment\CreateEnv::class);
+    $group->post('/env/join', App\Controller\Environment\JoinEnv::class);
     $group->post('/team/{team_id}/request', App\Controller\Team\RequestJoin::class);
     $group->post('/team/{team_id}/accept', App\Controller\Team\AcceptInvite::class);
     $group->post('/team/{team_id}/deny', App\Controller\Team\DenyInvite::class);

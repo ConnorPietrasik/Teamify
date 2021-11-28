@@ -221,4 +221,16 @@ final class EnvRepository {
         
         $statement->execute();
     }
+
+    //Returns the status of the environment member or -1
+    public function getEnvMemberStatus(int $env_id, int $user_id): int {
+        $query = 'SELECT status FROM user_environment WHERE env_id = :env_id AND user_id = :user_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('env_id', $env_id);
+        $statement->bindParam('user_id', $user_id);
+
+        $statement->execute();
+        $status = $statement->fetchColumn();
+        return ($status === false) ? -1 : $status;
+    }
 }
