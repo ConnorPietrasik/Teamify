@@ -88,4 +88,9 @@ final class EnvService {
         $this->envRepository->addEnvMember($env_id, $owner_id, 1);
         return $env_id;
     }
+
+    //Deletes the given environment
+    public function deleteEnv(int $env_id): void {
+        $this->envRepository->deleteEnv($env_id);
+    }
 }
