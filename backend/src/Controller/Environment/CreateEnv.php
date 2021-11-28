@@ -14,6 +14,7 @@ final class CreateEnv extends Base {
         $input = (array) $request->getParsedBody();
 
         $env_id = $this->getEnvService()->createEnv((int) $_SESSION['user_id'], $input['name'], $input['code']);
+        $_SESSION['environments'][$env_id] = 1;
 
         $env = array('env_id' => $env_id);
         return JsonResponse::withJson($response, (string) json_encode($env), 201);

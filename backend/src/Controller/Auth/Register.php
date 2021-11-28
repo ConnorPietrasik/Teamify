@@ -20,6 +20,7 @@ final class Register extends Base {
         $_SESSION['user_id'] = $user_id;
         $_SESSION['last_login'] = time();
         $_SESSION['teams'] = $this->getUserService()->getUserTeams($user_id);
+        $_SESSION['environments'] = $this->getUserService()->getUserEnvironments($user_id);
 
         $user = array('user_id' => $user_id);
         return JsonResponse::withJson($response, (string) json_encode($user), 201);

@@ -34,6 +34,11 @@ final class UserService
         return $user;
     }
 
+    //Returns the user's environments with key as env_id and val as status
+    public function getUserEnvironments(int $user_id): array {
+        return $this->userRepository->getUserEnvStatusesKP($user_id);
+    }
+
     //Returns the user's teams as an array with key as team_id and val as status
     public function getUserTeams(int $user_id): array {
         return $this->userRepository->getUserTeamStatusesKP($user_id);

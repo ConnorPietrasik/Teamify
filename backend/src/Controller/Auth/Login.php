@@ -18,6 +18,7 @@ final class Login extends Base {
             $_SESSION['user_id'] = $user_id;
             $_SESSION['last_login'] = time();
             $_SESSION['teams'] = $this->getUserService()->getUserTeams($user_id);
+            $_SESSION['environments'] = $this->getUserService()->getUserEnvironments($user_id);
         }
         else throw new AuthException('User/Pass combo not found', 409);
 
