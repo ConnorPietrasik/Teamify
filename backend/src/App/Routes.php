@@ -6,6 +6,8 @@ use Slim\Routing\RouteCollectorProxy;
 use App\Controller\Auth\AuthMiddleware;
 use App\Controller\Team\TeamAuthAdminMiddleware;
 use App\Controller\Team\TeamAuthMemberMiddleware;
+use App\Controller\Environment\EnvAuthAdminMiddleware;
+use App\Controller\Environment\EnvAuthMemberMiddleware;
 
 $app->get('/', 'App\Controller\Home:getHelp');
 $app->get('/status', 'App\Controller\Home:getStatus');
@@ -25,9 +27,6 @@ $app->group('', function (RouteCollectorProxy $group){
     $group->get('/user/requests', App\Controller\User\GetTeamRequests::class);
     $group->get('/user/invites', App\Controller\User\GetTeamInvites::class);
     $group->post('/env/create', App\Controller\Environment\CreateEnv::class);
-    $group->post('/env/{env_id}/open', App\Controller\Environment\PostOpen::class);
-    $group->delete('/env/{env_id}/open', App\Controller\Environment\RemoveOpen::class);
-    $group->post('/env/{env_id}/createteam', App\Controller\Team\CreateTeam::class);
     $group->post('/team/{team_id}/request', App\Controller\Team\RequestJoin::class);
     $group->post('/team/{team_id}/accept', App\Controller\Team\AcceptInvite::class);
     $group->post('/team/{team_id}/deny', App\Controller\Team\DenyInvite::class);
@@ -40,6 +39,18 @@ $app->group('', function (RouteCollectorProxy $group){
     $group->post('/team/{team_id}/accept/{user_id}', App\Controller\Team\AcceptRequest::class);
     $group->post('/team/{team_id}/deny/{user_id}', App\Controller\Team\DenyRequest::class);
 })->add(new TeamAuthAdminMiddleware);
+
+//Routes that require environment membership
+$app->group('', function (RouteCollectorProxy $group){
+    $group->post('/env/{env_id}/open', App\Controller\Environment\PostOpen::class);
+    $group->delete('/env/{env_id}/open', App\Controller\Environment\RemoveOpen::class);
+    $group->post('/env/{env_id}/createteam', App\Controller\Team\CreateTeam::class);
+})->add(new EnvAuthAdminMiddleware);
+
+//Routes that require environment admin rights
+$app->group('', function (RouteCollectorProxy $group){
+    $group->delete('/env/{env_id}', App\Controller\Environment\DeleteEnv::class);
+})->add(new EnvAuthAdminMiddleware);
 
 //Routes that don't require any authentication
 $app->post('/register', App\Controller\Auth\Register::class);

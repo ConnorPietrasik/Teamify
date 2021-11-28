@@ -80,7 +80,7 @@ class EnvTest extends TestCase{
     }
 
     //Creates a new environment
-    public function testCreateEnv(): void {
+    public function testCreateEnv(): int {
         $params = [
             'name' => 'TestEnv',
             'code' => 'test'
@@ -93,6 +93,18 @@ class EnvTest extends TestCase{
 
         $this->assertEquals(201, $response->getStatusCode());
         $this->assertStringContainsString('env_id', $result);
+        return json_decode($result)->env_id;
+    }
+
+    //Deletes the environment
+    /**
+     * @depends testCreateEnv
+     */
+    public function testDeleteEnv($env_id): void {
+        $request = $this->createRequest('DELETE', '/env/'.$env_id);
+        $response = $this->getAppInstance()->handle($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     //Gets the list of users for the environment
