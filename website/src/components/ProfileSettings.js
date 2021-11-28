@@ -114,7 +114,7 @@ export default function ProfileSettings(props) {
         <div>
              <button className="editBtn" onClick = {toggleEditMode}>{editMode ? "Discard Edits" : "Edit"}</button>
              <div className="nameAndPic leftAndCenter">
-               <Avatar className="profilePic" sx={{ bgcolor: '#2F4664' }}>{props.user.username ? props.user.username.charAt(0) : 'me'}</Avatar>
+               <Avatar className="profilePic" sx={{ bgcolor: '#2F'+`${props.user.user_id % 10}`+'664' }}>{props.user.username ? props.user.username.charAt(0) : 'me'}</Avatar>
                <p>{ editMode ?
                     <LineInput stateValue={username} stateSetter={setUsername} noSpaces={true}/>
                     : username}
@@ -136,8 +136,8 @@ export default function ProfileSettings(props) {
                     envId={0}/>
 
                 : /* non editable list */
-                <Stack direction="row" spacing={1}>
-                    {skills.map(skillObj => <Chip label={skillObj.skill} />)}
+                <Stack direction="row" style={{flexWrap: 'wrap'}}>
+                    {skills.map(skillObj => <Chip style={{marginRight: '10px', marginBottom: '10px'}} label={skillObj.skill} />)}
                 </Stack>
             }</div>
 
