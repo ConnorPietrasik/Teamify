@@ -3,6 +3,8 @@ import '../css/Home.css';
 import '../css/Components.css';
 import LineInput from './Input.js';
 
+import Avatar from '@mui/material/Avatar';
+
 // shows info for one individual
 export default function IndividualCard(props) {
     const[messageToIndividual, setMessageToIndividual] = useState('');
@@ -10,7 +12,8 @@ export default function IndividualCard(props) {
   return (
     <div className="IndividualCard showInnerElementOnHover">
       <div className="nameAndPic">
-        <img className="profilePic" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" />
+        <Avatar className="profilePic" sx={{ bgcolor: '#2F4664' }}>
+            {props.individual.username.charAt(0) /* display first letter of username */ }</Avatar>
         <p>{props.individual.username}</p>
       </div>
       <div>

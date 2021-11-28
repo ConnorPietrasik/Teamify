@@ -3,6 +3,8 @@ import '../css/Components.css';
 import LineInput from './Input.js';
 import ProfileSkillsSelect from './inputs/ProfileSkillsSelect.js';
 
+import Avatar from '@mui/material/Avatar';
+
 // allowing user to view and edit their data
 export default function ProfileSettings(props) {
   // keeping track of how user data values change
@@ -73,7 +75,7 @@ export default function ProfileSettings(props) {
         <div>
              <button className="editBtn" onClick = {toggleEditMode}>{editMode ? "Discard Edits" : "Edit"}</button>
              <div className="nameAndPic leftAndCenter">
-               <img className="profilePic" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" />
+               <Avatar className="profilePic" sx={{ bgcolor: '#2F4664' }}>{props.user.username ? props.user.username.charAt(0) : 'me'}</Avatar>
                <p>{ editMode ?
                     <LineInput stateValue={username} stateSetter={setUsername} noSpaces={true}/>
                     : username}
