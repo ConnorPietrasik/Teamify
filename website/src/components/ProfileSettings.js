@@ -4,6 +4,8 @@ import LineInput from './Input.js';
 import ProfileSkillsSelect from './inputs/ProfileSkillsSelect.js';
 
 import Avatar from '@mui/material/Avatar';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 
 // allowing user to view and edit their data
 export default function ProfileSettings(props) {
@@ -11,6 +13,7 @@ export default function ProfileSettings(props) {
   const [username, setUsername] = useState('');
   const [bio, setBio] = useState('');
   const [skills, setSkills] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const [editMode, setEditMode] = useState(false); // whether or not user can edit profile
 
@@ -21,6 +24,8 @@ export default function ProfileSettings(props) {
     if (typeof(props.user.skills) !== 'undefined' && props.user.skills != null) {
         setSkills(props.user.skills); // array of skill objects
     }
+    if (props.user.open_envs)
+        setIsOpen(props.user.open_envs.includes(props.envId)); // int[] of env user is available in
   }, [props.user]); // runs when user parameter is received
 
   // after user clicks button to update user info changes
@@ -46,6 +51,7 @@ export default function ProfileSettings(props) {
 
           // update on frontend
           props.updateProfile({
+            ...props.user, /* keep unchanged values */
             username: username,
             bio: bio,
             skills: skills,
@@ -70,7 +76,38 @@ export default function ProfileSettings(props) {
         setEditMode(true);
   }
 
+  // record changes to API and UI when user changes choice of availablility
+  async function toggleIsOpen() {
+      var newIsOpenChoice = !isOpen;
+      var listOfEnvOpenIn = props.user.open_envs;
+
+      if(newIsOpenChoice) {
+          await fetch(`https://api.teamify.pietrasik.top/env/${props.envId}/open`, {
+            method: 'POST',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/json'}
+            }).then()
+            .then(data => {
+                listOfEnvOpenIn.push(props.envId);
+            }).catch(console.error);
+      } else {
+          await fetch(`https://api.teamify.pietrasik.top/env/${props.envId}/open`,{
+            method:'DELETE',
+            credentials: 'include',
+            }).then().then(data => {
+                listOfEnvOpenIn = listOfEnvOpenIn.filter(envId => envId !== props.envId); // remove current evnId
+            }).catch(console.error);
+      }
+
+      // update parent Home component UI, parent's state update will cause change in current's prop values, and cause current to update
+      props.updateProfile({
+        ...props.user,
+        open_envs: listOfEnvOpenIn,
+      });
+  }
+
   return (
+    <>
     <div className="Card">
         <div>
              <button className="editBtn" onClick = {toggleEditMode}>{editMode ? "Discard Edits" : "Edit"}</button>
@@ -108,5 +145,13 @@ export default function ProfileSettings(props) {
         }}> Update </button> : <></>}
 
     </div>
+
+    {/* toggleable switch for being added to Open Individuals list*/}
+    <FormControlLabel label={`Other users ${isOpen ? 'can' : 'cannot'} see my profile and invite me`}
+        control={<Switch
+                    style={{color:  `${isOpen ? '#6b96cf' : 'lightgrey'}`}}
+                    defaultChecked={isOpen}
+                    onChange={() => toggleIsOpen()} />} />
+    </>
   );
 }
