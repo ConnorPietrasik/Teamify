@@ -15,24 +15,9 @@ class Home extends React.Component{
       teamMemberRole: -1,
       refreshTeamCard: false, // to notify child Team List component to refresh
     };
-    this.logout = this.logout.bind(this);
     this.updateProfile = this.updateProfile.bind(this);
     this.updateTeam = this.updateTeam.bind(this);
     this.refreshTeamCard = this.refreshTeamCard.bind(this);
-  }
-
-  logout() {
-    // log out from server
-    fetch(`https://api.teamify.pietrasik.top/logout`, {
-      method: 'POST',
-      credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json'
-          },
-    }).then(
-        // change page display
-        this.props.updateUserLoginInfo(-1) // resetting user_id will make parent App render Login instead of Home
-    ).catch(console.error);
   }
 
   componentDidMount() {
@@ -94,8 +79,7 @@ class Home extends React.Component{
     return (
       <div className="Home">
         <div>
-          <h1>Hello {this.state.user.username}</h1>
-          <button onClick={this.logout}>Log Out </button>
+          <p className="mediumText">Hello {this.state.user.username}</p>
           <ProfileSettings
             user={this.state.user} /* for user to see their current data and decide to change it */
 

@@ -25,14 +25,31 @@ class App extends React.Component{
       envId: 1,
       drawerIsOpen: false,  // whether or not Sidebar is shown
     };
+    this.logout = this.logout.bind(this);
   }
 
-  // updates user info and logged in status after user logs in / out
+  // updates user info and logged in status after user logs in
   updateUserInfo = (id) => {
       this.setState({
         userId: id,
       });
   };
+
+  logout() {
+    // log out from server
+    fetch(`https://api.teamify.pietrasik.top/logout`, {
+      method: 'POST',
+      credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+          },
+    }).then(
+        // change page display
+        this.setState({
+          userId: -1,
+        }) // resetting user_id will make parent App render Login instead of Home
+    ).catch(console.error);
+  }
 
   componentDidMount() {
     // find user if already logged in, and gets user data if already logged in
@@ -112,6 +129,7 @@ class App extends React.Component{
                             {'> environments'}</IconButton>}
 
                     <Box sx={{ flexGrow: 1 }}><h3 align="left">Teamify</h3></Box>
+                    <Button variant="text" onClick={this.logout} style={{color: '#2F4664'}}>Logout</Button>
                     </Toolbar>
 
                 {/* dashboard */}
