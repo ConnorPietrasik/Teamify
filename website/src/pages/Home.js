@@ -23,19 +23,9 @@ class Home extends React.Component{
   componentDidMount() {
     console.log(this.props.userId);
 
-    // get user data using userID
-    fetch(`https://api.teamify.pietrasik.top/user/${this.props.userId}`)
-      .then(res => res.json())
-      .then(userData => {
-        if (userData.status === "error")
-          console.log(userData);
-        else
-          // update state with user data to be displayed
-          this.setState({
-            user: userData,
-          });
-        }
-      ).catch(console.error);
+      this.setState({
+        user: this.props.user,
+      });
 
      // get team_id and team member status for environmenmt
      fetch(`https://api.teamify.pietrasik.top/env/${this.props.envId}/user/${this.props.userId}`)

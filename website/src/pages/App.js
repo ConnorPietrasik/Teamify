@@ -23,6 +23,7 @@ class App extends React.Component{
     this.state = {
       // no user logged in yet
       userId: -1,
+      user: {},
       envId: 1,
       drawerIsOpen: false,  // whether or not Sidebar is shown
     };
@@ -33,6 +34,7 @@ class App extends React.Component{
   updateUserInfo = (id) => {
       this.setState({
         userId: id,
+        user: {},
       });
   };
 
@@ -65,11 +67,20 @@ class App extends React.Component{
        if (data)
          console.log(data);
 
-       // loads user data
-       if (data.user_id)
-           this.setState({
-             userId: data.user_id,
-        });
+       else if (data.user_id)
+         // get user data using userID
+         fetch(`https://api.teamify.pietrasik.top/user/${data.user_id}`)
+           .then(res => res.json())
+           .then(userData => {
+             if (userData.status === "error")
+               console.log(userData);
+             else
+               // update state with user data to be displayed
+               this.setState({
+                 userId: data.user_id,
+                 user: userData,
+               });
+            }).catch(console.error);
      }).catch(console.error);
   }
 
@@ -134,7 +145,8 @@ class App extends React.Component{
                     </Toolbar>
 
                 {/* dashboard */}
-                <Home updateUserLoginInfo={this.updateUserInfo} userId={this.state.userId} envId={this.state.envId}/>
+                <Home updateUserLoginInfo={this.updateUserInfo} envId={this.state.envId}
+                    userId={this.state.userId} user={this.state.user}/>
             </Box>
           </Box>
           : <Login updateUserLoginInfo={this.updateUserInfo}/>}
