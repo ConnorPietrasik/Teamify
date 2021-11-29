@@ -1,5 +1,6 @@
 import '../css/Login.css';
 import Home from './Home';
+import Config from '../components/Config';
 import React, { useState } from 'react';
 import jwt_decode from "jwt-decode";
 
@@ -34,7 +35,7 @@ class Login extends React.Component {
       console.log(password);
 
       // write to api
-      fetch(`https://api.teamify.pietrasik.top/login`, {
+      fetch(Config.API + `/login`, {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -65,7 +66,7 @@ class Login extends React.Component {
   signUp(username, password) {
     console.log("making new acct");
     // write to api
-    fetch(`https://api.teamify.pietrasik.top/register`, {
+    fetch(Config.API + `/register`, {
       method: 'POST',
       credentials: 'include',
       headers: {
@@ -89,7 +90,7 @@ class Login extends React.Component {
             this.authenticate(username, password);
         }
 
-      }).catch(console.error);
+    }).catch(console.error);
     console.log("after api call");
 
   }

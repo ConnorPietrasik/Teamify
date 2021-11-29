@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../css/Home.css';
 import '../css/Components.css';
 import LineInput from './Input.js';
+import Config from './Config';
 
 // shows info for one team
 export default function TeamCard(props) {
@@ -36,7 +37,7 @@ export default function TeamCard(props) {
 
                 <button className="inviteBtn colorFadeEffect" onClick = {() => {
                     // send request for currently logged in user to join this team
-                    fetch(`https://api.teamify.pietrasik.top/team/${props.team.team_id}/request`, {
+                    fetch(Config.API + `/team/${props.team.team_id}/request`, {
                       method: 'POST',
                       credentials: 'include',
                       headers: {
@@ -62,7 +63,7 @@ export default function TeamCard(props) {
             <>
             <button className="inviteBtn colorFadeEffect acceptBtn" onClick = {() => {
                 // current user accepts team's invite to join them
-                fetch(`https://api.teamify.pietrasik.top/team/${props.team.team_id}/accept`, {
+                fetch(Config.API + `/team/${props.team.team_id}/accept`, {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
@@ -80,7 +81,7 @@ export default function TeamCard(props) {
 
             <button className="inviteBtn colorFadeEffect denyBtn" onClick = {() => {
                 // current user rejects team's invite to join them
-                fetch(`https://api.teamify.pietrasik.top/team/${props.team.team_id}/deny`, {
+                fetch(Config.API + `/team/${props.team.team_id}/deny`, {
                     method: 'POST',
                     credentials: 'include',
                     headers: {

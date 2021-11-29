@@ -4,6 +4,7 @@ import IndividualCard from './IndividualCard.js';
 import CandidateCard from './CandidateCard.js';
 
 import AvailableList from './AvailableList.js';
+import Config from './Config';
 
 export default function IndividualsList(props) {
     // if user wants to invite more team members on team's behalf, we need to know which team user is on
@@ -22,7 +23,7 @@ export default function IndividualsList(props) {
           setMyTeamId(props.myTeamId);
 
           // get all requests from individuals who want to join my team
-          fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}/requests`, {
+          fetch(Config.API + `/team/${props.myTeamId}/requests`, {
               method: 'GET',
               credentials: 'include',
               })
@@ -36,7 +37,7 @@ export default function IndividualsList(props) {
               }).catch(console.error);
 
           // get people my team has invited
-          fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}/invites`, {
+          fetch(Config.API + `/team/${props.myTeamId}/invites`, {
               method: 'GET',
               credentials: 'include',
               headers: {'Content-Type': 'application/json'},
@@ -56,7 +57,7 @@ export default function IndividualsList(props) {
         const idsOfInvited = invited.map((inviteData) => inviteData.user.user_id);
 
         // get open Individuals
-        fetch(`https://api.teamify.pietrasik.top/env/${props.envId}/open`)
+        fetch(Config.API + `/env/${props.envId}/open`)
           .then(res => res.json())
           .then(listOpenIndividuals => {
               if (listOpenIndividuals)

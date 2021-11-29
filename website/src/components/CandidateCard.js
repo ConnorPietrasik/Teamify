@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Home.css';
+import Config from './Config';
 
 // show info for one candidate who applied to team
 export default function CandidateCard(props) {
@@ -15,7 +16,7 @@ export default function CandidateCard(props) {
           <p>{props.candidateData.message ? props.candidateData.message : ''}</p>
           <button className="inviteBtn colorFadeEffect" onClick = {() => {
               // accept this candidate into team of user currently logged in, if user is leader
-              fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}/accept/${props.candidateData.user.user_id}`, {
+              fetch(Config.API + `/team/${props.myTeamId}/accept/${props.candidateData.user.user_id}`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -30,7 +31,7 @@ export default function CandidateCard(props) {
 
           <button className="inviteBtn colorFadeEffect" onClick = {() => {
               // reject this candidate
-              fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}/deny/${props.candidateData.user.user_id}`, {
+              fetch(Config.API + `/team/${props.myTeamId}/deny/${props.candidateData.user.user_id}`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {

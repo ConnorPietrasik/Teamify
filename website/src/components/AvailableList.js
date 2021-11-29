@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import IndividualCard from './IndividualCard.js';
 import MultiSelect from './inputs/MultiSelect.js';
+import Config from './Config';
 
 import '../css/Components.css';
 
@@ -20,7 +21,7 @@ export default function AvailableList(props) {
     function search() {
         // display new results based on search query
         if (searchInput.length > 0)
-            fetch(`https://api.teamify.pietrasik.top/env/${props.envId}/open/skill`, {
+            fetch(Config.API + `/env/${props.envId}/open/skill`, {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
