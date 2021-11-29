@@ -57,9 +57,11 @@ class App extends React.Component{
             'Content-Type': 'application/json'
           },
     }).then(
-        // change page display
+        // change page display & clear data
         this.setState({
           userId: -1,
+          user: {},
+          envId: 1,
         }) // resetting user_id will make parent App render Login instead of Home
     ).catch(console.error);
   }

@@ -120,7 +120,7 @@ export default function TeamsList(props) {
 
     return (
         <div>
-            {myTeam ?
+            {myTeam && props.envId ?
                 <div>
                     <h2>My Team</h2>
                     <div className="IndividualsList" >
