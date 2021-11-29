@@ -14,9 +14,12 @@ export default function TeamsList(props) {
 
     useEffect(() => { // initialize based on parameter values
       // setOpenTeams([{name: 'openTeam1', team_id: '-1'}, {name: 'openTeam2', team_id: '-2'}, {name: 'openTeam3', team_id: '-3'}, {name: 'openTeam4', team_id: '-4'}]);
-
+        console.log("props.envId", props.envId)
+        console.log("myTeamId", props.myTeamId)
       // get team data using team id parameter
-      if (props.myTeamId != null) {
+      if (props.myTeamId > -1) {
+          console.log("valid myTeamId", props.myTeamId)
+
           fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}`)
             .then(res => res.json())
             .then(teamData => {
@@ -128,7 +131,7 @@ export default function TeamsList(props) {
                 <div>
                     <h2>Find Teams</h2>
 
-                    { teamRequestsReceived.length > 0 ?
+                    { teamRequestsReceived ?
                         <>
                             <h3>Teams That Invited Me</h3>
                             <div className="IndividualsList" >
@@ -142,7 +145,7 @@ export default function TeamsList(props) {
                         </>
                         : <></>}
 
-                    { teamRequestsSent.length > 0 ?
+                    { teamRequestsSent ?
                         <>
                             <h3>Teams Applied To</h3>
                             <div className="IndividualsList" >
@@ -155,7 +158,7 @@ export default function TeamsList(props) {
                         </>
                         : <></>}
 
-                    { openTeams.length ?
+                    { openTeams ?
                         <>
                             <h3>Teams Open</h3>
                             <div className="IndividualsList" >

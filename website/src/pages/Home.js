@@ -11,7 +11,7 @@ class Home extends React.Component{
     this.state = {
       // gets user info from parent App component
       user: {},
-      teamId: null,
+      teamId: -1,
       teamMemberRole: -1,
       refreshTeamCard: false, // to notify child Team List component to refresh
     };
@@ -33,13 +33,11 @@ class Home extends React.Component{
        .then(userData => {
          if (userData.status === "error")
            console.log(userData);
-         else {
-           if (userData.team > -1) // get team info if user has a team
-               this.setState({
-                 teamId: userData.team,
-                 teamMemberRole: userData.status,
-               });
-          }
+         if (userData.team)
+           this.setState({
+             teamId: userData.team,
+             teamMemberRole: userData.status,
+           });
        }).catch(console.error);
   }
 

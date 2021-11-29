@@ -9,7 +9,7 @@ import '../css/Components.css';
 export default function AvailableList(props) {
     const [searchInput, setSearchInput] = useState(null); // array of skills to search (in library's format)
 
-    const [listToDisplay, setListToDisplay] = useState(null); // list of people's data
+    const [listToDisplay, setListToDisplay] = useState([]); // list of people's data
 
     useEffect(() => {
         setSearchInput([]);
@@ -36,8 +36,6 @@ export default function AvailableList(props) {
             }).catch(console.error);
     }
 
-    if (!listToDisplay || !searchInput)
-        return <div>loading</div>;
     return(
         <>
         <h3>People Available</h3>
@@ -55,7 +53,7 @@ export default function AvailableList(props) {
         </div>
 
         <div className="IndividualsList" >
-          { listToDisplay.length > 0 ?
+          { listToDisplay ?
             listToDisplay.map((individual) =>
             <IndividualCard key={individual} individual={individual}
                 myTeamId={props.myTeamId}

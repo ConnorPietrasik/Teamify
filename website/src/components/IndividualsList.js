@@ -7,7 +7,7 @@ import AvailableList from './AvailableList.js';
 
 export default function IndividualsList(props) {
     // if user wants to invite more team members on team's behalf, we need to know which team user is on
-    const [myTeamId, setMyTeamId] = useState(null);
+    const [myTeamId, setMyTeamId] = useState(-1);
 
     // list of people that will be displayed
     const [candidates, setCandidates] = useState([]); // people who requested to join my team
@@ -15,7 +15,11 @@ export default function IndividualsList(props) {
     const [openIndividuals, setOpenIndividuals] = useState([]);
 
     useEffect(() => { // initialize based on parameter values
-      if (props.myTeamId != null) {
+        console.log("props.envId", props.envId)
+        console.log("what is myTeamId", props.myTeamId)
+      if (props.myTeamId > -1) {
+          console.log("myTeam exists", props.myTeamId)
+
           setMyTeamId(props.myTeamId);
 
           // get all requests from individuals who want to join my team
@@ -100,7 +104,7 @@ export default function IndividualsList(props) {
         <div>
             <h2>Find Team Members</h2>
 
-            {candidates.length > 0 && myTeamId ?
+            {candidates && myTeamId > -1?
               <>
                 <h3>People Requesting to Join</h3>
                 <div className="IndividualsList" >
@@ -114,7 +118,7 @@ export default function IndividualsList(props) {
                 </>
             : <></>}
 
-            {invited.length > 0 && myTeamId ?
+            {invited && myTeamId > -1 ?
               <>
                 <h3>People Invited </h3>
                 <div className="IndividualsList" >
