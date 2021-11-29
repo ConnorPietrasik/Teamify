@@ -123,11 +123,11 @@ class App extends React.Component{
 
                 {/* list of environments */}
                 <List>
-                  {['Home Env', 'Math Proj', 'CS Proj', 'Engl Proj', 'Hackathon'].map((text, index) => (
-                    <ListItem button key={text}>
-                      <ListItemText primary={text} />
-                    </ListItem>
-                  ))}
+                  {this.state.user.environments.map((environmentObj) => (
+                    <ListItem button key={environmentObj.env_id}
+                        style={{color: `${this.state.envId === environmentObj.env_id ? '#2F4664' : 'grey'}` /* current env marked in diff color */ }} >
+                      <ListItemText primary={environmentObj.env_id} /> </ListItem>))
+                    }
                 </List>
 
                 </Drawer>
