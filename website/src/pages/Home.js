@@ -61,13 +61,7 @@ class Home extends React.Component{
 
   // get team_id and team member status for environment
   getTeamInfo() {
-      console.log("getTeamInfo");
-
-      this.setState({
-        user: this.props.user,
-        teamId: this.props.envId-2,
-        teamMemberRole: this.props.envId-2,
-      });
+      console.log("getTeamInfo in env", this.props.envId);
 
       fetch(`https://api.teamify.pietrasik.top/env/${this.props.envId}/user/${this.props.userId}`)
         .then(res => res.json())

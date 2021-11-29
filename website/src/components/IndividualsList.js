@@ -18,8 +18,7 @@ export default function IndividualsList(props) {
         console.log("props.envId", props.envId)
         console.log("what is myTeamId", props.myTeamId)
       if (props.myTeamId > -1) {
-          console.log("myTeam exists", props.myTeamId)
-
+          console.log("fetch data for myTeamId", props.myTeamId)
           setMyTeamId(props.myTeamId);
 
           // get all requests from individuals who want to join my team
@@ -48,6 +47,8 @@ export default function IndividualsList(props) {
                   } else
                     console.log(inviteData);
               }).catch(console.error);
+      } else {
+          setMyTeamId(-1);
       }
       }, [props.myTeamId, props.envId]);
 
@@ -104,12 +105,12 @@ export default function IndividualsList(props) {
         <div>
             <h2>Find Team Members</h2>
 
-            {candidates && myTeamId > -1?
+            {candidates && props.myTeamId > -1?
               <>
                 <h3>People Requesting to Join</h3>
                 <div className="IndividualsList" >
                   {candidates.map((candidate) =>
-                    <CandidateCard key={candidate} candidateData={candidate} myTeamId={myTeamId}
+                    <CandidateCard key={candidate} candidateData={candidate} myTeamId={props.myTeamId}
                         teamMemberRole={props.teamMemberRole}
                         accept={updateAfterAccepting}
                         reject={updateAfterRejecting}
@@ -118,7 +119,7 @@ export default function IndividualsList(props) {
                 </>
             : <></>}
 
-            {invited && myTeamId > -1 ?
+            {invited && props.myTeamId > -1 ?
               <>
                 <h3>People Invited </h3>
                 <div className="IndividualsList" >
@@ -130,7 +131,7 @@ export default function IndividualsList(props) {
                 </>
             : <></>}
 
-            <AvailableList openIndividuals={openIndividuals} updateList={updateAfterInviting} myTeamId={myTeamId}
+            <AvailableList openIndividuals={openIndividuals} updateList={updateAfterInviting} myTeamId={props.myTeamId}
                 envId={props.envId}/>
 
           </div>

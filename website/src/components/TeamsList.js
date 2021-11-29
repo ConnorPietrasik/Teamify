@@ -18,8 +18,7 @@ export default function TeamsList(props) {
         console.log("myTeamId", props.myTeamId)
       // get team data using team id parameter
       if (props.myTeamId > -1) {
-          console.log("valid myTeamId", props.myTeamId)
-
+          console.log("fetch data for myTeamId", props.myTeamId)
           fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}`)
             .then(res => res.json())
             .then(teamData => {
@@ -32,6 +31,7 @@ export default function TeamsList(props) {
 
         // show available teams
         else {
+            setMyTeam(null);
             // get teams that have invited me
             fetch(`https://api.teamify.pietrasik.top/user/invites`, {
                 method: 'GET',
