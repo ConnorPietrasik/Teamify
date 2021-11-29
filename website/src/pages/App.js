@@ -96,11 +96,14 @@ class App extends React.Component{
 
   // when user creates, joins, switches environment
   changeEnvironment(newEnvId) {
-      if (this.state.envId !== newEnvId)
+      if (this.state.envId !== newEnvId) {
           // render new env info
           this.setState({
               envId: newEnvId,
           });
+
+          updateUserInfo(this.state.userId); // start change so Home may rerender and get environment specific info
+      }
   }
 
   render() {
