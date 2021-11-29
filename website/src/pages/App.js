@@ -102,7 +102,7 @@ class App extends React.Component{
               envId: newEnvId,
           });
 
-          updateUserInfo(this.state.userId); // start change so Home may rerender and get environment specific info
+          this.updateUserInfo(this.state.userId); // start change so Home may rerender and get environment specific info
       }
   }
 
