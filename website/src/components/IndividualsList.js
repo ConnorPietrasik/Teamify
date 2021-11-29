@@ -45,7 +45,7 @@ export default function IndividualsList(props) {
                     console.log(inviteData);
               }).catch(console.error);
       }
-      }, [props.myTeamId]);
+      }, [props.myTeamId, props.envId]);
 
       useEffect(() => {
         const idsOfInvited = invited.map((inviteData) => inviteData.user.user_id);

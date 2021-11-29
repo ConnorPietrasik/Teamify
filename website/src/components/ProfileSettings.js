@@ -28,7 +28,7 @@ export default function ProfileSettings(props) {
     }
     if (props.user.open_envs)
         setIsOpen(props.user.open_envs.includes(props.envId)); // int[] of env user is available in
-  }, [props.user]); // runs when user parameter is received
+  }, [props.user, props.envId]); // runs when user parameter is received
 
   // after user clicks button to update user info changes
   function updateUserInfo(e) {
