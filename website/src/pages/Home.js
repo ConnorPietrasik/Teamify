@@ -18,27 +18,23 @@ class Home extends React.Component{
     this.updateProfile = this.updateProfile.bind(this);
     this.updateTeam = this.updateTeam.bind(this);
     this.refreshTeamCard = this.refreshTeamCard.bind(this);
+    this.getTeamInfo = this.getTeamInfo.bind(this);
   }
 
   componentDidMount() {
-    console.log(this.props.userId);
-
+    console.log("componentDidMount");
       this.setState({
         user: this.props.user,
       });
+      this.getTeamInfo();
+  }
 
-     // get team_id and team member status for environmenmt
-     fetch(`https://api.teamify.pietrasik.top/env/${this.props.envId}/user/${this.props.userId}`)
-       .then(res => res.json())
-       .then(userData => {
-         if (userData.status === "error")
-           console.log(userData);
-         if (userData.team)
-           this.setState({
-             teamId: userData.team,
-             teamMemberRole: userData.status,
-           });
-       }).catch(console.error);
+  // get user info for new environment
+  componentDidUpdate(prevProps, prevState) {
+      console.log("componentDidUpdate");
+      if (prevProps.envId !== this.props.envId) {
+          this.getTeamInfo();
+      }
   }
 
   // receives updated user data to display on screen
@@ -63,10 +59,32 @@ class Home extends React.Component{
     });
   }
 
+  // get team_id and team member status for environment
+  getTeamInfo() {
+      console.log("getTeamInfo");
+
+      this.setState({
+        user: this.props.user,
+        teamId: this.props.envId-2,
+        teamMemberRole: this.props.envId-2,
+      });
+
+      fetch(`https://api.teamify.pietrasik.top/env/${this.props.envId}/user/${this.props.userId}`)
+        .then(res => res.json())
+        .then(userData => {
+          if (userData.status === "error")
+            console.log(userData);
+          if (userData.team)
+            this.setState({
+              teamId: userData.team,
+              teamMemberRole: userData.status,
+            });
+        }).catch(console.error);
+  }
+
   render() {
     return (
       <div className="Home">
-      {() => this.componentDidMount() /* get user info again in case environment changes */}
         <div>
           <p className="mediumText">Hello {this.state.user.username}</p>
           <ProfileSettings

@@ -57,7 +57,7 @@ export default function AvailableList(props) {
             listToDisplay.map((individual) =>
             <IndividualCard key={individual} individual={individual}
                 myTeamId={props.myTeamId}
-                type={props.myTeamId ? "open" : ""} /* determines whether or not invite button shows */
+                type={props.myTeamId > -1 ? "open" : ""} /* determines whether or not invite button shows */
 
                 /* Individuals List passes function to Individual Card child component
                     to let Card notify List when List needs to be updated */
