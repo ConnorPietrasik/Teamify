@@ -14,7 +14,7 @@ export default function AvailableList(props) {
     useEffect(() => {
         setSearchInput([]);
         setListToDisplay(props.openIndividuals);
-    }, [props.openIndividuals]);
+    }, [props.openIndividuals, props.envId]);
 
     // when user searches individuals list for specific skills
     function search() {

@@ -81,6 +81,8 @@ class Home extends React.Component{
             />
         </div>
 
+        {this.props.envId ? /* check env_id so lists may rerender */
+        <>
         <TeamsList updateTeam={this.updateTeam} myTeamId={this.state.teamId}
 
             /* Team List listens to this state for changes
@@ -98,7 +100,7 @@ class Home extends React.Component{
             envId={this.props.envId}
             teamMemberRole={this.state.teamMemberRole}
             />
-
+            </> : <></>}
       </div>
     );
   }
