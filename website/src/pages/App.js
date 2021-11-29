@@ -32,10 +32,19 @@ class App extends React.Component{
 
   // updates user info and logged in status after user logs in
   updateUserInfo = (id) => {
-      this.setState({
-        userId: id,
-        user: {},
-      });
+      // get user data using userID
+      fetch(`https://api.teamify.pietrasik.top/user/${id}`)
+        .then(res => res.json())
+        .then(userData => {
+          if (userData.status === "error")
+            console.log(userData);
+          else
+            // update state with user data to be displayed
+            this.setState({
+              userId: id,
+              user: userData,
+            });
+         }).catch(console.error);
   };
 
   logout() {
@@ -67,7 +76,7 @@ class App extends React.Component{
        if (data)
          console.log(data);
 
-       else if (data.user_id)
+       if (data.user_id)
          // get user data using userID
          fetch(`https://api.teamify.pietrasik.top/user/${data.user_id}`)
            .then(res => res.json())
