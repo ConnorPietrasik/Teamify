@@ -101,13 +101,10 @@ class App extends React.Component{
           this.setState({
               envId: newEnvId,
           });
-
-          this.updateUserInfo(this.state.userId); // start change so Home may rerender and get environment specific info
       }
   }
 
   render() {
-    console.log(this.username);
     return(
     <div className="App">
         { /*  redirects to either Home or Login page depending on whether user is signed in*/

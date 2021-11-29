@@ -68,6 +68,7 @@ class Home extends React.Component{
   render() {
     return (
       <div className="Home">
+      {() => this.componentDidMount() /* get user info again in case environment changes */}
         <div>
           <p className="mediumText">Hello {this.state.user.username}</p>
           <ProfileSettings
