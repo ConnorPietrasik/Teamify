@@ -28,6 +28,7 @@ class App extends React.Component{
       drawerIsOpen: false,  // whether or not Sidebar is shown
     };
     this.logout = this.logout.bind(this);
+    this.changeEnvironment = this.changeEnvironment.bind(this);
   }
 
   // updates user info and logged in status after user logs in
@@ -93,6 +94,15 @@ class App extends React.Component{
      }).catch(console.error);
   }
 
+  // when user creates, joins, switches environment
+  changeEnvironment(newEnvId) {
+      if (this.state.envId !== newEnvId)
+          // render new env info
+          this.setState({
+              envId: newEnvId,
+          });
+  }
+
   render() {
     console.log(this.username);
     return(
@@ -125,7 +135,8 @@ class App extends React.Component{
                 <List>
                   {this.state.user.environments.map((environmentObj) => (
                     <ListItem button key={environmentObj.env_id}
-                        style={{color: `${this.state.envId === environmentObj.env_id ? '#2F4664' : 'grey'}` /* current env marked in diff color */ }} >
+                        style={{color: `${this.state.envId === environmentObj.env_id ? '#2F4664' : 'grey'}` /* current env marked in diff color */ }}
+                        onClick={() => this.changeEnvironment(environmentObj.env_id)}>
                       <ListItemText primary={environmentObj.env_id} /> </ListItem>))
                     }
                 </List>
