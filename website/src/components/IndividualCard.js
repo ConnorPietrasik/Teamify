@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../css/Home.css';
 import '../css/Components.css';
 import LineInput from './Input.js';
+import Config from './Config';
 
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
@@ -35,7 +36,7 @@ export default function IndividualCard(props) {
 
             <button className="inviteBtn colorFadeEffect" onClick = {() => {
                 // invite a user to join my team
-                fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}/invite/${props.individual.user_id}}`, {
+                fetch(Config.API + `/team/${props.myTeamId}/invite/${props.individual.user_id}}`, {
                   method: 'POST',
                   credentials: 'include',
                   headers: { 'Content-Type': 'application/json' },

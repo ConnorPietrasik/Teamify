@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Components.css';
 import LineInput from './Input.js';
+import Config from './Config';
 import ProfileSkillsSelect from './inputs/ProfileSkillsSelect.js';
 
 import Avatar from '@mui/material/Avatar';
@@ -35,7 +36,7 @@ export default function ProfileSettings(props) {
     e.preventDefault(); // prevent page refresh
 
     // update to API
-    fetch(`https://api.teamify.pietrasik.top/user`, {
+    fetch(Config.API + `/user`, {
       method: 'PUT',
       credentials: 'include',
       headers: {
@@ -84,7 +85,7 @@ export default function ProfileSettings(props) {
       var listOfEnvOpenIn = props.user.open_envs;
 
       if(newIsOpenChoice) {
-          await fetch(`https://api.teamify.pietrasik.top/env/${props.envId}/open`, {
+          await fetch(Config.API + `/env/${props.envId}/open`, {
             method: 'POST',
             credentials: 'include',
             headers: {'Content-Type': 'application/json'}
@@ -93,7 +94,7 @@ export default function ProfileSettings(props) {
                 listOfEnvOpenIn.push(props.envId);
             }).catch(console.error);
       } else {
-          await fetch(`https://api.teamify.pietrasik.top/env/${props.envId}/open`,{
+          await fetch(Config.API + `/env/${props.envId}/open`,{
             method:'DELETE',
             credentials: 'include',
             }).then().then(data => {

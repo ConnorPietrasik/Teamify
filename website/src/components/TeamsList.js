@@ -3,6 +3,7 @@ import '../css/Home.css';
 import '../css/Components.css';
 import TeamCard from './TeamCard';
 import LineInput from './Input.js';
+import Config from './Config';
 
 // show list of teams if user has no team, user's team if they have one
 export default function TeamsList(props) {
@@ -19,7 +20,7 @@ export default function TeamsList(props) {
       // get team data using team id parameter
       if (props.myTeamId > -1) {
           console.log("fetch data for myTeamId", props.myTeamId)
-          fetch(`https://api.teamify.pietrasik.top/team/${props.myTeamId}`)
+          fetch(Config.API + `/team/${props.myTeamId}`)
             .then(res => res.json())
             .then(teamData => {
                 if (teamData)
@@ -33,7 +34,7 @@ export default function TeamsList(props) {
         else {
             setMyTeam(null);
             // get teams that have invited me
-            fetch(`https://api.teamify.pietrasik.top/user/invites`, {
+            fetch(Config.API + `/user/invites`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {'Content-Type': 'application/json'}
@@ -45,7 +46,7 @@ export default function TeamsList(props) {
                 }).catch(console.error);
 
             // get teams I've applied to
-            fetch(`https://api.teamify.pietrasik.top/user/requests`, {
+            fetch(Config.API + `/user/requests`, {
                 method: 'GET',
                 credentials: 'include',
                 headers: {
@@ -65,7 +66,7 @@ export default function TeamsList(props) {
         const idsOfTeamsInvitedMe = teamRequestsReceived.map((requestData) => requestData.team.team_id);
 
         // get teams available
-        fetch(`https://api.teamify.pietrasik.top/env/${props.envId}/teams`)
+        fetch(Config.API + `/env/${props.envId}/teams`)
           .then(res => res.json())
           .then(teamData => {
               if (teamData.length > 0)
@@ -80,7 +81,7 @@ export default function TeamsList(props) {
     // makes new team with user as first team member, saves to API
     function createTeam(teamName) {
         // record new team in database
-        fetch(`https://api.teamify.pietrasik.top/env/${props.envId}/createteam`, {
+        fetch(Config.API + `/env/${props.envId}/createteam`, {
           method: 'POST',
           credentials: 'include',
           headers: {

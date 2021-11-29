@@ -2,6 +2,7 @@ import logo from '../logo.svg';
 import '../css/App.css';
 import Login from './Login';
 import Home from './Home';
+import Config from '../components/Config';
 import React, { useState } from 'react';
 import {Routes, Route} from "react-router-dom";
 
@@ -34,7 +35,7 @@ class App extends React.Component{
   // updates user info and logged in status after user logs in
   updateUserInfo = (id) => {
       // get user data using userID
-      fetch(`https://api.teamify.pietrasik.top/user/${id}`)
+      fetch(Config.API + `/user/${id}`)
         .then(res => res.json())
         .then(userData => {
           if (userData.status === "error")
@@ -50,7 +51,7 @@ class App extends React.Component{
 
   logout() {
     // log out from server
-    fetch(`https://api.teamify.pietrasik.top/logout`, {
+    fetch(Config.API + `/logout`, {
       method: 'POST',
       credentials: 'include',
         headers: {
@@ -68,7 +69,7 @@ class App extends React.Component{
 
   componentDidMount() {
     // find user if already logged in, and gets user data if already logged in
-    fetch(`https://api.teamify.pietrasik.top/checkauth`, {
+    fetch(Config.API + `/checkauth`, {
      method: 'GET',
      credentials: 'include',
      headers: {
@@ -81,7 +82,7 @@ class App extends React.Component{
 
        if (data.user_id)
          // get user data using userID
-         fetch(`https://api.teamify.pietrasik.top/user/${data.user_id}`)
+         fetch(Config.API + `/user/${data.user_id}`)
            .then(res => res.json())
            .then(userData => {
              if (userData.status === "error")

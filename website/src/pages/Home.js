@@ -3,6 +3,7 @@ import '../css/Home.css';
 import ProfileSettings from '../components/ProfileSettings.js';
 import IndividualsList from '../components/IndividualsList.js';
 import TeamsList from '../components/TeamsList';
+import Config from '../components/Config';
 
 // user's dashboard
 class Home extends React.Component{
@@ -63,7 +64,7 @@ class Home extends React.Component{
   getTeamInfo() {
       console.log("getTeamInfo in env", this.props.envId);
 
-      fetch(`https://api.teamify.pietrasik.top/env/${this.props.envId}/user/${this.props.userId}`)
+      fetch(Config.API + `/env/${this.props.envId}/user/${this.props.userId}`)
         .then(res => res.json())
         .then(userData => {
           if (userData.status === "error")
