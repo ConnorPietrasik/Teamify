@@ -46,6 +46,7 @@ $app->group('', function (RouteCollectorProxy $group){
     $group->post('/env/{env_id}/open', App\Controller\Environment\PostOpen::class);
     $group->delete('/env/{env_id}/open', App\Controller\Environment\RemoveOpen::class);
     $group->post('/env/{env_id}/createteam', App\Controller\Team\CreateTeam::class);
+    $group->get('/env/{env_id}/teams/match', App\Controller\Environment\GetMatchingTeams::class);
 })->add(new EnvAuthMemberMiddleware);
 
 //Routes that require environment admin rights
