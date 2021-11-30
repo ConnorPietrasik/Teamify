@@ -48,6 +48,8 @@ export default function IndividualsList(props) {
                     console.log(inviteData);
               }).catch(console.error);
       } else {
+          setCandidates([]);
+          setInvited([]);
           setMyTeamId(-1);
       }
       }, [props.myTeamId]);
@@ -59,18 +61,13 @@ export default function IndividualsList(props) {
         fetch(Config.API + `/env/${props.envId}/open`)
           .then(res => res.json())
           .then(listOpenIndividuals => {
-              if (listOpenIndividuals)
-                console.log(listOpenIndividuals);
-
-              if(listOpenIndividuals.length > 0) { // if there are available people, set their data to be displayed
-                  setOpenIndividuals( // get open users who haven't applied to current user's team
-                      listOpenIndividuals.filter(openUser => // get open users who are not candidates
-                          candidates.filter(candidate => // if candidate, will return array with candidate data
-                             candidate.user.user_id === openUser.user_id
-                             ).length === 0 // if not candidate, empty [] returned
-                          && !idsOfInvited.includes(openUser.user_id) /* don't include invited users in list */ )
-                      );
-              }
+              setOpenIndividuals( // get open users who haven't applied to current user's team
+                  listOpenIndividuals.filter(openUser => // get open users who are not candidates
+                      candidates.filter(candidate => // if candidate, will return array with candidate data
+                         candidate.user.user_id === openUser.user_id
+                         ).length === 0 // if not candidate, empty [] returned
+                      && !idsOfInvited.includes(openUser.user_id) /* don't include invited users in list */ )
+                  );
           }).catch(console.error);
     }, [candidates, invited]);
 
