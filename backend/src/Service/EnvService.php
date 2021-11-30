@@ -107,4 +107,17 @@ final class EnvService {
     public function deleteEnv(int $env_id): void {
         $this->envRepository->deleteEnv($env_id);
     }
+
+    //Returns the team ids from list that match at least one skill or interest
+    public function getMatchingTeamIDsForUser(int $env_id, int $user_id): array {
+        $team_ids = $this->getAllTeamIDs($env_id);
+        $skills = $this->envRepository->getEnvSkills($env_id, $user_id);
+        $interests = $this->envRepository->getEnvInterests($env_id, $user_id);
+        return $this->getMatchingTeamIDs($team_ids, $skills, $interests);
+    }
+
+    //Returns the team ids from list that match at least one skill or interest
+    public function getMatchingTeamIDs(array $team_ids, array $skills, array $interests): array {
+        return $this->envRepository->getMatchingTeamIDs($team_ids, $skills, $interests);
+    }
 }

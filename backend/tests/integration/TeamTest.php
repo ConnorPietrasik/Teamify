@@ -113,6 +113,26 @@ class TeamTest extends TestCase{
         $this->assertEquals(201, $response->getStatusCode());
     }
 
+    //Updates the user to be interested in testTag, and then finds the match
+    public function testGetMatchingTeams(): void {
+        $params = [
+            'interests' => [
+                ['env_id' => 0, 'interest' => 'testTag']
+            ]
+        ];
+        $req = $this->createRequest('PUT', '/user');
+        $request = $req->withParsedBody($params);
+        $response = $this->getAppInstance()->handle($request);
+        $this->assertEquals(200, $response->getStatusCode());
+
+        $request = $this->createRequest('GET', '/env/1/teams/match');
+        $response = $this->getAppInstance()->handle($request);
+
+        $result = (string) $response->getBody();
+        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertStringContainsString('testTeamUPDATED', $result);
+    }
+
     //Creates a new user and requests to join the new team
     /**
      * @depends testCreateTeam

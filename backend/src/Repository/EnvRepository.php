@@ -233,4 +233,25 @@ final class EnvRepository {
         $status = $statement->fetchColumn();
         return ($status === false) ? -1 : $status;
     }
+
+    //Returns the team ids from list that match at least one skill or interest
+    public function getMatchingTeamIDs(array $team_ids, array $skills, array $interests): array {
+        $teamQs = '?'.str_repeat(', ?', count($team_ids) - 1);
+        $skillQs = '?'.str_repeat(', ?', count($skills) - 1);
+        $interestQs = '?'.str_repeat(', ?', count($interests) - 1);
+
+        $query = 'SELECT DISTINCT team_id FROM team_tag WHERE team_id IN ('.$teamQs.') AND tag IN ('.$interestQs.') UNION '
+                .'SELECT DISTINCT team_id FROM team_lf WHERE team_id IN ('.$teamQs.') AND skill IN ('$skillQs.')';
+        $statement = $this->getDb()->prepare($query);
+
+        $args[] = array();
+        foreach ($team_ids as $id) $args[] = $id;
+        foreach ($interests as $tag) $args[] = $tag;
+        foreach ($team_ids as $id) $args[] = $id;
+        foreach ($skills as $skill) $args[] = $skill;
+
+        $statement->execute($args);
+        $teams = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
+        return $teams;
+    }
 }
