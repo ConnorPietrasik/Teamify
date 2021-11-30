@@ -150,4 +150,11 @@ final class TeamService {
     public function denyInvite(int $team_id, int $user_id): void {
         $this->teamRepository->updateTeamInvite($team_id, $user_id, 2);
     }
+
+    //Kicks the member from the team
+    public function kickMember(int $team_id, int $user_id): void {
+        $errCheck = $this->teamRepository->getMemberStatus($team_id, $user_id);
+        if ($errCheck == -1) throw new TeamException("User already not in team", 409);
+        $this->teamRepository->kickMember($team_id, $user_id);
+    }
 }

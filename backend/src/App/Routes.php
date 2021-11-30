@@ -39,6 +39,7 @@ $app->group('', function (RouteCollectorProxy $group){
     $group->delete('/team/{team_id}', App\Controller\Team\DeleteTeam::class);
     $group->post('/team/{team_id}/accept/{user_id}', App\Controller\Team\AcceptRequest::class);
     $group->post('/team/{team_id}/deny/{user_id}', App\Controller\Team\DenyRequest::class);
+    $group->post('/team/{team_id}/kick/{user_id}', App\Controller\Team\KickMember::class);
 })->add(new TeamAuthAdminMiddleware);
 
 //Routes that require environment membership

@@ -325,4 +325,14 @@ final class TeamRepository {
 
         $statement->execute();
     }
+
+    //Kicks the member from the team
+    public function kickMember(int $team_id, int $user_id): void {
+        $query = 'DELETE FROM team_member WHERE team_id = :team_id AND user_id = :user_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+        $statement->bindParam('user_id', $user_id);
+
+        $statement->execute();
+    }
 }
