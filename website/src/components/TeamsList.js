@@ -23,8 +23,7 @@ export default function TeamsList(props) {
           fetch(Config.API + `/team/${props.myTeamId}`)
             .then(res => res.json())
             .then(teamData => {
-                if (teamData)
-                  console.log(teamData);
+                console.log("team: ", teamData);
 
                 setMyTeam(teamData);
             }).catch(console.error);
@@ -65,7 +64,7 @@ export default function TeamsList(props) {
             headers: {'Content-Type': 'application/json'}
             }).then(res => res.json())
             .then(teamData => {
-                setTeamRequestsReceived(teamData);
+                setTeamRequestsReceived(teamData.filter(invitation => invitation.team.env_id === props.envId));
             }).catch(console.error);
 
         // get teams I've applied to
@@ -78,8 +77,7 @@ export default function TeamsList(props) {
           })
         .then(res => res.json())
         .then(teamData => {
-            console.log("APPLIED: ", teamData);
-            setTeamRequestsSent(teamData.filter(team => team.envId == props.envId));
+            setTeamRequestsSent(teamData.filter(joinRequest => joinRequest.team.env_id === props.envId));
         }).catch(console.error);
     }
 
