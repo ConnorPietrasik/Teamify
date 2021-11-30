@@ -4,7 +4,7 @@ import Login from './Login';
 import Home from './Home';
 import Config from '../components/Config';
 import React, { useState } from 'react';
-import {Routes, Route} from "react-router-dom";
+import JoinDialog from '../components/inputs/JoinDialog.js';
 
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -30,6 +30,7 @@ class App extends React.Component{
     };
     this.logout = this.logout.bind(this);
     this.changeEnvironment = this.changeEnvironment.bind(this);
+    this.addNewEnvironment = this.addNewEnvironment.bind(this);
   }
 
   // updates user info and logged in status after user logs in
@@ -97,6 +98,23 @@ class App extends React.Component{
      }).catch(console.error);
   }
 
+  // adds environment to list displayed, updates UI to show environment
+  addNewEnvironment(newEnvObj) {
+    var envShown = this.state.user.environments;
+    envShown.push(newEnvObj)
+
+    // save data so ui will show new env on env list
+    this.setState({
+      user: {
+        ...this.state.user,
+        environments: envShown,
+      }
+    });
+
+    // change page display to be in new environment
+    this.changeEnvironment(newEnvObj.env_id);
+  }
+
   // when user creates, joins, switches environment
   changeEnvironment(newEnvId) {
       if (this.state.envId !== newEnvId) {
@@ -143,7 +161,7 @@ class App extends React.Component{
                       <ListItemText primary={environmentObj.env_id} /> </ListItem>))
                     }
                 </List>
-
+                <JoinDialog addNewEnvironment={this.addNewEnvironment}/>
                 </Drawer>
               </Box>
 
