@@ -32,41 +32,21 @@ export default function TeamsList(props) {
 
         // show available teams
         else {
-            setMyTeam(null);
-            // get teams that have invited me
-            fetch(Config.API + `/user/invites`, {
-                method: 'GET',
-                credentials: 'include',
-                headers: {'Content-Type': 'application/json'}
-                }).then(res => res.json())
-                .then(teamData => {
-                    if (teamData.length > 0)
-                      setTeamRequestsReceived(teamData);
-
-                }).catch(console.error);
-
-            // get teams I've applied to
-            fetch(Config.API + `/user/requests`, {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                  'Content-Type': 'application/json'
-                },
-              })
-            .then(res => res.json())
-            .then(teamData => {
-                if (teamData.length > 0)
-                  setTeamRequestsSent(teamData);
-            }).catch(console.error);
+            getAndDisplayTeams();
         }
     }, [props.myTeamId, props.refreshTeamCard]); // runs when parameter is received
 
-    useEffect(() => {
+    // if user isn't in team, show list of teams available
+    async function getAndDisplayTeams() {
+        // get requests sent and received
+        await getTeamRequests();
+
+        // list of open individuals who aren't in requests sent / received
         const idsOfTeamsApplied = teamRequestsSent.map((requestData) => requestData.team.team_id);
         const idsOfTeamsInvitedMe = teamRequestsReceived.map((requestData) => requestData.team.team_id);
 
         // get teams available
-        fetch(Config.API + `/env/${props.envId}/teams`)
+        await fetch(Config.API + `/env/${props.envId}/teams`)
           .then(res => res.json())
           .then(teamData => {
               if (teamData.length > 0)
@@ -76,7 +56,37 @@ export default function TeamsList(props) {
                     !idsOfTeamsApplied.includes(availableTeam.team_id)
                     && !idsOfTeamsInvitedMe.includes(availableTeam.team_id)));
           }).catch(console.error);
-    }, [teamRequestsSent, teamRequestsReceived]);
+
+        setMyTeam(null);
+    }
+
+    function getTeamRequests() {
+        // get teams that have invited me
+        fetch(Config.API + `/user/invites`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {'Content-Type': 'application/json'}
+            }).then(res => res.json())
+            .then(teamData => {
+                if (teamData.length > 0)
+                  setTeamRequestsReceived(teamData);
+
+            }).catch(console.error);
+
+        // get teams I've applied to
+        fetch(Config.API + `/user/requests`, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          })
+        .then(res => res.json())
+        .then(teamData => {
+            if (teamData.length > 0)
+              setTeamRequestsSent(teamData);
+        }).catch(console.error);
+    }
 
     // makes new team with user as first team member, saves to API
     function createTeam(teamName) {
