@@ -195,7 +195,6 @@ function CreateTeamCard(props) {
                 <button onClick={e => {
                     e.preventDefault();
                     props.submitNewTeam(newTeamName) /* send new name input to parent's update function*/
-                    window.location.reload(false)
                 }}>Create</button>
             </form>
         </div>
