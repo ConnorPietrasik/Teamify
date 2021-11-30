@@ -92,7 +92,7 @@ final class TeamRepository {
 
         $statement->execute();
         $status = $statement->fetchColumn();
-        return (!$status) ? -1 : $status;
+        return ($status === false) ? -1 : $status;
     }
 
     //Adds the member to the team with the given status (0 means member, 1 means leader)
