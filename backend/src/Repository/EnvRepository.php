@@ -241,7 +241,7 @@ final class EnvRepository {
         $interestQs = '?'.str_repeat(', ?', count($interests) - 1);
 
         $query = 'SELECT DISTINCT team_id FROM team_tag WHERE team_id IN ('.$teamQs.') AND tag IN ('.$interestQs.') UNION '
-                .'SELECT DISTINCT team_id FROM team_lf WHERE team_id IN ('.$teamQs.') AND skill IN ('$skillQs.')';
+                .'SELECT DISTINCT team_id FROM team_lf WHERE team_id IN ('.$teamQs.') AND skill IN ('.$skillQs.')';
         $statement = $this->getDb()->prepare($query);
 
         $args[] = array();
