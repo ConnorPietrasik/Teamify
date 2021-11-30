@@ -244,7 +244,7 @@ final class EnvRepository {
                 .'SELECT DISTINCT team_id FROM team_lf WHERE team_id IN ('.$teamQs.') AND skill IN ('.$skillQs.')';
         $statement = $this->getDb()->prepare($query);
 
-        $args[] = array();
+        $args = [];
         foreach ($team_ids as $id) $args[] = $id;
         foreach ($interests as $tag) $args[] = $tag;
         foreach ($team_ids as $id) $args[] = $id;
