@@ -52,7 +52,7 @@ export default function IndividualsList(props) {
           setInvited([]);
           setMyTeamId(-1);
       }
-      }, [props.myTeamId]);
+      }, [props.myTeamId, props.envId]);
 
       useEffect(() => {
         const idsOfInvited = invited.map((inviteData) => inviteData.user.user_id);

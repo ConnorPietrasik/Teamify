@@ -40,9 +40,7 @@ export default function TeamsList(props) {
                 headers: {'Content-Type': 'application/json'}
                 }).then(res => res.json())
                 .then(teamData => {
-                    if (teamData.length > 0)
-                      setTeamRequestsReceived(teamData);
-
+                    setTeamRequestsReceived(teamData);
                 }).catch(console.error);
 
             // get teams I've applied to
@@ -55,11 +53,10 @@ export default function TeamsList(props) {
               })
             .then(res => res.json())
             .then(teamData => {
-                if (teamData.length > 0)
-                  setTeamRequestsSent(teamData);
+                setTeamRequestsSent(teamData.filter(team => team.envId == props.envId));
             }).catch(console.error);
         }
-    }, [props.myTeamId, props.refreshTeamCard]); // runs when parameter is received
+    }, [props.myTeamId, props.refreshTeamCard, props.envId]); // runs when parameter is received
 
     useEffect(() => {
         const idsOfTeamsApplied = teamRequestsSent.map((requestData) => requestData.team.team_id);
@@ -69,14 +66,13 @@ export default function TeamsList(props) {
         fetch(Config.API + `/env/${props.envId}/teams`)
           .then(res => res.json())
           .then(teamData => {
-              if (teamData.length > 0)
-                // add filter to get only available teams that current user hasn't applied to yet
-                // or teams that haven't invited current user
-                setOpenTeams(teamData.filter(availableTeam =>
-                    !idsOfTeamsApplied.includes(availableTeam.team_id)
-                    && !idsOfTeamsInvitedMe.includes(availableTeam.team_id)));
+            // add filter to get only available teams that current user hasn't applied to yet
+            // or teams that haven't invited current user
+            setOpenTeams(teamData.filter(availableTeam =>
+                !idsOfTeamsApplied.includes(availableTeam.team_id)
+                && !idsOfTeamsInvitedMe.includes(availableTeam.team_id)));
           }).catch(console.error);
-    }, [teamRequestsSent, teamRequestsReceived]);
+    }, [teamRequestsSent, teamRequestsReceived, props.envId]);
 
     // makes new team with user as first team member, saves to API
     function createTeam(teamName) {
