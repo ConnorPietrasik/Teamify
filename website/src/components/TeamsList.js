@@ -59,7 +59,7 @@ export default function TeamsList(props) {
                   setTeamRequestsSent(teamData);
             }).catch(console.error);
         }
-    }, [props.myTeamId, props.refreshTeamCard, props.envId]); // runs when parameter is received
+    }, [props.myTeamId, props.refreshTeamCard]); // runs when parameter is received
 
     useEffect(() => {
         const idsOfTeamsApplied = teamRequestsSent.map((requestData) => requestData.team.team_id);
@@ -120,8 +120,8 @@ export default function TeamsList(props) {
     }
 
     return (
-        <div>
-            {myTeam && props.envId ?
+        <div> {console.log("props render", props)}
+            {myTeam ?
                 <div>
                     <h2>My Team</h2>
                     <div className="IndividualsList" >

@@ -16,8 +16,7 @@ export default function IndividualsList(props) {
     const [openIndividuals, setOpenIndividuals] = useState([]);
 
     useEffect(() => { // initialize based on parameter values
-        console.log("props.envId", props.envId)
-        console.log("what is myTeamId", props.myTeamId)
+        console.log("props", props)
       if (props.myTeamId > -1) {
           console.log("fetch data for myTeamId", props.myTeamId)
           setMyTeamId(props.myTeamId);
@@ -51,7 +50,7 @@ export default function IndividualsList(props) {
       } else {
           setMyTeamId(-1);
       }
-      }, [props.myTeamId, props.envId]);
+      }, [props.myTeamId]);
 
       useEffect(() => {
         const idsOfInvited = invited.map((inviteData) => inviteData.user.user_id);
@@ -106,12 +105,12 @@ export default function IndividualsList(props) {
         <div>
             <h2>Find Team Members</h2>
 
-            {candidates && props.myTeamId > -1?
+            {candidates && myTeamId > -1?
               <>
                 <h3>People Requesting to Join</h3>
                 <div className="IndividualsList" >
                   {candidates.map((candidate) =>
-                    <CandidateCard key={candidate} candidateData={candidate} myTeamId={props.myTeamId}
+                    <CandidateCard key={candidate} candidateData={candidate} myTeamId={myTeamId}
                         teamMemberRole={props.teamMemberRole}
                         accept={updateAfterAccepting}
                         reject={updateAfterRejecting}
@@ -120,7 +119,7 @@ export default function IndividualsList(props) {
                 </>
             : <></>}
 
-            {invited && props.myTeamId > -1 ?
+            {invited && myTeamId > -1 ?
               <>
                 <h3>People Invited </h3>
                 <div className="IndividualsList" >
@@ -132,7 +131,7 @@ export default function IndividualsList(props) {
                 </>
             : <></>}
 
-            <AvailableList openIndividuals={openIndividuals} updateList={updateAfterInviting} myTeamId={props.myTeamId}
+            <AvailableList openIndividuals={openIndividuals} updateList={updateAfterInviting} myTeamId={myTeamId}
                 envId={props.envId}/>
 
           </div>
