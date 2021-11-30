@@ -95,7 +95,9 @@ export default function IndividualsList(props) {
         setOpenIndividuals(updatedAvailableIndividuals);
 
         // add to list of invited people
-        invited.push({user: invitedPerson});
+        var newInvitedList = [...invited] // copy
+        newInvitedList.push({user: invitedPerson});
+        setInvited(newInvitedList);
     }
 
     return (
