@@ -129,7 +129,7 @@ class TeamTest extends TestCase{
         $response = $this->getAppInstance()->handle($request);
 
         $result = (string) $response->getBody();
-        //$this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(200, $response->getStatusCode());
         $this->assertStringContainsString('testTeamUPDATED', $result);
     }
 
