@@ -92,7 +92,7 @@ final class TeamRepository {
 
         $statement->execute();
         $status = $statement->fetchColumn();
-        return (!$status) ? -1 : $status;
+        return ($status === false) ? -1 : $status;
     }
 
     //Adds the member to the team with the given status (0 means member, 1 means leader)
@@ -322,6 +322,16 @@ final class TeamRepository {
         $statement = $this->getDb()->prepare($query);
         $statement->bindParam('user_id', $user_id);
         $statement->bindParam('env_id', $env_id);
+
+        $statement->execute();
+    }
+
+    //Kicks the member from the team
+    public function kickMember(int $team_id, int $user_id): void {
+        $query = 'DELETE FROM team_member WHERE team_id = :team_id AND user_id = :user_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('team_id', $team_id);
+        $statement->bindParam('user_id', $user_id);
 
         $statement->execute();
     }

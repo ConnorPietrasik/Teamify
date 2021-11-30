@@ -39,6 +39,7 @@ $app->group('', function (RouteCollectorProxy $group){
     $group->delete('/team/{team_id}', App\Controller\Team\DeleteTeam::class);
     $group->post('/team/{team_id}/accept/{user_id}', App\Controller\Team\AcceptRequest::class);
     $group->post('/team/{team_id}/deny/{user_id}', App\Controller\Team\DenyRequest::class);
+    $group->post('/team/{team_id}/kick/{user_id}', App\Controller\Team\KickMember::class);
 })->add(new TeamAuthAdminMiddleware);
 
 //Routes that require environment membership
@@ -46,6 +47,7 @@ $app->group('', function (RouteCollectorProxy $group){
     $group->post('/env/{env_id}/open', App\Controller\Environment\PostOpen::class);
     $group->delete('/env/{env_id}/open', App\Controller\Environment\RemoveOpen::class);
     $group->post('/env/{env_id}/createteam', App\Controller\Team\CreateTeam::class);
+    $group->get('/env/{env_id}/teams/match', App\Controller\Environment\GetMatchingTeams::class);
 })->add(new EnvAuthMemberMiddleware);
 
 //Routes that require environment admin rights
