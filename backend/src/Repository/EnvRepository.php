@@ -250,7 +250,7 @@ final class EnvRepository {
         foreach ($team_ids as $id) $args[] = $id;
         foreach ($skills as $skill) $args[] = $skill;
 
-        $statement->execute($args);
+        $statement->execute((count($args) > 0) ? $args : null);
         $teams = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
         return $teams;
     }
