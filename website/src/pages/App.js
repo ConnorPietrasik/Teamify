@@ -5,6 +5,7 @@ import Home from './Home';
 import Config from '../components/Config';
 import React, { useState } from 'react';
 import JoinDialog from '../components/inputs/JoinDialog.js';
+import CreateEnvDialog from '../components/inputs/CreateEnvDialog.js';
 
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -162,6 +163,7 @@ class App extends React.Component{
                     }
                 </List>
                 <JoinDialog addNewEnvironment={this.addNewEnvironment}/>
+                <CreateEnvDialog addNewEnvironment={this.addNewEnvironment}/>
                 </Drawer>
               </Box>
 
