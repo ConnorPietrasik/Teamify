@@ -66,7 +66,8 @@ export default function IndividualsList(props) {
                       candidates.filter(candidate => // if candidate, will return array with candidate data
                          candidate.user.user_id === openUser.user_id
                          ).length === 0 // if not candidate, empty [] returned
-                      && !idsOfInvited.includes(openUser.user_id) /* don't include invited users in list */ )
+                      && !idsOfInvited.includes(openUser.user_id) /* don't include invited users in list */ 
+                      && openUser.user_id !== props.user.user_id )
                   );
           }).catch(console.error);
     }, [candidates, invited]);

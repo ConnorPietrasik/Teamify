@@ -112,7 +112,7 @@ class Home extends React.Component{
             /* Individuals List may tell Home that Team Card needs to be refreshed
                 (when user accepts a candidate, candidate needs to be added to team) */
             refreshTeamCard={this.refreshTeamCard}
-            
+            user={this.state.user}
             myTeamId={this.state.teamId[0]} /* user (as team member) may look for individuals on behalf of team */
             envId={this.props.envId}
             teamMemberRole={this.state.teamMemberRole}
