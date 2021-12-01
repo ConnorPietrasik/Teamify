@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Components.css';
-import LineInput from './Input.js';
 import Config from './Config';
 import ProfileSkillsSelect from './inputs/ProfileSkillsSelect.js';
+
+import StringInput from './inputs/StringInput.js';
+import WordInput from './inputs/WordInput.js';
 
 import Avatar from '@mui/material/Avatar';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -117,16 +119,28 @@ export default function ProfileSettings(props) {
              <div className="nameAndPic leftAndCenter">
                <Avatar className="profilePic" sx={{ bgcolor: '#2F'+`${props.user.user_id % 10}`+'664' }}>{props.user.username ? props.user.username.charAt(0) : 'me'}</Avatar>
                <p>{ editMode ?
-                    <LineInput stateValue={username} stateSetter={setUsername} noSpaces={true}/>
+                    <WordInput 
+                      inputFieldStyle={{ 
+                        style: { marginTop: '0' }
+                      }}
+                      stateValue={username}
+                      updateStateFunction={setUsername} />
                     : username}
                </p>
              </div>
          </div>
 
-        <div className="shiftRight">{`About Me: `}</div>
+        <div><p>About Me:</p></div>
         <div>
             { editMode ?
-             <LineInput stateValue={bio} stateSetter={setBio}/>
+             <StringInput 
+                inputFieldStyle={{fullWidth: 'true', 
+                  placeholder: `Hi, I'm ${username} . . .`,
+                  style: { marginTop: '0' }
+                }}
+                
+                stateValue={bio}
+                updateStateFunction={setBio} />
              : bio
             } </div>
 
