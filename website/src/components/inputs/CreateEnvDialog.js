@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import TextField from '@mui/material/TextField';
+import WordInput from './WordInput.js';
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -73,10 +74,14 @@ export default function CreateEnvDialog(props) {
           <TextField label="Environment Name" fullWidth variant="standard"
             value={nameInput} 
             onChange={e => handleInputChange(e, setNameInput)} />
+            
+          <WordInput 
+            label='Invitation Code'
+            inputFieldStyle={{fullWidth: 'true'}}
+            
+            stateValue={codeInput}
+            updateStateFunction={setCodeInput} />
 
-          <TextField label="Environment Invitation Code" fullWidth variant="standard"
-            value={codeInput} 
-            onChange={e => handleInputChange(e, setCodeInput, true)} />
         </DialogContent>
 
         <button onClick={onClickCreate}>Create</button>
