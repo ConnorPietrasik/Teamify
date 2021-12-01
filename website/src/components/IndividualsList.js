@@ -55,22 +55,26 @@ export default function IndividualsList(props) {
       }, [props.myTeamId, props.envId]);
 
       useEffect(() => {
-        const idsOfInvited = invited.map((inviteData) => inviteData.user.user_id);
-
-        // get open Individuals
-        fetch(Config.API + `/env/${props.envId}/open`)
-          .then(res => res.json())
-          .then(listOpenIndividuals => {
-              setOpenIndividuals( // get open users who haven't applied to current user's team
-                  listOpenIndividuals.filter(openUser => // get open users who are not candidates
-                      candidates.filter(candidate => // if candidate, will return array with candidate data
-                         candidate.user.user_id === openUser.user_id
-                         ).length === 0 // if not candidate, empty [] returned
-                      && !idsOfInvited.includes(openUser.user_id) /* don't include invited users in list */ 
-                      && openUser.user_id !== props.user.user_id )
-                  );
-          }).catch(console.error);
+        getOpenIndividuals();
     }, [candidates, invited]);
+
+    const getOpenIndividuals = function() {
+      const idsOfInvited = invited.map((inviteData) => inviteData.user.user_id);
+
+      // get open Individuals
+      fetch(Config.API + `/env/${props.envId}/open`)
+        .then(res => res.json())
+        .then(listOpenIndividuals => {
+            setOpenIndividuals( // get open users who haven't applied to current user's team
+                listOpenIndividuals.filter(openUser => // get open users who are not candidates
+                    candidates.filter(candidate => // if candidate, will return array with candidate data
+                       candidate.user.user_id === openUser.user_id
+                       ).length === 0 // if not candidate, empty [] returned
+                    && !idsOfInvited.includes(openUser.user_id) /* don't include invited users in list */ 
+                    && openUser.user_id !== props.user.user_id )
+                );
+        }).catch(console.error);
+    }
 
     // update list after team leader accepted candidate
     function updateAfterAccepting(acceptedCandidate) {
@@ -131,7 +135,7 @@ export default function IndividualsList(props) {
                 </>
             : <></>}
 
-            <AvailableList openIndividuals={openIndividuals} updateList={updateAfterInviting} myTeamId={myTeamId}
+            <AvailableList getOpenIndividuals={getOpenIndividuals} openIndividuals={openIndividuals} updateList={updateAfterInviting} myTeamId={myTeamId}
                 envId={props.envId}/>
 
           </div>

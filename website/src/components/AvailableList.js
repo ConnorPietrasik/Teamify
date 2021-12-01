@@ -20,7 +20,7 @@ export default function AvailableList(props) {
     // when user searches individuals list for specific skills
     function search() {
         // display new results based on search query
-        if (searchInput.length > 0)
+        if (searchInput.length > 0) {
             fetch(Config.API + `/env/${props.envId}/open/skill`, {
                 method: 'POST',
                 credentials: 'include',
@@ -35,6 +35,8 @@ export default function AvailableList(props) {
                     if (individualsData)
                       setListToDisplay(individualsData); // change list of individuals displayed
             }).catch(console.error);
+        } else 
+            props.getOpenIndividuals();
     }
 
     return(
