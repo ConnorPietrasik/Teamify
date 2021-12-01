@@ -111,9 +111,9 @@ class Login extends React.Component {
 
     return (
       <div className="Login">
-        <h1>Welcome</h1>
+        <h1 style={{color: '#2F4664'}}>Welcome to Teamify</h1>
 
-        {/* Google sign in button */}
+        {/* Google sign in 
         <div id="g_id_onload"
              data-client_id="82664365493-qm3h7p8dsqkri7f4mbuc0jmjk02ednv7.apps.googleusercontent.com"
              data-context="signin"
@@ -129,6 +129,7 @@ class Login extends React.Component {
              data-size="large"
              data-logo_alignment="left">
         </div>
+        */}
 
         {/* Multipurpose Login & SignUp Form */}
         <form className="signup-login-form">
