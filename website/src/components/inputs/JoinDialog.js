@@ -37,7 +37,7 @@ export default function JoinDialog(props) {
         // update UI
         props.addNewEnvironment({
           env_id: envReturned.env_id,
-          name: `env ${envReturned.env_id}`,
+          name: envReturned.name,
         });
       }).catch(console.error);
 

@@ -157,9 +157,9 @@ class App extends React.Component{
                 <List>
                   {this.state.user.environments.map((environmentObj) => (
                     <ListItem button key={environmentObj.env_id}
-                        style={{color: `${this.state.envId === environmentObj.env_id ? '#2F4664' : 'grey'}` /* current env marked in diff color */ }}
+                        style={{backgroundColor: `${this.state.envId === environmentObj.env_id ? '#A7BFD6' : 'transparent'}` /* current env marked in diff color */ }}
                         onClick={() => this.changeEnvironment(environmentObj.env_id)}>
-                      <ListItemText primary={environmentObj.env_id} /> </ListItem>))
+                      <ListItemText primary={environmentObj.name} /> </ListItem>))
                     }
                 </List>
                 <JoinDialog addNewEnvironment={this.addNewEnvironment}/>
