@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import TextField from '@mui/material/TextField';
+import StringInput from './StringInput.js';
 import WordInput from './WordInput.js';
 
 import Dialog from '@mui/material/Dialog';
@@ -49,14 +49,6 @@ export default function CreateEnvDialog(props) {
       }).catch(console.error);
   }
 
-  function handleInputChange(e, updateStateFunction, removeSpaces) {
-    if (removeSpaces && e.target.value.includes(" ")) { // reject space characters
-      e.target.value = e.target.value.replace(/\s/g, "");
-    } else if (e.target.value.charAt(0) === " ") // if first char is a space, delete it
-          e.target.value = e.target.value.substring(1);
-    updateStateFunction(e.target.value);
-  }
-
   return (
     <div>
       <button onClick={() => setIsOpen(true)}>
@@ -71,10 +63,13 @@ export default function CreateEnvDialog(props) {
             To create a new environment, please give it a name and create an invitation code to give to people you want to invite.
           </p>
 
-          <TextField label="Environment Name" fullWidth variant="standard"
-            value={nameInput} 
-            onChange={e => handleInputChange(e, setNameInput)} />
+          <StringInput 
+            label='Environment Name'
+            inputFieldStyle={{fullWidth: 'true'}}
             
+            stateValue={nameInput}
+            updateStateFunction={setNameInput} />
+
           <WordInput 
             label='Invitation Code'
             inputFieldStyle={{fullWidth: 'true'}}
