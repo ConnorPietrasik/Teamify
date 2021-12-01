@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
 
-  margin-top: 35vh; /* space from top of webpage to top of div element is 35% of viewport height*/
+  margin-top: 25vh; /* space from top of webpage to top of div element is 25% of viewport height*/
   align-items: center;
 }
 

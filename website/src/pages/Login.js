@@ -3,6 +3,7 @@ import Home from './Home';
 import Config from '../components/Config';
 import React, { useState } from 'react';
 import jwt_decode from "jwt-decode";
+import logo from '../teamify-logo.png';
 
 // To let user log in / sign up with username & password
 class Login extends React.Component {
@@ -111,6 +112,7 @@ class Login extends React.Component {
 
     return (
       <div className="Login">
+        <img src={logo} style={{width: '10vw'}}/>
         <h1 style={{color: '#2F4664'}}>Welcome to Teamify</h1>
 
         {/* Google sign in 
