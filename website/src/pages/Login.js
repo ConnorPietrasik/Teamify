@@ -139,14 +139,13 @@ class Login extends React.Component {
         {/* Multipurpose Login & SignUp Form */}
         <form className="signup-login-form">
             {/* Username & password input fields */}
-            <div>
               <WordInput 
                 label='Username'
+                inputFieldStyle={{id: "username"/*allow autofill suggestions*/}}
                 stateValue={this.state.username} 
                 updateStateFunction={(usernameInput) => {
                   this.setState({ username: usernameInput })
                 }} />
-            </div>
             <div>
               <PasswordInput stateValue={this.state.password} parentInputChangeHandler={this.handleInputChange} />
             </div>

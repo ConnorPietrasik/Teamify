@@ -22,7 +22,7 @@ export default function WordInput(props) {
 
       <InputLabel>{props.label}</InputLabel>
 
-      <Input id="username"
+      <Input {...props.inputFieldStyle}
         value={props.stateValue /* input field content */ }
 
         onChange={handleInputChange}
