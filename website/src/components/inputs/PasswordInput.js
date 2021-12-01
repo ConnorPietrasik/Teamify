@@ -15,7 +15,7 @@ export default function PasswordInput(props) {
 	return(
 	    <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
           <InputLabel>Password</InputLabel>
-          <Input
+          <Input id="text"
             type={passwordVisible ? 'text' : 'password'}
 
             value={props.stateValue /* user's password value */ }

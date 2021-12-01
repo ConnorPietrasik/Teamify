@@ -6,6 +6,7 @@ import jwt_decode from "jwt-decode";
 import logo from '../teamify-logo.png';
 
 import PasswordInput from '../components/inputs/PasswordInput.js';
+import WordInput from '../components/inputs/WordInput.js';
 
 // To let user log in / sign up with username & password
 class Login extends React.Component {
@@ -139,10 +140,12 @@ class Login extends React.Component {
         <form className="signup-login-form">
             {/* Username & password input fields */}
             <div>
-              <input type="text" placeholder="Username" id="usernameInputField"
-              value={this.state.username}
-              onChange = {e => {this.handleInputChange(e, true)}}
-                  />
+              <WordInput 
+                label='Username'
+                stateValue={this.state.username} 
+                updateStateFunction={(usernameInput) => {
+                  this.setState({ username: usernameInput })
+                }} />
             </div>
             <div>
               <PasswordInput stateValue={this.state.password} parentInputChangeHandler={this.handleInputChange} />
