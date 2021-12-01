@@ -14,6 +14,11 @@ export default function MultiSelect(props) {
         setChosenOptions(props.stateValue);
     }, [props.stateValue]);
 
+    useEffect(() => {
+        // clear selections when env id is changed
+        setChosenOptions(null);
+    }, [props.envId]);
+
     return(
         <div>
         { props.stateValue && chosenOptions /* wait for data to be ready before rendering */ ?
