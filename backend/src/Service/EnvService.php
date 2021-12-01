@@ -120,4 +120,9 @@ final class EnvService {
     public function getMatchingTeamIDs(array $team_ids, array $skills, array $interests): array {
         return $this->envRepository->getMatchingTeamIDs($team_ids, $skills, $interests);
     }
+
+    //Returns the name of the environment
+    public function getEnvName(int $env_id): string {
+        return $this->envRepository->getEnvName($env_id);
+    }
 }

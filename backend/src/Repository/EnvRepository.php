@@ -254,4 +254,15 @@ final class EnvRepository {
         $teams = $statement->fetchAll(\PDO::FETCH_COLUMN, 0);
         return $teams;
     }
+
+    //Returns the name of the environment
+    public function getEnvName(int $env_id): string {
+        $query = 'SELECT name FROM environment WHERE env_id = :env_id';
+        $statement = $this->getDb()->prepare($query);
+        $statement->bindParam('env_id', $env_id);
+
+        $statement->execute();
+        $name = $statement->fetchColumn();
+        return ($name === false) ? ''.$env_id : $name;
+    }
 }

@@ -12,6 +12,10 @@ final class GetWhole extends Base {
 
     public function __invoke(Request $request, Response $response, array $args): Response {
         $user = $this->getUserService()->getWholeUser((int) $args['id']);
+        
+        foreach($user['environments'] as &$env){
+            $env['name'] = $this->getEnvService()->getEnvName($env['env_id']);
+        }
 
         return JsonResponse::withJson($response, (string) json_encode($user));
     }
