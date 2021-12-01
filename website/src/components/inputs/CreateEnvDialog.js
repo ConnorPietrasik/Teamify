@@ -48,10 +48,11 @@ export default function CreateEnvDialog(props) {
       }).catch(console.error);
   }
 
-  function handleInputChange(e, updateStateFunction) {
-    if (e.target.value.includes(" ")) { // reject space characters
+  function handleInputChange(e, updateStateFunction, removeSpaces) {
+    if (removeSpaces && e.target.value.includes(" ")) { // reject space characters
       e.target.value = e.target.value.replace(/\s/g, "");
-    }
+    } else if (e.target.value.charAt(0) === " ") // if first char is a space, delete it
+          e.target.value = e.target.value.substring(1);
     updateStateFunction(e.target.value);
   }
 
@@ -75,7 +76,7 @@ export default function CreateEnvDialog(props) {
 
           <TextField label="Environment Invitation Code" fullWidth variant="standard"
             value={codeInput} 
-            onChange={e => handleInputChange(e, setCodeInput)} />
+            onChange={e => handleInputChange(e, setCodeInput, true)} />
         </DialogContent>
 
         <button onClick={onClickCreate}>Create</button>
