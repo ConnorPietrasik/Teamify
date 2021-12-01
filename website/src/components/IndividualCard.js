@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Home.css';
 import '../css/Components.css';
-import LineInput from './Input.js';
+import StringInput from './inputs/StringInput.js';
 import Config from './Config';
 
 import Avatar from '@mui/material/Avatar';
@@ -31,7 +31,14 @@ export default function IndividualCard(props) {
       { props.type === "open" ?
         <div>
             <form>
-                <LineInput placeholder={`hi ${props.individual.username}...`} stateValue={messageToIndividual} stateSetter={setMessageToIndividual}/>
+                <StringInput 
+                  inputFieldStyle={{fullWidth: 'true', 
+                    placeholder: `hi ${props.individual.username}...`,
+                    style: { marginTop: '0', marginBottom: '10px' }
+                  }}
+                  
+                  stateValue={messageToIndividual}
+                  updateStateFunction={setMessageToIndividual} />
             </form>
 
             <button className="inviteBtn colorFadeEffect" onClick = {() => {
