@@ -157,9 +157,15 @@ class App extends React.Component{
                 <List>
                   {this.state.user.environments.map((environmentObj) => (
                     <ListItem button key={environmentObj.env_id}
-                        style={{backgroundColor: `${this.state.envId === environmentObj.env_id ? '#A7BFD6' : 'transparent'}` /* current env marked in diff color */ }}
+                        style={{color: `${this.state.envId === environmentObj.env_id ? '#A7BFD6' : 'black'}` /* current env marked in diff color */ }}
                         onClick={() => this.changeEnvironment(environmentObj.env_id)}>
-                      <ListItemText primary={environmentObj.name} /> </ListItem>))
+                      <ListItemText 
+                        primaryTypographyProps={{ 
+                          style: { 
+                            fontWeight: `${this.state.envId === environmentObj.env_id ? 'bold' : ''}` 
+                          }
+                        }}
+                        primary={environmentObj.name} /> </ListItem>))
                     }
                 </List>
                 <JoinDialog addNewEnvironment={this.addNewEnvironment}/>
@@ -183,7 +189,7 @@ class App extends React.Component{
                             onClick={() => this.setState({drawerIsOpen: true})}>
                             <RoomPreferencesRoundedIcon fontSize="large"/></IconButton>}
 
-                    <Box sx={{ flexGrow: 1 }}><h3 align="left">Teamify</h3></Box>
+                    <Box sx={{ flexGrow: 1, pl: '20px' }}><h3 align="left">Teamify</h3></Box>
                     <Button variant="text" onClick={this.logout} style={{color: '#2F4664'}}>Logout</Button>
                     </Toolbar>
 
