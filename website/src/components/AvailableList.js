@@ -50,7 +50,6 @@ export default function AvailableList(props) {
                     placeholder={'Search for people skilled in . . .'}
                     stateValue={searchInput} // fed to MultiSelect to display as options chosen
                     stateSetter={setSearchInput} // where MultiSelect will report user's changes to
-                    envId={props.envId}
                     />
                     </div>
             <button className="searchBtn" onClick={search}>Search</button>
