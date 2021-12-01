@@ -89,7 +89,7 @@ class Home extends React.Component{
           <p className="mediumText">Hello {this.state.user.username}</p>
           <ProfileSettings
             user={this.state.user} /* for user to see their current data and decide to change it */
-
+            myTeamId={this.state.teamId[0]}
             /* method passed from this component to Settings component,
                 to allow this component to update user data for display
                 after user info gets updated in backend by Settings component  */

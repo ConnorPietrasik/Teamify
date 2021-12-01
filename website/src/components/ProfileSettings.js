@@ -151,12 +151,14 @@ export default function ProfileSettings(props) {
 
     </div>
 
-    {/* toggleable switch for being added to Open Individuals list*/}
+    {/* toggleable switch for being added to Open Individuals list*/
+      props.myTeamId === -1 ?
     <FormControlLabel label={`Other users ${isOpen ? 'can' : 'cannot'} see my profile and invite me`}
         control={<Switch
                     style={{color:  `${isOpen ? '#6b96cf' : 'lightgrey'}`}}
                     checked={isOpen}
                     onChange={() => toggleIsOpen()} />} />
+                    : <></>}
     </>
   );
 }
