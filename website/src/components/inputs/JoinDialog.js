@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import TextField from '@mui/material/TextField';
+import WordInput from './WordInput.js';
 
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -44,13 +44,6 @@ export default function JoinDialog(props) {
     console.log(codeInput);
   }
 
-  function handleInputChange(e) {
-    if (e.target.value.includes(" ")) { // reject space characters
-      e.target.value = e.target.value.replace(/\s/g, "");
-    }
-    setCodeInput(e.target.value);
-  }
-
   return (
     <div>
       <button onClick={() => setIsOpen(true)}>
@@ -65,9 +58,13 @@ export default function JoinDialog(props) {
             If you have an environment invitation code, please enter the code to join.
           </p>
 
-          <TextField label="Environment Code" fullWidth variant="standard"
-            value={codeInput} 
-            onChange={handleInputChange} />
+          <WordInput 
+            label='Environment Code'
+            inputFieldStyle={{fullWidth: 'true'}}
+            
+            stateValue={codeInput}
+            updateStateFunction={setCodeInput} />
+
         </DialogContent>
 
         <button onClick={onClickJoin}>Join</button>

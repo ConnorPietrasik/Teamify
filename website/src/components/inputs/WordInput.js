@@ -18,7 +18,7 @@ export default function WordInput(props) {
   }
 
   return(
-    <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
+    <FormControl sx={{ width: '100%' }} variant="standard">
 
       <InputLabel>{props.label}</InputLabel>
 
