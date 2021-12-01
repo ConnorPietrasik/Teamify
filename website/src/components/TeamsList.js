@@ -18,7 +18,7 @@ export default function TeamsList(props) {
         console.log("props.envId", props.envId)
         console.log("myTeamId", props.myTeamId)
       // get team data using team id parameter
-      if (props.myTeamId > -1) {
+      if (props.myTeamId[0] > -1) {
           console.log("fetch data for myTeamId", props.myTeamId)
           fetch(Config.API + `/team/${props.myTeamId}`)
             .then(res => res.json())
@@ -32,7 +32,7 @@ export default function TeamsList(props) {
         else {
             getAndDisplayTeams();
         }
-    }, [props.myTeamId, props.refreshTeamCard, props.envId]); // runs when parameter is received
+    }, [props.myTeamId, props.refreshTeamCard]); // runs when parameter is received
 
     // if user isn't in team, show list of teams available
     async function getAndDisplayTeams() {

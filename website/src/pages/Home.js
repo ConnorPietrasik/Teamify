@@ -12,7 +12,7 @@ class Home extends React.Component{
     this.state = {
       // gets user info from parent App component
       user: {},
-      teamId: -1,
+      teamId: [-1],
       teamMemberRole: -1,
       refreshTeamCard: false, // to notify child Team List component to refresh
     };
@@ -49,7 +49,7 @@ class Home extends React.Component{
   // receives updated team id of team user belongs to
   updateTeam(newTeamId) {
     this.setState({
-        teamId: newTeamId,
+        teamId: [newTeamId],
     });
   }
 
@@ -69,11 +69,16 @@ class Home extends React.Component{
         .then(userData => {
           if (userData.status === "error")
             console.log(userData);
-          if (userData.team)
+          if (userData.team) {
             this.setState({
-              teamId: userData.team,
+              teamId: [userData.team],
               teamMemberRole: userData.status,
             });
+          } else {
+            this.setState({
+              teamId: [-1]
+            });
+          }
         }).catch(console.error);
   }
 
@@ -107,8 +112,8 @@ class Home extends React.Component{
             /* Individuals List may tell Home that Team Card needs to be refreshed
                 (when user accepts a candidate, candidate needs to be added to team) */
             refreshTeamCard={this.refreshTeamCard}
-
-            myTeamId={this.state.teamId} /* user (as team member) may look for individuals on behalf of team */
+            
+            myTeamId={this.state.teamId[0]} /* user (as team member) may look for individuals on behalf of team */
             envId={this.props.envId}
             teamMemberRole={this.state.teamMemberRole}
             />
