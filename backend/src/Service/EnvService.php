@@ -57,6 +57,8 @@ final class EnvService {
 
     //Adds the user to the environment's open list
     public function addOpen(int $env_id, int $user_id): void {
+        $errCheck = $this->envRepository->getEnvUserTeamID($env_id, $user_id);
+        if ($errCheck != -1) throw new EnvException("User already in team ".$errCheck, 409);
         $this->envRepository->addOpen($env_id, $user_id);
     }
 
