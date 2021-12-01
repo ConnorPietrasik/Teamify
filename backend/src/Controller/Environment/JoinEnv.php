@@ -17,6 +17,8 @@ final class JoinEnv extends Base {
         $_SESSION['environments'][$env_id] = 0;
 
         $env = array('env_id' => $env_id);
+        $env['name'] = $this->getEnvService()->getEnvName($env_id);
+
         return JsonResponse::withJson($response, (string) json_encode($env), 200);
     }
 }
