@@ -10,10 +10,16 @@ export default function TeamCard(props) {
 
   const[messageToTeam, setMessageToTeam] = useState(''); // a message user can send to team upon applying
 
+  const [invitationStatus, setInvitationStatus] = useState(-1); // if user denied this team, value will be 2
+
   useEffect(() => {
       // get team members from parameter
       setMembers(props.team.members);
   }, [props.team, props.team.members]);
+
+  useEffect(() => {
+      setInvitationStatus(invitationStatus);
+  }, [props.invitationStatus]);
 
   return (
     <div className="IndividualCard showInnerElementOnHover">
@@ -63,7 +69,7 @@ export default function TeamCard(props) {
             </div>
             : <></>}
 
-        {props.status === 'invited' ?
+        {props.status === 'invited' && invitationStatus /* rerender if user denies */?
             <>
             <button className="inviteBtn colorFadeEffect acceptBtn" onClick = {() => {
                 // current user accepts team's invite to join them
@@ -83,7 +89,7 @@ export default function TeamCard(props) {
                 props.joinTeam(props.team);
                 }}>Accept</button>
 
-            {props.invitationStatus === 2 /*disable Deny button if user already denied this team*/? 
+            {invitationStatus === 2 /*disable Deny button if user already denied this team*/? 
                 <button className="disabledBtn">Denied</button> :
                 <button className="inviteBtn colorFadeEffect denyBtn" onClick = {() => {
                     // current user rejects team's invite to join them
@@ -97,6 +103,7 @@ export default function TeamCard(props) {
                         .then(data => {
                                 if (data)
                                   console.log(data);
+                            setInvitationStatus(2);
                         }).catch(console.error);
                     }}>Deny</button>
                 }
