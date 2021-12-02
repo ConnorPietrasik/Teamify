@@ -35,23 +35,26 @@ export default function TeamsList(props) {
     }, [props.myTeamId, props.refreshTeamCard]); // runs when parameter is received
 
     // if user isn't in team, show list of teams available
-    async function getAndDisplayTeams() {
+    function getAndDisplayTeams() {
         // get requests sent and received
-        await getTeamRequests();
+        getTeamRequests();
 
         // list of open individuals who aren't in requests sent / received
         const idsOfTeamsApplied = teamRequestsSent.map((requestData) => requestData.team.team_id);
         const idsOfTeamsInvitedMe = teamRequestsReceived.map((requestData) => requestData.team.team_id);
 
         // get teams available
-        await fetch(Config.API + `/env/${props.envId}/teams`)
-          .then(res => res.json())
+        fetch(Config.API + `/env/${props.envId}/teams`, {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+          }).then(res => res.json())
           .then(teamData => {
             // add filter to get only available teams that current user hasn't applied to yet
             // or teams that haven't invited current user
-            setOpenTeams(teamData.filter(availableTeam =>
-                !idsOfTeamsApplied.includes(availableTeam.team_id)
-                && !idsOfTeamsInvitedMe.includes(availableTeam.team_id)));
+            setOpenTeams(teamData);
         }).catch(console.error);
         setMyTeam(null);
     }
@@ -123,7 +126,7 @@ export default function TeamsList(props) {
     }
 
     return (
-        <div> {console.log("props render", props)}
+        <div> 
             {myTeam ?
                 <div>
                     <h2>My Team</h2>
