@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Home.css';
 import Config from './Config';
+import Avatar from '@mui/material/Avatar';
 
 // show info for one candidate who applied to team
 export default function CandidateCard(props) {
   return (
     <div className="IndividualCard">
       <div className="nameAndPic">
-        <img className="profilePic" src="https://cdn-icons-png.flaticon.com/512/847/847969.png" />
+        <Avatar className="profilePic" sx={{ bgcolor: '#2F'+`${props.candidateData.user.user_id % 10}`+'664' }}>
+            {props.candidateData.user.username.charAt(0) /* display first letter of username */ }</Avatar>
         <p>{props.candidateData.user.username}</p>
       </div>
 
