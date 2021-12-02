@@ -15,8 +15,10 @@ final class GetAllTeams extends Base {
         $ids = $this->getEnvService()->getAllTeamIDs((int) $args['env_id']);
 
         //Removes the ones with an invite / a request
-        $reqs = $this->getUserService()->getUserTeamRequests((int) $_SESSION['user_id']);
-        $invs = $this->getUserService()->getUserTeamInvites((int) $_SESSION['user_id']);
+        $reqs_full = $this->getUserService()->getUserTeamRequests((int) $_SESSION['user_id']);
+        $reqs = array_column($reqs_full, 'team_id');
+        $invs_full = $this->getUserService()->getUserTeamInvites((int) $_SESSION['user_id']);
+        $invs = array_column($invs_full, 'team_id');
 
         foreach($ids as $i=>$val) if (in_array($val, $reqs) || in_array($val, $invs)) unset($ids[$i]);
 
