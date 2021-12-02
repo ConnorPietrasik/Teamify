@@ -30,7 +30,7 @@ export default function IndividualsList(props) {
               .then(candidateData => {
                   // if no error code returned, then successfully got data
                   if (!candidateData.code) {
-                      setCandidates(candidateData);
+                      setCandidates(candidateData.filter(candidate => candidate.user.team === -1));
                   } else
                     console.log(candidateData.message);
               }).catch(console.error);
@@ -43,7 +43,7 @@ export default function IndividualsList(props) {
               }).then(res => res.json())
               .then(inviteData => {
                   if (!inviteData.code) {
-                      setInvited(inviteData);
+                      setInvited(inviteData.filter(invited => invited.user.team === -1));
                   } else
                     console.log(inviteData);
               }).catch(console.error);
