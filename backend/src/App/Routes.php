@@ -47,6 +47,7 @@ $app->group('', function (RouteCollectorProxy $group){
     $group->post('/env/{env_id}/open', App\Controller\Environment\PostOpen::class);
     $group->delete('/env/{env_id}/open', App\Controller\Environment\RemoveOpen::class);
     $group->post('/env/{env_id}/createteam', App\Controller\Team\CreateTeam::class);
+    $group->get('/env/{env_id}/teams', App\Controller\Environment\GetAllTeams::class);
     $group->get('/env/{env_id}/teams/match', App\Controller\Environment\GetMatchingTeams::class);
 })->add(new EnvAuthMemberMiddleware);
 
@@ -64,5 +65,4 @@ $app->get('/env/{env_id}/open', App\Controller\Environment\GetOpen::class);
 $app->post('/env/{env_id}/open/skill', App\Controller\Environment\GetOpenSkill::class);
 $app->get('/env/{env_id}/users', App\Controller\Environment\GetAllEnvUsers::class);
 $app->get('/env/{env_id}/user/{user_id}', App\Controller\Environment\GetEnvUser::class);
-$app->get('/env/{env_id}/teams', App\Controller\Environment\GetAllTeams::class);
 $app->get('/team/{team_id}', App\Controller\Team\GetTeam::class);

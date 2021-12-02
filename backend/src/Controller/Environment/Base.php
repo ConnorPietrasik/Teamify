@@ -6,6 +6,7 @@ namespace App\Controller\Environment;
 
 use App\Service\EnvService;
 use App\Service\TeamService;
+use App\Service\UserService;
 use Pimple\Psr11\Container;
 
 abstract class Base {
@@ -21,5 +22,9 @@ abstract class Base {
 
     protected function getTeamService(): TeamService {
         return $this->container->get('team_service');
+    }
+
+    protected function getUserService(): UserService {
+        return $this->container->get('user_service');
     }
 }

@@ -13,6 +13,14 @@ final class GetAllTeams extends Base {
     public function __invoke(Request $request, Response $response, array $args): Response {
 
         $ids = $this->getEnvService()->getAllTeamIDs((int) $args['env_id']);
+
+        //Removes the ones with an invite / a request
+        $reqs = $this->getUserService()->getUserTeamRequests((int) $_SESSION['user_id']);
+        $invs = $this->getUserService()->getUserTeamInvites((int) $_SESSION['user_id']);
+
+        foreach($ids as $i=>$val) if (in_array($val, $reqs) || in_array($val, $invs)) unset($ids[$i]);
+
+        //Gets the teams from the ids
         $teams = array();
         foreach ($ids as $id) $teams[] = $this->getTeamService()->getTeam($id);
 
