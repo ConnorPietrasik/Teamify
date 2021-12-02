@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Home.css';
 import '../css/Components.css';
-import LineInput from './Input.js';
+import StringInput from './inputs/StringInput.js';
 import Config from './Config';
 
 // shows info for one team
@@ -42,7 +42,14 @@ export default function TeamCard(props) {
           props.status === 'open' ?
             <div>
                 <form>
-                    <LineInput placeholder={`message ${props.team.name}`} stateValue={messageToTeam} stateSetter={setMessageToTeam}/>
+                    <StringInput 
+                      inputFieldStyle={{fullWidth: 'true', 
+                        placeholder: `hi ${props.team.name}`,
+                        style: { marginTop: '0', marginBottom: '10px' }
+                      }}
+                      
+                      stateValue={messageToTeam}
+                      updateStateFunction={setMessageToTeam} />
                 </form>
 
                 <button className="inviteBtn colorFadeEffect" onClick = {() => {

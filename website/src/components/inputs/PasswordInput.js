@@ -13,7 +13,7 @@ export default function PasswordInput(props) {
 	const [passwordVisible, setPasswordVisible] = useState(false);
 
 	return(
-	    <FormControl sx={{ m: 1, width: '25ch' }} variant="standard">
+	    <FormControl sx={{ width: '100%' }} variant="standard">
           <InputLabel>Password</InputLabel>
           <Input id="text"
             type={passwordVisible ? 'text' : 'password'}

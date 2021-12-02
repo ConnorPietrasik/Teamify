@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../css/Home.css';
 import '../css/Components.css';
 import TeamCard from './TeamCard';
-import LineInput from './Input.js';
+import StringInput from './inputs/StringInput.js';
 import Config from './Config';
 
 // show list of teams if user has no team, user's team if they have one
@@ -199,7 +199,15 @@ function CreateTeamCard(props) {
         <div className="IndividualCard showInnerElementOnHover">
             Create a Team
             <form>
-                <LineInput placeholder="team name" stateValue={newTeamName} stateSetter={setNewTeamName}/>
+                <StringInput 
+                  inputFieldStyle={{fullWidth: 'true', 
+                    placeholder: "team name",
+                    style: { marginTop: '0', marginBottom: '10px' }
+                  }}
+                  
+                  stateValue={newTeamName}
+                  updateStateFunction={setNewTeamName} />
+
                 <button onClick={e => {
                     e.preventDefault();
                     props.submitNewTeam(newTeamName) /* send new name input to parent's update function*/
