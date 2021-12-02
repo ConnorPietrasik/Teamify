@@ -36,6 +36,13 @@ button {
     cursor: pointer;
 }
 
+.flexBox {
+  display: flex;  /* flexbox layout */
+  flex-wrap: wrap;
+
+  justify-content: center;
+}
+
 .Home{
   display: block;
   width: 100%;

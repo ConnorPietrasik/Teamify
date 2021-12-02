@@ -1,8 +1,15 @@
+:root {
+  --maxProfileCardWidth: 800px;
+}
+
 .Card {
   padding: 20px;
 
   border: 1px solid lightgrey;
   transition: .4s ease-in-out;
+
+  min-width: 50vw;
+  max-width: var(--maxProfileCardWidth);
 } .Card:hover { /* when hovered over */
   border: 1px solid transparent;
   box-shadow: 0 7px 25px -10px grey;
@@ -32,7 +39,7 @@
 }
 
 .multiSelect {
-    padding: 25px;
+    margin-bottom: 25px;
 }
 
 /* search input field and bar for individuals search */

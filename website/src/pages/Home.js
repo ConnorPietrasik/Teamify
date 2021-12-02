@@ -85,8 +85,8 @@ class Home extends React.Component{
   render() {
     return (
       <div className="Home">
-        <div>
           <p className="mediumText">Hello {this.state.user.username}</p>
+        <div className="flexBox">
           <ProfileSettings
             user={this.state.user} /* for user to see their current data and decide to change it */
             myTeamId={this.state.teamId[0]}

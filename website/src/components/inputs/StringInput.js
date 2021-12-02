@@ -5,7 +5,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 
 // accepts a string with spaces
-export default function WordInput(props) {
+export default function StringInput(props) {
 
   // when user makes a change, make sure input is still valid
   function handleInputChange(e) {

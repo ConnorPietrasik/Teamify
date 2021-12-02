@@ -112,7 +112,7 @@ export default function ProfileSettings(props) {
   }
 
   return (
-    <>
+    <div>
     <div className="Card">
         <div>
              <button className="editBtn" onClick = {toggleEditMode}>{editMode ? "Discard Edits" : "Edit"}</button>
@@ -130,7 +130,7 @@ export default function ProfileSettings(props) {
              </div>
          </div>
 
-        <div><p>About Me:</p></div>
+        <p>About Me:</p>
         <div>
             { editMode ?
              <StringInput 
@@ -144,6 +144,7 @@ export default function ProfileSettings(props) {
              : bio
             } </div>
 
+        <p style={{marginTop: '40px'}}>My Skills:</p>
         <div className="multiSelect">
             {editMode ?
                 /* editable list of skills */
@@ -173,6 +174,6 @@ export default function ProfileSettings(props) {
                     checked={isOpen}
                     onChange={() => toggleIsOpen()} />} />
                     : <></>}
-    </>
+    </div>
   );
 }
