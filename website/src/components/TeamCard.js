@@ -19,6 +19,10 @@ export default function TeamCard(props) {
     <div className="IndividualCard showInnerElementOnHover">
         <h3>{props.team.name}</h3>
 
+        {props.status === 'invited' ?
+            <p>"{props.messageFromTeam}"</p>
+            : <></>}
+
         { /* show list of team members */
             members && members.length > 0 ?
             <div>
@@ -79,20 +83,24 @@ export default function TeamCard(props) {
                 props.joinTeam(props.team);
                 }}>Accept</button>
 
-            <button className="inviteBtn colorFadeEffect denyBtn" onClick = {() => {
-                // current user rejects team's invite to join them
-                fetch(Config.API + `/team/${props.team.team_id}/deny`, {
-                    method: 'POST',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                    }).then()
-                    .then(data => {
-                            if (data)
-                              console.log(data);
-                    }).catch(console.error);
-                }}>Deny</button>
+            {props.invitationStatus === 2 /*disable Deny button if user already denied this team*/? 
+                <button className="disabledBtn">Denied</button> :
+                <button className="inviteBtn colorFadeEffect denyBtn" onClick = {() => {
+                    // current user rejects team's invite to join them
+                    fetch(Config.API + `/team/${props.team.team_id}/deny`, {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                        }).then()
+                        .then(data => {
+                                if (data)
+                                  console.log(data);
+                        }).catch(console.error);
+                    }}>Deny</button>
+                }
+
             </>
             : <></>}
 

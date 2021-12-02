@@ -142,6 +142,8 @@ export default function TeamsList(props) {
                                 {/* list of teams that invited user to join */
                                   teamRequestsReceived.map((teamData) =>
                                     <TeamCard team={teamData.team} status='invited'
+                                        messageFromTeam={teamData.message}
+                                        invitationStatus={teamData.status}
                                         joinTeam={setMyTeam} // method to be called (to update UI) if user decides to join team
                                         />
                                     )}
