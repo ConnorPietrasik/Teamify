@@ -21,6 +21,8 @@ export default function IndividualCard(props) {
       </div>
       <div>
 
+      {props.individual.bio ? <p>{props.individual.bio}</p> : <></>}
+
       { /* viewable list of skills */
         props.individual.skills && props.individual.skills.length > 0 ?
             <Stack direction="row" style={{flexWrap: 'wrap'}}>
