@@ -25,7 +25,7 @@ export default function TeamCard(props) {
     <div className="IndividualCard showInnerElementOnHover">
         <h3>{props.team.name}</h3>
 
-        {props.status === 'invited' ?
+        {props.status === 'invited' && props.messageFromTeam != ""?
             <p>"{props.messageFromTeam}"</p>
             : <></>}
 
