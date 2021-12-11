@@ -106,6 +106,7 @@ class Home extends React.Component{
                 when change is detected, Team List will refresh Team Card */
             refreshTeamCard={this.state.refreshTeamCard}
             envId={this.props.envId}
+            userId={this.state.user.user_id}
             />
 
         <IndividualsList

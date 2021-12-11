@@ -13,10 +13,18 @@ export default function TeamProfile(props) {
 	const [editMode, setEditMode] = useState(false);
 	const [skillsLookingFor, setSkillsLookingFor] = useState([]);
 
+	const [teamMemberRole, setTeamMemberRole] = useState(-1);
+
+    useEffect(() => {
+        // find user and get member status       
+        var currentUser = props.team.members.filter(member => member.user.user_id === props.userId) 
+        setTeamMemberRole(currentUser[0].status);
+    }, [props.userId, props.team]);
+
 	useEffect(() => { 
 		// turn into object [] format for library component
 		setSkillsLookingFor(strArrayToObjArray(props.team.looking_for));
-	}, [props.team.looking_for, editMode]);
+	}, [props.team.looking_for, editMode, props.envId]);
 
 	function strArrayToObjArray(strArray) {
 		var prefilledOptionsMaker = [];
@@ -72,8 +80,13 @@ export default function TeamProfile(props) {
 	return (
 		<div style={{display: 'block'}}>
 			<div className="Card">
-	             <button className="editBtn" onClick={toggleEditMode}>{editMode ? "Discard Edits" : "Edit"}</button>
-	             <div className="shiftRight">
+				<div className={teamMemberRole === 1 ? 'editBtn' : ''}>
+	             {teamMemberRole === 1 ? 
+	             	<button  onClick={toggleEditMode}>{editMode ? "Discard Edits" : "Edit"}</button>
+	             	: <></>}
+	            </div>
+
+	             <div className={teamMemberRole === 1 ? 'shiftRight' : ''}>
 	               <h3>{props.team.name}</h3>
 	             </div>
 

@@ -134,6 +134,7 @@ export default function TeamsList(props) {
                     <div className="IndividualsList" >
                         <TeamProfile team={myTeam}
                             updateTeam={setMyTeam}
+                            userId={props.userId}
                             />
                     </div>
                 </div>
