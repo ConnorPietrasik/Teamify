@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import '../css/Home.css';
 import '../css/Components.css';
 import TeamCard from './TeamCard';
+import TeamProfile from './TeamProfile';
 import StringInput from './inputs/StringInput.js';
 import Config from './Config';
 
@@ -131,7 +132,8 @@ export default function TeamsList(props) {
                 <div>
                     <h2>My Team</h2>
                     <div className="IndividualsList" >
-                        <TeamCard team={myTeam}/>
+                        <TeamProfile team={myTeam}
+                            />
                     </div>
                 </div>
                 :
