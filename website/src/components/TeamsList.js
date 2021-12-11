@@ -133,6 +133,7 @@ export default function TeamsList(props) {
                     <h2>My Team</h2>
                     <div className="IndividualsList" >
                         <TeamProfile team={myTeam}
+                            updateTeam={setMyTeam}
                             />
                     </div>
                 </div>
