@@ -34,18 +34,20 @@ export default function CreateEnvDialog(props) {
       })
       }).then(res => res.json())
       .then(envReturned => {
-        if (envReturned)
+        if (envReturned.status !== "error") {
           console.log(envReturned);
 
-        setIsOpen(false);
-        setNameInput('');
-        setCodeInput('');
+          setIsOpen(false);
+          setNameInput('');
+          setCodeInput('');
 
-        // update UI
-        props.addNewEnvironment({
-          env_id: envReturned.env_id,
-          name: nameInput,
-        });
+          // update UI
+          props.addNewEnvironment({
+            env_id: envReturned.env_id,
+            name: nameInput,
+          });
+        } else
+          alert("Error in joining environment. " + envReturned.message);
       }).catch(console.error);
   }
 

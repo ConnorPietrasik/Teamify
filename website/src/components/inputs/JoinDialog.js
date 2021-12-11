@@ -28,17 +28,19 @@ export default function JoinDialog(props) {
       })
       }).then(res => res.json())
       .then(envReturned => {
-        if (envReturned)
+        if (envReturned.status !== "error") {
           console.log(envReturned);
 
-        setIsOpen(false);
-        setCodeInput('');
+          setIsOpen(false);
+          setCodeInput('');
 
-        // update UI
-        props.addNewEnvironment({
-          env_id: envReturned.env_id,
-          name: envReturned.name,
-        });
+          // update UI
+          props.addNewEnvironment({
+            env_id: envReturned.env_id,
+            name: envReturned.name,
+          });
+        } else
+           alert("Error in joining environment. " + envReturned.message);
       }).catch(console.error);
 
     console.log(codeInput);
