@@ -8,6 +8,7 @@ The backend API: https://docs.google.com/spreadsheets/d/1xyY8tpdN1F3ZmVf_anFIFNJ
 Database schema: https://docs.google.com/document/d/1l8X7V0DzxvfYsBtu2A819CecZxvk1S2kRtWzCJQMg08/edit
 
 Some images:
+
 ![image](https://user-images.githubusercontent.com/56143403/222357140-e599ed32-c4ea-4729-84d4-21650cdd529f.png)
 ![image](https://user-images.githubusercontent.com/56143403/222357206-12bf36f5-4cae-49db-83e6-b9eb8b40c049.png)
 ![image](https://user-images.githubusercontent.com/56143403/222357272-da211f7c-ec6f-4ebf-a4a4-86d4cf1a4247.png)
